@@ -1,0 +1,141 @@
+﻿@model Shopping.Models.DTO.SKUViewModel
+
+@{
+}
+<html>
+<head>
+</head>
+
+<body>
+    <div class="grid_11 singleleft">
+        <div class="shiztitle">
+            <h2 class="title h2bg">@Model._SKU.Title</h2>
+        </div>
+        <div class="clear"></div>
+
+        <div class="productimages">
+            <div class="mainimg"><img src="@Model._SKU.ThumbImage" alt="nikon" hight="190%" width="95%" /></div>
+            <span class="onsale"><span class="oldprice">@Model._SKU.OldPrice</span>@Model._SKU.SellingPrice</span>
+
+            @*@foreach (var sku in Model.SKU.Skip(1).Take(2))*@
+            @foreach (var item in Model._SKUList.Where(s => s.IsMain == true))
+            {
+                <div class="psimages">
+                    @*<a href="@Url.Action("ProductDetails", "Product", new{id = item.Id})"><img src="@item.ThumbImage" alt="" hight="150%" width="95%" id="sku-image" /></a>*@
+                    <a href="#" onclick="updateSKU('@item.Id', this)"><img src="@item.ThumbImage" alt="" hight="150%" width="95%" id="sku-image" /></a>
+                </div>
+            }
+        </div>
+
+        <div class="productdata">
+            <div class="infospan">Colour <span>@Model._SKU.Colour</span></div>
+            <div class="infospan">Style <span>@Model._SKU.Style</span></div>
+            @*<div class="infospan">Size<span>@Model.skuAttr.Value</span></div>*@
+            <div class="average">
+                <div class="rated">
+                    <input name="star3" type="radio" class="star" disabled="disabled" />
+                    <input name="star3" type="radio" class="star" disabled="disabled" />
+                    <input name="star3" type="radio" class="star" disabled="disabled" />
+                    <input name="star3" type="radio" class="star" disabled="disabled" checked="checked" />
+                    <input name="star3" type="radio" class="star" disabled="disabled" />
+                </div>
+            </div>
+            <h4>Size Options</h4>
+            <div class="psSizes">
+                <div class="navigationSKU" style="margin-left: 17px; margin-top: 20px; margin-bottom:">
+                    @foreach (var item in Model._SKUList.Where(c => c.Colour == Model._SKU.Colour))
+                    {
+                        @*<a href="@Url.Action("ProductDetails", "Product", new{id = item.Id})" class="inactiveposts">@item.SKUAttributeModels.FirstOrDefault().Value</a>*@
+                        <a href="#" class="inactiveposts" onclick="updateSKU('@item.Id', '@Url.Action("GetSKU", "Product")')">@item.SKUAttributeModels.FirstOrDefault().Value</a>
+                    }
+                </div>
+            </div>
+
+            @*@foreach (var item in Model._SKUList.Where(c => c.Colour == Model._SKU.Colour))
+            {
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group" role="group" aria-label="Third group">
+                        <a href="#" class="inactiveposts" onclick="updateSKU('@item.Id', '@Url.Action("GetSKU", "Product")')">
+                            <button type="button" class="btn btn-secondary">@item.SKUAttributeModels.FirstOrDefault().Value</button>
+                        </a>
+                    </div>
+                </div>
+            }*@
+
+            <br>
+            <br>
+            <br>
+            <h4>Available Options</h4>
+
+            <div class="quantity">
+                <form data-product-id="@Model._SKU.Id">
+                    <span>Qty.:</span> <input type="text" class="quantityinput" id="quantityInput" name="quantityinput" value="1" />
+                    <input type="button" class="addtocart" id="addToCartBtn" name="addtocart" value="Add to Cart" />
+                </form>
+            </div>
+
+            <!--CartPopup-->
+            <div class="modal fade" id="cartModal" role="dialog">
+                <div class="modal-dialog">
+                </div>
+            </div>
+
+            <div class="sharing">
+                <div class="addthis_toolbox addthis_default_style ">
+                    <a class="addthis_counter addthis_pill_style"></a>
+                </div>
+                <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4f0d0827271d1c3b"></script>
+                <span class="instock">In stock</span>
+            </div>
+        </div>
+
+
+
+        <div class="tabs">
+            <!-- tabs -->
+            <ul class="tabNavigation">
+                <li><a href="#desc">Description</a></li>
+                <li><a href="#reviews">Reviews (1)</a></li>
+            </ul>
+
+            <!-- tab containers -->
+            <div id="desc">
+                <p>@Model._SKU.Description</p>
+            </div>
+            <div id="reviews">
+                <span class="user">John Doe</span> (11/25/2012)
+                <div class="reviewtext">
+                    Vestibulum molestie tellus rhoncus nulla cursus quis dictum orci laoreet! metus. Vestibulum molestie
+                    tellus rhoncus nulla cursus quis dictum orci laoreet! metus.
+                </div>
+                <div class="write">
+                    <h4>Write review</h4>
+                    <form class="review">
+                        <input type="text" value="Your Name" id="reviewname" name="reviewname" />
+                        <textarea class="reviewarea" id="reviewarea" name="reviewarea">Your review</textarea>
+                        <div class="rate">
+                            <span>Rating:</span>
+                            <input name="star1" type="radio" class="star" />
+                            <input name="star1" type="radio" class="star" />
+                            <input name="star1" type="radio" class="star" />
+                            <input name="star1" type="radio" class="star" />
+                            <input name="star1" type="radio" class="star" />
+                        </div>
+                        <input type="submit" class="mailsubmit" value="Submit   " id="reviewsubmit" name="reviewsubmit" />
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/js/custom.js" type="text/javascript" charset="utf-8"></script>
+
+
+</body>
+
+</html>
+
+

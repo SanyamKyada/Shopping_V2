@@ -1,0 +1,322 @@
+﻿@using Shopping.Models.DTO;
+@{
+}
+
+@*@await Html.PartialAsync("_LoginPartial", new LoginModel())*@
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        string username = User.Identity.Name;
+        // Do something with the username
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Shopping theme</title>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/reset.css" />
+    <link rel="stylesheet" href="~/css/text.css" />
+    <link rel="stylesheet" href="~/css/960.css" />
+    <link rel="stylesheet" href="~/style.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <meta charset="UTF-8">
+
+    <style>
+        .form-outline {
+            position: relative;
+        }
+
+        #eye-toggle {
+            position: absolute !important;
+            top: -53px !important;
+            right: 10px !important;
+            transform: translateY(-50%);
+            padding: 0;
+            border: none;
+            background: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+
+        @*@if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+        {*@
+            <div class="header">
+                <div class="container_16">
+                    <div class="grid_10 logo">
+                        <a href="./index.html"><img src="~/images/logo.png" alt="logo" /></a>
+                    </div>
+                    <div class="grid_6">
+                        <a href="#" class="search">&nbsp;</a>
+                        <div class="searchtoggle">
+                            <form asp-action="Index" asp-controller="Search" method="post" id="frmSearch">
+                                <input type="text" name="query" id="searchBar" />
+                            </form>
+                        </div>
+
+                        <!--- Partial view of Login-Register --->
+                        @if (string.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            <a href="javascript:;" id="login-btn" class="loginregister">&nbsp;</a>
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                    <input type="hidden" id="userNm" value=@User.Identity.Name />
+
+                    <div>
+                        <div id="notif">Welcome back User!</div>
+                    </div>
+
+                    <!--- Partial view of Menu --->
+                @Html.Partial("_MenuPartial")     <!--------------------------------------------------------------------->
+                    @* <div class="grid_16 menu">
+
+                </div>*@
+
+                    <div class="grid_16 main">
+                        <div class="smallmenu">
+                            <ul>
+                                <li><a href="#" class="myacc">My Account</a></li>
+                                <li><a href="./cart.html" class="myshop">Shopping Cart</a></li>
+                                <li><a href="./checkout.html" class="mycheck">Checkout</a></li>
+                            </ul>
+                        </div>
+                        <div class="lines"></div>
+                    </div>
+
+                </div>
+            </div>
+        @*}*@
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- footer section -->
+    @*@if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+    {*@
+        <!-- sub-footer section start-->
+        <div class="subfooter">
+            <div class="container_16">
+                <div class="boxwrap">
+                    <div class="footerbox twitter">
+                        <h2 class="title">Twitter Updates</h2><div class="shizzle4"></div>
+                        <ul class="tweets">
+                            <li>
+                                Check out this great #themeforest item for you
+                                'Simpler Landing' <a href="#">http://t.co/LbLwldb6 </a>
+                                <span>2 hours ago</span>
+                            </li>
+                            <li class="lastone">
+                                Check out this great #themeforest item for you
+                                'Simpler Landing' <a href="#">http://t.co/LbLwldb6 </a>
+                                <span>2 hours ago</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="followus">Follow us on twitter</a>
+                    </div>
+                    <div class="footerbox">
+                        <h2 class="title">Newsletter Signup</h2><div class="shizzle4 mid"></div>
+                        <div class="newsletter">
+                            Become the first one to know about every new
+                            product we release on every day. Sign Up for
+                            the newsletter to get discouns too..
+                            <form class="signup" action="#" method="GET">
+                                <label for="emailba">Your email address</label>
+                                <input type="text" value="your@email.com" class="mailinput" id="mailinput" name="mailinput" />
+                                <input type="submit" class="mailsubmit" value="Sign Up" id="signup" name="signup" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="footerboxlast">
+                        <img src="~/images/minilogo.png" class="minilogo" alt="logo" />
+                        <div class="shizzle4 slast"></div>
+                        <div class="clear"></div>
+                        <ul class="infos">
+                            <li class="fphone">+387 123 456, +387 123 456 <br /> +387 123 456</li>
+                            <li class="fmobile">+387-123-456-1<br />+387-123-456-2</li>
+                            <li class="fmail lastone">your@email.com<br />customer.care@mail.com</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- sub-footer section end -->
+        <div class="footer">
+            <div class="container_16">
+                <div class="grid_13">
+                    <ul class="footermenu">
+                        <li><a href="~/Home/Index">Home</a></li>
+                        @* <li id="cartButton"><a href="~/Cart/IndexCart">My Cart</a></li>*@
+                        <li id="#"><a href="Cart/IndexCart">My Cart</a></li>
+                        <li><a href="~/Checkout/IndexCheckout">Checkout</a></li>
+                        <li><a href="./order.html">Completed Orders</a></li>
+                        <li><a href="~/Contact/IndexContact">Contact us</a></li>
+                    </ul>
+                    <span class="copyline">&copy;All rights reserved by <a href="#">yoursite.com</a></span>
+                    <div class="cards"><img src="~/images/cards.png" alt="credit cards" /></div>
+                </div>
+                <div class="grid_3">
+                    <span class="followon">Follow us on</span>
+                    <div class="socializer">
+                        <a href="http://twitter.com/minimalthemes" class="ftwitter">twitter><img src="~/images/twitter-logo.png"></a>
+                        <a href="http://www.facebook.com/pages/Minimal-Themes/264056723661265" class="ffacebook">facebook</a>
+                        <a href="#" class="fflickr">flickr</a>
+                        <a href="#" class="ffeed">feed</a>
+                    </div>
+                </div>
+            </div>
+            <!--Cookie consent-->
+            <div id="cookieConsent" class="alert alert-warning alert-dismissible fade show" role="alert">
+                We use cookies to improve your browsing experience on our site. Click "Accept" to consent to the use of cookies.
+                <button id="acpt-btn" type="button" class="btn btn-sm btn-primary ml-2" onclick="setCookie('cookieConsent', 'true', 365);$('#cookieConsent').remove();">Accept</button>
+            </div>
+        </div>
+    @*}*@
+
+
+    <!-- footer end -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/jquery.carousel.js" type="text/javascript" charset="utf-8"></script>
+    @*<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAcMv377CQr78x__fnejif6hTFwWbAnXhlB366t992QiHPWDYoVxROKqqm5TQzJ8uyw1i7cYqSvzriYA"></script>*@
+    <script type="text/javascript" src="~/js/jquery.gmap-1.1.0-min.js"></script>
+    <script src="~/js/jquery.rating.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/jquery.anythingslider.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/custom.js" type="text/javascript" charset="utf-8"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!--script for login-modal-->
+<script>
+
+
+    $(document).ready(function(){
+
+        var pathName = window.location.pathname;
+        var pathArray = pathName.split('/');
+        if(pathArray && pathArray.length > 2 && pathArray[1] === 'Account' && pathArray[2] === 'Login'){
+            $('.header , .subfooter, .footer').hide();
+            $('body').css('background', 'rgba(0, 0, 0, 0) url("https://localhost:7264/images/fbg.png") repeat scroll 0% 0% / auto padding-box border-box');
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/Account/GetLoginPopup",
+            success: function (result) {
+                $("#myModal").html(result);
+                loginAction();
+                onEyeToggle();
+            },
+            error: function (result) {
+                console.log("Error");
+            }
+        });
+    });
+
+    function loginAction() {
+        $('[id^="LoginForm"]').submit(function (e) {
+            e && e.preventDefault();
+            if ($(this).find("#username").val() == "") {
+                $('#userError').text("Username should not be empty");
+                return false;
+            }
+            if ($(this).find("#password1").val() == "") {
+                $('#userError').text("Password should not be empty");
+                return false;
+            }
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: '/Account/Login',
+                type: 'POST',
+                data: formData,
+                success: function (response, textStatus, xhr) {
+                    debugger;
+                    $('#userError').hide();
+                    if (response.token) {
+                        localStorage.setItem('token', response.token);
+                        if (response.returnUrl) {
+                            window.location.href = response.returnUrl;
+                        }else{
+                            location.reload();
+                        }
+                    }else {
+                        $('#loginErrorMessage').text("Login unsuccessfull");
+                    }
+                },
+                error: function (xhr, Message) {
+                    $('#loginErrorMessage').text("Login unsuccessfull");
+                }
+            });
+        });
+
+    }
+
+    function onEyeToggle(){
+        $('#eye-toggle').click(function () {
+            debugger;
+            if ($(this).hasClass('fa fa-eye-slash')) {
+                $(this).removeClass('fa fa-eye-slash');
+                $(this).addClass('fa fa-eye');
+
+                var $passwordInput = $(this).parent().prevAll("input[type='password'][id='password1']");
+                var $newPasswordInput = $('<input>').attr({
+                    'type': 'text',
+                    'id': $passwordInput.attr('id'),
+                    'name': $passwordInput.attr('name'),
+                    'value': $passwordInput.val(),
+                    'class': $passwordInput.attr('class')
+                });
+                $passwordInput.replaceWith($newPasswordInput);
+
+            } else {
+                $(this).removeClass('fa fa-eye');
+                $(this).addClass('fa fa-eye-slash');
+
+                var $passwordInput = $(this).parent().prevAll("input[type='text'][id='password1']");
+                var $newPasswordInput = $('<input>').attr({
+                    'type': 'password',
+                    'id': $passwordInput.attr('id'),
+                    'name': $passwordInput.attr('name'),
+                    'value': $passwordInput.val(),
+                    'class': $passwordInput.attr('class')
+                });
+                $passwordInput.replaceWith($newPasswordInput);
+            }
+        });
+    }
+
+    $("#login-btn").click(function () {
+        $("#myModal").modal('show');
+        $("#username").val("");
+        $("#password1").val("");
+        $("#loginErrorMessage").text("");
+    });
+
+    <!--coockie consent-- >
+    $('#acpt-btn').click(function () {
+        $('#cookieConsent').remove();
+    });
+    
+
+</script>    

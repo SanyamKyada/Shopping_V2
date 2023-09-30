@@ -1,0 +1,119 @@
+﻿.loginModal .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}loginmodal
+
+.loginModal .modal-content {
+    background-color: #f2f2f2;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    position: relative;
+}
+
+.loginModal .close {
+    color: #aaa;
+    cursor: pointer;
+    font-size: 28px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+    .loginModal .close:hover,
+    .loginModal .close:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+.loginModal h2 {
+    margin-top: 0;
+}
+
+.loginModal form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.loginModal label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.loginModal input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 100%;
+}
+
+.loginModal .checkbox {
+    align-items: center;
+    display: flex;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .loginModal .checkbox label {
+        margin-left: 10px;
+    }
+
+.loginModal button[type="submit"] {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s;
+    width: 100%;
+}
+
+    .loginModal button[type="submit"]:hover {
+        background-color: #3e8e41;
+    }
+
+.loginModal .register-link {
+    margin-top: 20px;
+    text-align: center;
+}
+
+    .loginModal .register-link p {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .loginModal .register-link a {
+        color: #4CAF50;
+        text-decoration: none;
+    }
+
+        .loginModal .register-link a:hover {
+            text-decoration: underline;
+        }
+
+.loginModal .forgot-password-link {
+    margin-top: 10px;
+    text-align: center;
+}
+
+    .loginModal .forgot-password-link a {
+        color: #4CAF50;
+        text-decoration: none;
+    }
+
+        .loginModal .forgot-password-link a:hover {
+            text-decoration: underline;
+        }
+
+        .loginModel {
+            background-color: red
+        }
