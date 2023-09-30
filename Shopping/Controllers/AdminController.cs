@@ -26,6 +26,11 @@ namespace Shopping.Controllers
             };
             return View(categoris);
         }
+        [HttpGet]
+        public IActionResult AddNewProduct()
+        {
+            return View();
+        }
         [HttpPost]
         public IActionResult AttributeMaster(AttributeMasterModel model)
         {

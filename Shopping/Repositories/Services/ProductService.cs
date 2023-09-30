@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shopping.Models.DTO;
 using Shopping.Repositories.Infrastructure;
+using System.Diagnostics;
 using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Repositories.Services
@@ -31,7 +32,7 @@ namespace Shopping.Repositories.Services
 
         public async Task<int> GetTotalPageCountAsync(int categoryId, int pageSize)
         {
-            /// Implemented asynchronous database query to get the total product
+            /// Implemented: asynchronous database query to get the total product
             // Query:
             var totalRecords = await _context.Products
                 .Where(i => i.CategoryId == categoryId)
@@ -57,21 +58,33 @@ namespace Shopping.Repositories.Services
         {
             /// Implemented: asynchronous database queries to retrieve product details, SKUs, reviews, etc.
             // Query:
-            var sku = await _context.SKUs.FindAsync(id)
-;
-            var product = await _context.Products.FindAsync(sku.ProductId);
-            var skuImages = await _context.ProductImages.Where(i => i.CmnSkuId == sku.CommonSkuId).ToListAsync();
-
+            var sku = await _context.SKUs.FirstOrDefaultAsync(s => s.Id == id);
+            var product = await _context.Products.FirstOrDefaultAsync(s => s.Id == sku.ProductId);
             var model = new SKUViewModel()
             {
                 _SKU = sku,
-                _SKUList = await _context.SKUs.Include(s => s.SKUAttributeModels).Where(sl => sl.ProductId == sku.ProductId).ToListAsync(),
                 _Product = product,
-                skuAttrs = await _context.SKUAttributes.Where(sa => sa.SKUId == id).ToListAsync(),
-                attrMstrs = await _context.AttributeMaster.Where(pi => pi.CategoryId == product.CategoryId).ToListAsync(),
-                SKUImages = skuImages,
-                ReviewModels = await _context.ProductReviews.Where(i => i.ProductId == sku.ProductId).ToListAsync(),
-                relatedSKUList = await GetRelatedSKUsByCategoryAsync(sku)
+                _SKUList = await _context.SKUs
+                    .Include(s => s.SKUAttributeModels)
+                    .Where(sl => sl.ProductId == sku.ProductId)
+                    .ToListAsync(),
+                skuAttrs = await _context.SKUAttributes
+                    .Where(sa => sa.SKUId == id)
+                    .ToListAsync(),
+                attrMstrs = await _context.AttributeMaster
+                    .Where(pi => pi.CategoryId == product.CategoryId)
+                    .ToListAsync(),
+                SKUImages = await _context.ProductImages
+                    .Where(i => i.CmnSkuId == sku.CommonSkuId)
+                    .ToListAsync(),
+                ReviewModels = await _context.ProductReviews
+                    .Where(i => i.ProductId == sku.ProductId)
+                    .ToListAsync(),
+                relatedSKUList = await _context.SKUs
+                    .Where(sku => sku.Product.CategoryId == product.CategoryId && sku.Id != id)
+                    .OrderBy(sku => Guid.NewGuid())
+                    .Take(6)
+                    .ToListAsync()
             };
 
             return model;
@@ -92,36 +105,6 @@ namespace Shopping.Repositories.Services
 
             _context.ProductReviews.Add(review);
             await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<SKUModel>> GetRelatedSKUsByCategoryAsync(SKUModel currentSku)
-        {
-            /// Implemented asynchronous database query to retrieve related SKUs by Category
-            // Query:
-            var prdtId = await _context.SKUs
-                .Where(i => i.Id == currentSku.Id)
-                .Select(sku => sku.ProductId)
-                .FirstOrDefaultAsync();
-
-            var prdt = await _context.Products
-                .FirstOrDefaultAsync(i => i.Id == prdtId);
-
-            var relatedSKUs = new List<SKUModel>();
-            var prds = await _context.Products
-                .Where(p => p.CategoryId == prdt.CategoryId && p.Id != prdt.Id)
-                .OrderBy(x => Guid.NewGuid())
-                .Take(6)
-                .ToListAsync();
-
-            foreach (var item in prds)
-            {
-                var sku = await _context.SKUs
-                    .FirstOrDefaultAsync(i => i.ProductId == item.Id);
-                relatedSKUs.Add(sku);
-            }
-
-            return relatedSKUs;
-
         }
 
     }

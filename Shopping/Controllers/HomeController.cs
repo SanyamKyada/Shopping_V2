@@ -23,11 +23,6 @@ namespace Shopping.Controllers
 
         public IActionResult Index()
         {
-
-            var productIdAspectRatioMap = _context.Products
-                .Select(p => new { p.Id, p.AspectRatioCssClass })
-                .ToList();
-
             var skus = _context.SKUs.OrderByDescending(x => x.CreatedDate).ToList();
             var model = new HomePageViewModel()
             {

@@ -14,6 +14,5 @@ namespace Shopping.Repositories.Infrastructure
 
         Task AddProductReviewAsync(int productId, string userName, string reviewText, int rating, int parentId);
 
-        Task<List<SKUModel>> GetRelatedSKUsByCategoryAsync(SKUModel currentSku);
     }
 }
