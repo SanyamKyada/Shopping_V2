@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using System.Diagnostics;
 using static Shopping.Models.Domain.DatabaseContexct;
@@ -54,13 +55,13 @@ namespace Shopping.Repositories.Services
             return user;
         }
 
-        public async Task<SKUViewModel> GetProductDetailsAsync(int id)
+        public async Task<Vm_ProductDetail> GetProductDetailsAsync(int id)
         {
             /// Implemented: asynchronous database queries to retrieve product details, SKUs, reviews, etc.
             // Query:
             var sku = await _context.SKUs.FirstOrDefaultAsync(s => s.Id == id);
             var product = await _context.Products.FirstOrDefaultAsync(s => s.Id == sku.ProductId);
-            var model = new SKUViewModel()
+            var model = new Vm_ProductDetail()
             {
                 _SKU = sku,
                 _Product = product,

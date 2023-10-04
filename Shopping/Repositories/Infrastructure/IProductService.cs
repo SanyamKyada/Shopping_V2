@@ -1,4 +1,5 @@
 ﻿using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 
 namespace Shopping.Repositories.Infrastructure
 {
@@ -10,7 +11,7 @@ namespace Shopping.Repositories.Infrastructure
 
         Task<string> GetUserNameAsync(string userN);
 
-        Task<SKUViewModel> GetProductDetailsAsync(int id);
+        Task<Vm_ProductDetail> GetProductDetailsAsync(int id);
 
         Task AddProductReviewAsync(int productId, string userName, string reviewText, int rating, int parentId);
 

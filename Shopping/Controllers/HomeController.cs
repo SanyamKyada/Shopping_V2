@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shopping.Models;
 using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using System.Diagnostics;
 using static Shopping.Models.Domain.DatabaseContexct;
@@ -24,7 +25,7 @@ namespace Shopping.Controllers
         public IActionResult Index()
         {
             var skus = _context.SKUs.OrderByDescending(x => x.CreatedDate).ToList();
-            var model = new HomePageViewModel()
+            var model = new Vm_HomePage()
             {
                 SKUModels = _context.SKUs.ToList(),
                 FeaturedProductsModels = _context.FeaturedProducts.ToList(),
@@ -51,20 +52,5 @@ namespace Shopping.Controllers
             return PartialView("_MenuPartial", model);
         }
 
-    }
-
-    public class HomePageViewModel
-    {
-        public List<BannerModel> BannerModels { get; set; }
-        public List<FeaturedProductsModel> FeaturedProductsModels { get; set; }
-        public List<SKUModel> SKUModels = new List<SKUModel>();
-        public List<SKUModel> LatestSKUs = new List<SKUModel>();
-        public Dictionary<int, string> ProductIdAspectRatioMap { get; set; }
-    }
-
-    public class ProductInfo
-    {
-        public int Id { get; set; }
-        public string AspectRatioCssClass { get; set; }
     }
 }

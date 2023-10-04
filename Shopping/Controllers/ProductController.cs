@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shopping.Models;
 using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using Shopping.Repositories.Services;
 using System;
@@ -36,7 +37,7 @@ namespace Shopping.Controllers
 
                 var products = await _productService.GetPaginatedProductsAsync(categoryId, currentPage, pageSize);
 
-                var model = new ProductIndexViewModel
+                var model = new Vm_Products
                 {
                     prodList = products,
                     Count = await _productService.GetTotalPageCountAsync(categoryId, pageSize),

@@ -56,6 +56,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>(); // Registerd out repository
 builder.Services.AddScoped<IMenuService, MenuService>(); // Registerd out repository
 builder.Services.AddScoped<ICartService, CartService>(); // Registerd out repository
+builder.Services.AddScoped<ISearchService, SearchService>(); // Registerd out repository
 builder.Services.AddScoped<IProductService, ProductService>(); // Registerd out repository
 builder.Services.AddTransient(typeof(IAdminService<>), typeof(AdminService<>)); ; // Registerd out repository
 
