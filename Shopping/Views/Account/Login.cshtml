@@ -1,0 +1,104 @@
+﻿@using Shopping.Enums;
+@model Shopping.Models.DTO.LoginModel
+@{
+
+}
+
+<style>
+    .bg-image-vertical {
+        position: relative;
+        overflow: hidden;
+        background-repeat: no-repeat;
+        background-position: right center;
+        background-size: auto 100%;
+    }
+
+    .paragraph-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+
+
+<section class="vh-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 text-black">
+
+                <div class="px-5 ms-xl-4" style="margin-top:20px;margin-bottom:-20px;">
+                    <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
+                    <span class="h1 fw-bold mb-0">
+                        <img class="manImg" src="~/images/minilogo.png" hight="100px" width="150px" style="margin-left:85px;"></img>
+                    </span>
+                </div>
+
+                <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
+
+                    <form id="LoginForm" style="width: 23rem;">
+                        <input type="hidden" asp-for="ReturnUrl">
+                        <input type="hidden" name="loginScenario" value="@Shopping.Enums.LoginScenario.PageLogin">
+
+                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+
+                        <div class="form-outline mb-4">
+                            <input type="text" id="username" asp-for="Username" class="form-control form-control-lg">
+                            <label class="form-label" for="Username">User Name</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="password" name="password" value="" id="password1" asp-for="Password" class="form-control form-control-lg">
+                            <label class="form-label" for="password">Password</label>
+                            <div class="form-outline"><i class="fa fa-eye-slash" style="font-size: 20px;" id="eye-toggle"></i></div>
+                        </div>
+
+                        <span id="userError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
+
+                        <div class="pt-1 mb-4">
+                            <div class="form-outline mb-4">
+                                <input id="loginBtn2" class="btn btn-dark btn-lg btn-block" type="submit" style="width:370px;" />
+                            </div>
+                        </div>
+
+                        <span id="loginErrorMessage" class="text-danger"></span>
+
+                        <div class="paragraph-container">
+                            <p class="small pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
+                            <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
+                        </div>
+
+                        <!--Google-->
+                        <div style="text-align: center;">
+                            <hr style="border: none; border-top: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px; width: 45%; display: inline-block;">
+                            <span style="background-color: padding: 0 10px; font-size: 16px; color: #555;">or</span>
+                            <hr style="border: none; border-top: 1px solid #ccc; margin-top: 20px; margin-bottom: 20px; width: 45%; display: inline-block;">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-lg btn-google-grey-bg btn-block text-uppercase btn-outline" href="/Account/GoogleLogin"><img src="/images/google_logo.png" height="11%" width="11%"> Signin Using Google</a>
+
+                            </div>
+                        </div>
+                        <br>
+
+                    </form>
+
+                </div>
+
+            </div>
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="~/images/login_modal.jpg" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; " />
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function(){  
+            onEyeToggle();
+        });
+    </script>
+}

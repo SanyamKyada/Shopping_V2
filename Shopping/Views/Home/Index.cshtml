@@ -1,0 +1,230 @@
+﻿@using Shopping.Helpers;
+@model Shopping.Models.ViewModels.Vm_HomePage
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .homelist img.ratio3by2 {
+        height: 70%;
+        width: 93%;
+    }
+
+    .homelist img.ratio1by1 {
+        margin-left: 5px;
+        margin-top: 10px;
+        height: 90%;
+        width: 93%;
+    }
+
+    .homelist li.ratio1by1 {
+        margin-bottom: 26px;
+    }
+</style>
+
+<div class="container_16">
+
+    <div class="grid_16">
+        <div class="sliderinner">
+
+            @*<div class="container m-lg-5 mt-0">
+            <h1 class="text-right">@ViewBag.UserName</h1>
+            </div>*@
+
+            <a href="javascript:;" class="slideprev">Previous</a>
+            <a href="javascript:;" class="slidenext">Next</a>
+            <ul>
+                @foreach (var item in Model.BannerModels)
+                {
+                    var sku = Model.SKUModels.FirstOrDefault(i => i.Id == item.SKUId);
+                    <li>
+                        <div class="leftpart">
+                            <img src="@sku.ThumbImage" height="100%" width="95%" alt="" />
+                        </div>
+                        <div class="rightpart">
+                            <div class="discount">
+                                <span class="old" style="font-size: 13px;color: #c4cbd1;display: block;margin-left: 36px;margin-top: 23px;text-decoration: line-through;">@sku.OldPrice</span>
+                                <span class="new" style="font-size: 24px; transform: scale(.9,1.5); color: #39b3ca;font-weight: bold;display: block;margin-left: 13px;margin-top: -5px;">@sku.SellingPrice</span>
+                            </div>
+                            <h1>@item.Title</h1>
+                            <div class="pdesc">
+                                @TextHelper.ShortenParagraphToMaxLength(@sku.Description, 225)
+                            </div>  
+                            <a id="test" class="padd" href="#">Add to cart</a>
+
+                            <div class="toast">
+                                <div class="toast-header">
+                                    <strong class="mr-auto">Toast Header</strong>
+                                </div>
+                                <div class="toast-body">
+                                    Hi, Welcome to Shopping. Best E-Commerce Platform.
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                }
+            </ul>
+
+
+        </div>
+        <div class="sliderout">
+            <ul class="ftrd">
+                <div class="thingy">
+                    <img src="~/images/slidething.png" class="handle" alt="" />
+                </div>
+                @for (var i = 0; i < Model.BannerModels.Count(); i++)
+                {
+                    <li class="ftrd-lbl" id="test-@i" onclick="clickSlides(event)">
+                        <h2>@Model.BannerModels[i].ShortDescription</h2>
+                        @*<span>Description here here here</span>*@
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="clear"></div>
+
+<div class="featuredproducts">
+    <div class="container_16">
+        <div class="grid_16">
+            <h2 class="title">Featured Products</h2>
+            <img src="~/images/shizzle.png" alt="shizzle" class="shizzle" />
+            <div class="controls">
+                <a href="javascript:;" class="cprev"><img src="~/images/sright.png" alt="" /></a>
+                <a href="javascript:;" class="cnext"><img src="~/images/sleft.png" alt="" /></a>
+            </div>
+            <div class="clear"></div>
+            <ul class="featprod carousels">
+                @foreach (var item in Model.FeaturedProductsModels)
+                {
+                    var sku = Model.SKUModels.FirstOrDefault(i => i.Id == item.SKUId);
+                    <a href="@Url.Action("ProductDetails", "Product", new{title = @sku.Title.Replace(" ", "-"), skuName = @sku.SKUName, id = @sku.Id, selector=0})">
+                        <li>
+                            <img src="@sku.ThumbImage" height="70%" width="93%" alt="" class="fimg" />
+                            <span class="smalltitle"><a>@sku.Title</a></span>
+                            @*<span class="smalldesc">Item no.: 1422</span>*@
+                            <span class="onsale"><span class="oldprice">@sku.OldPrice</span>@sku.SellingPrice</span>
+                        </li>
+                    </a>
+                }
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="withside">
+    <div class="container_16 main2">
+        <div class="grid_11 lefthome">
+            <h2 class="title">About Shopping</h2>
+            <div class="shizzley"></div>
+            <div class="about">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the indusy
+                standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it
+                to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesettin industry.
+                <br /><br />
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer
+                took a galley of type and scrambled it to make a type specimen book.
+            </div>
+            <a class="buttonsmall" href="#">Read More</a>
+            <div class="clear"></div>
+            <h2 class="title">Latest Products</h2>
+            <div class="shizzley"></div>
+            <div class="clear"></div>
+            <ul class="featprod grayprod homelist">
+                @foreach(var item in Model.LatestSKUs.Take(6))
+                {
+                    <a href="@Url.Action("ProductDetails", "Product", new{title = @item.Title.Replace(" ", "-"), skuName = @item.SKUName, id = @item.Id, selector=0})">
+                        <li class="@Model.ProductIdAspectRatioMap[item.ProductId]">
+                            <img src="@item.ThumbImage" alt="" class="fimg2 @Model.ProductIdAspectRatioMap[item.ProductId]" />
+                            <span class="smalltitle"><a>@item.Title</a></span>
+                            @*<span class="smalldesc">Item no.: 1000</span>*@
+                            <span class="onsale"><span class="oldprice">@item.OldPrice</span>@item.SellingPrice</span>
+                        </li>
+                    </a>
+                }                
+            </ul>
+        </div>
+
+        <div class="grid_4 righthome">
+            <h2 class="title">Categories</h2><div class="shizzley shizzley3"></div>
+            <div class="categorybox">
+                <ul>
+                    <li><a href="./category.html">Women Accessories</a></li>
+                    <li><a href="./category.html">Men Shoes</a></li>
+                    <li><a href="./category.html">Gift Specials</a></li>
+                    <li><a href="./category.html">Electronics</a></li>
+                </ul>
+            </div>
+            <div class="ads">
+                <a href="#"><img src="~/images/ads.png" alt="ads" /></a>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $("#test").click(function () {
+            $('.toast').toast('show');
+        });
+
+       
+        //$('#searchBar').keypress(function (e) {
+        //    debugger;
+        //    var key = e.which;
+        //    var query = $(this).val();
+        //    if (key == 13) // enter key code
+        //    {
+        //        e.preventDefault();
+        //        $.ajax({
+        //            url: '/Search/Index',
+        //            type: 'GET',
+        //            data: { query: query },
+        //            success: function (result) {
+        //                debugger;
+        //                $('#indexOfHome').html('');
+        //                $("#indexOfHome").html(result);
+        //            },
+        //            error: function (result) {
+        //                console.log("Error");
+        //                alert("error");
+        //            }
+        //        });
+        //    }
+        //});
+        //Script for sliderout
+        function clickSlides(e) {
+            debugger;
+            var index = $(this).data('index');
+            if (e.currentTarget.id == 'test-0') {
+                $('.sliderinner ul').animate({ left: '0' });
+                $('.handle').animate({ left: '0' });
+            }
+            else if (e.currentTarget.id == 'test-1') {
+                $('.sliderinner ul').animate({ left: '-940' });
+                $('.handle').animate({ left: '195' });
+            }
+            else if (e.currentTarget.id == 'test-2') {
+                $('.sliderinner ul').animate({ left: '-1880' });
+                $('.handle').animate({ left: '380' });
+            }
+            else if (e.currentTarget.id == 'test-3') {
+                $('.sliderinner ul').animate({ left: '-2820' });
+                $('.handle').animate({ left: '570' });
+            }
+            else if (e.currentTarget.id == 'test-4') {
+                $('.sliderinner ul').animate({ left: '-3760' });
+                $('.handle').animate({ left: '760' });
+            }
+        }
+    </script>
+}

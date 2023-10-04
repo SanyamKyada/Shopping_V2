@@ -1,0 +1,308 @@
+﻿@model Shopping.Models.DTO.AttrMasterViewModel
+
+@{
+}
+
+<style>
+    ::selection {
+        /*color: #fff;*/
+        background: #5372F0;
+    }
+
+    .wrapper {
+        /*width: 496px;*/
+        /*background: #fff;*/
+        /*border-radius: 10px;*/
+        /*padding: 18px 25px 20px;*/
+        /*box-shadow: 0 0 30px rgba(0,0,0,0.06);*/
+    }
+
+        .wrapper :where(.title, li, li i, .details) {
+            display: flex;
+            align-items: center;
+        }
+
+        .wrapper .content {
+            margin: 10px 0;
+        }
+
+    .content p {
+        font-size: 15px;
+        margin-bottom: 5px;
+    }
+
+    .content ul {
+        display: flex;
+        flex-wrap: wrap;
+        /*padding: 7px;*/
+        margin: 12px 0;
+        /*border-radius: 5px;
+                                border: 1px solid #a6a6a6;*/
+    }
+
+        .content ul li {
+            color: #333;
+            margin: 4px 3px;
+            list-style: none;
+            border-radius: 5px;
+            background: #F2F2F2;
+            padding: 5px 8px 5px 10px;
+            border: 1px solid #e3e1e1;
+        }
+
+            .content ul li i {
+                height: 20px;
+                width: 20px;
+                color: #808080;
+                margin-left: 8px;
+                font-size: 12px;
+                cursor: pointer;
+                border-radius: 50%;
+                background: #dfdfdf;
+                justify-content: center;
+            }
+
+        .content ul input {
+            flex: 1;
+            padding: 5px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            text-indent: 10px;
+            margin-bottom: 0;
+            margin-top: 5px;
+        }
+
+    .wrapper .details {
+        justify-content: space-between;
+    }
+
+    .details button {
+        border: none;
+        outline: none;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        padding: 5px 12px;
+        border-radius: 5px;
+        background: #696969;
+        transition: background 0.3s ease;
+    }
+
+        .details button:hover {
+            background: #435564;
+        }
+
+    .padding25 span {
+        display: contents;
+    }
+
+    .toast {
+        margin-left: 25px;
+        margin-top: 150px;
+        background-color: #41ec34;
+        color: black;
+        font-weight: 500;
+    }
+
+    #ddlComponentType {
+        float: none;
+        margin-bottom: 5px;
+    }
+
+    #tInputsDiv{
+        display:none;
+    }
+</style>
+
+<div class="container_16 padding50">
+    <div class="grid_16">
+        <div class="ribbonbig">
+            <div class="lijevo">
+                <div class="bread"><a href="#">Home</a>&nbsp;&nbsp;&gt;&nbsp;Checkout</div>
+                <div class="bigtitle">Checkout</div>
+            </div>
+            <div class="desno">
+                <a href="#" class="padd">Buy theme</a>
+            </div>
+        </div>
+    </div>
+    <div class="grid_8">
+        <div class="padding25">
+            <div class="billing">
+                <div class="shiztitle">
+                    <h2 class="title h2bg">Add Master Attribute</h2>
+                </div>
+
+                <select class="half req" asp-for="attrModel.CategoryId" id="ddlCategory">
+                    <option value="" selected disabled>Sub Category</option>
+                    @foreach (var category in Model.menuItems)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+
+                <input type="text" class="half" asp-for="attrModel.Lable" id="attrLable" placeholder="Lable" />
+
+                <select class="half req" asp-for="attrModel.CategoryId" onchange="showHideTagsInp()" id="ddlComponentType">
+                    <option value="" selected disabled>Component Type</option>
+                    <option value="Text">Text</option>
+                    <option value="Dropdown">Dropdown</option>
+                </select>
+
+                <div id="tInputsDiv">
+                    <input type="text" class="full" id="tInput" placeholder="Values"/>
+                </div>
+
+                <span id="attrMasterError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
+                <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
+
+            </div>
+            <div class="toast" id="result-toast">
+                <div class="toast-body">
+                    Data added successfully
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#tInput').AddTags({
+                maxTags: 10,
+                initialTags: [],
+                includeTitle: false
+            });
+
+            /*const ul = $("#tagList");
+            const input = $("#tagInput");
+            const tagNumb = $("#tagRemaining");
+            const removeAllBtn = $("#removeAllTags");
+
+            let maxTags = 10;
+            let tags = [];
+
+            countTags();
+            createTag();
+
+            function countTags() {
+                input.focus();
+                tagNumb.text(maxTags - tags.length);
+            }
+
+            function createTag() {
+                ul.find("li").remove();
+                tags.slice().reverse().forEach(tag => {
+                    let liTag = `<li>${tag} <i class="fa fa-close remove-tag"></i></li>`;
+                    ul.prepend(liTag);
+                });
+                bindRemoveClickEvent();
+                countTags();
+            }
+
+            function bindRemoveClickEvent() {
+                $(".remove-tag").click(function () {
+                    let tag = $(this).parent().text().trim();
+                    $(this).parent().remove();
+                    let index = tags.indexOf(tag);
+                    tags.splice(index, 1);
+                    countTags();
+                    //remove(tag);
+                });
+            }
+
+            //function remove(tag) {
+            //    let index = tags.indexOf(tag);
+            //    tags.splice(index, 1);
+            //    createTag();
+            //}
+
+            function addTag(e) {
+                debugger;
+                if (e.keyCode === 13) {
+                    let tag = e.target.value.replace(/\s+/g, ' ');
+                    if (tag.length > 1 && !tags.includes(tag)) {
+                        if (tags.length < 10) {
+                            tag.split(',').forEach(tag => {
+                                tags.push(tag);
+                                createTag();
+                            });
+                        }
+                    }
+                    e.target.value = "";
+                }
+            }
+
+            input.keyup(addTag);
+
+            removeAllBtn.click(function () {
+                tags = [];
+                createTag();
+            });*/
+
+            $('#MasterAttrSaveBtn').click(function (e) {
+                e.preventDefault();
+
+                var categoryId = $('#ddlCategory').val();
+                var attrLable = $('#attrLable').val();
+                var componentType = $('#ddlComponentType').val();
+
+                if (categoryId == "") {
+                    $('#attrMasterError').text("Please select the Category");
+                    return false;
+                }
+                if (attrLable == "") {
+                    $('#attrMasterError').text("Lable should not be empty");
+                    return false;
+                }
+                if (componentType == "") {
+                    $('#attrMasterError').text("Please select the Component Type");
+                    return false;
+                }
+                else if (componentType == "Dropdown") {
+                    if (tags.length == "0") {
+                        $('#attrMasterError').text("Please enter the values for Component Type");
+                        return false;
+                    }
+                }
+                $('#attrMasterError').text("");
+                var data = {
+                    CategoryId: categoryId,
+                    Lable: attrLable,
+                    ComponentType: componentType
+                };
+
+                if (componentType == 'Dropdown')
+                    data.Values = tags.join(','); // tags to a CSV string
+
+                $.ajax({
+                    url: '/Admin/AttributeMaster',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        $('#result-toast').toast('show');
+                    },
+                    error: function (xhr, Message) {
+                        debugger;
+                    }
+                });
+            });
+        });
+
+        function showHideTagsInp() {
+            var selected = $('#ddlComponentType').val();
+            if (selected == 'Dropdown') {
+                $('#tInputsDiv').show();
+                $('#result-toast').css('margin-top', '0px');
+            } else {
+                $('#tInputsDiv').hide();
+                $('#result-toast').css('margin-top', '150px');
+            }
+        }
+    </script>
+}
+

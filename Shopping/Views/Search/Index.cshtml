@@ -1,0 +1,67 @@
+﻿@{
+}
+
+@using Shopping.Models.ViewModels;
+@model Vm_SearchResults
+@{
+    ViewData["Title"] = "Fashion";
+}
+
+@if (Model.Products != null)
+{
+    <div class="container_16 padding50" id="indexOfSearch">
+        <div class="grid_16">
+
+            <div class="content">
+                <div class="shiztitle">
+                    <h2 class="title h2bg">Here are some results for "@Model.Query"</h2>
+                </div>
+                <ul class="featprod fullprod">
+                    @if (Model != null)
+                    {
+                        foreach (var product in Model.Products)
+                        {
+                            var sku = Model.SKU.Where(p => p.ProductId == product.Id).FirstOrDefault();
+                            <a href="@Url.Action("ProductDetails", "Product", new{id = product.SKUs.FirstOrDefault().Id, categoryId = product.CategoryId})">
+                            <li>
+                                <img class="fimg2" alt="@sku.Title" src="@sku.ThumbImage" hight="90%" width="90%">
+                                <span class="smalltitle">@sku.Title</span>
+                                    @*<span class="smalldesc">@sku.Description</span>*@
+                                <span class="onsale"><span class="oldprice">@sku.OldPrice</span>@sku.SellingPrice</span>
+                            </li>
+                            </a>
+                        }
+
+                    }
+                </ul>
+                <div class="clear"></div>
+                <div class="navigation">
+                    <a href="#" class="prevposts">previous</a>
+                    <a href="#" class="inactiveposts">1</a>
+                    <a href="#" class="inactiveposts">2</a>
+                    <a href="#" class="activeposts">3</a>
+                    <a href="#" class="inactiveposts">4</a>
+                    <a href="#" class="nextposts">nextposts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container_16 padding50">
+        <div class="grid_16">
+            <div class="content">
+                <div class="shiztitle">
+                    <h2 class="title h2bg">No matching results found for "@Model.Query"</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+
+
