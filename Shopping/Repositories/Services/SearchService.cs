@@ -16,13 +16,16 @@ namespace Shopping.Repositories.Services
 
         public List<SKUModel> GetSKUsOfMatchingProducts(List<ProductModel> matchingProducts)
         {
-            var productIds = matchingProducts
+            if (matchingProducts != null)
+            {
+                var productIds = matchingProducts
                 .Select(prd => prd.Id)
                 .ToList();
 
-            if(productIds.Count > 0)
-            {
-                return _context.SKUs.Where(sku => productIds.Contains(sku.ProductId)).ToList();
+                if (productIds.Count > 0)
+                {
+                    return _context.SKUs.Where(sku => productIds.Contains(sku.ProductId)).ToList();
+                }
             }
 
             return new List<SKUModel>();

@@ -20,12 +20,14 @@
     <link rel="stylesheet" href="~/css/text.css" />
     <link rel="stylesheet" href="~/css/960.css" />
     <link rel="stylesheet" href="~/style.css" />
+    <link href="~/css/custom-mvc/popup.css" rel="stylesheet" />
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-
     <meta charset="UTF-8">
+
+    @RenderSection("Styles", required: false)
 
     <style>
         .form-outline {
@@ -41,14 +43,13 @@
             border: none;
             background: none;
         }
-
     </style>
 </head>
 <body>
     <header>
 
-        @*@if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
-        {*@
+        @if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+        {
             <div class="header">
                 <div class="container_16">
                     <div class="grid_10 logo">
@@ -66,7 +67,7 @@
                         @if (string.IsNullOrEmpty(User.Identity.Name))
                         {
                             <a href="javascript:;" id="login-btn" class="loginregister">&nbsp;</a>
-                            <div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal fade" id="login-popup" role="dialog">
                                 <div class="modal-dialog">
                                 </div>
                             </div>
@@ -98,7 +99,7 @@
 
                 </div>
             </div>
-        @*}*@
+        }
     </header>
 
     <div class="container">
@@ -108,8 +109,8 @@
     </div>
 
     <!-- footer section -->
-    @*@if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
-    {*@
+    @if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+    {
         <!-- sub-footer section start-->
         <div class="subfooter">
             <div class="container_16">
@@ -187,8 +188,12 @@
                 <button id="acpt-btn" type="button" class="btn btn-sm btn-primary ml-2" onclick="setCookie('cookieConsent', 'true', 365);$('#cookieConsent').remove();">Accept</button>
             </div>
         </div>
-    @*}*@
+    }
 
+    <div class="modal fade" id="welcome-popup" role="dialog">
+        <div class="modal-dialog">
+        </div>
+    </div>
 
     <!-- footer end -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -198,125 +203,10 @@
     <script src="~/js/jquery.rating.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/js/jquery.anythingslider.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/js/custom.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/custom-mvc/layout.js"></script>
     @RenderSection("scripts", required: false)
 
 </body>
 </html>
 <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-<!--script for login-modal-->
-<script>
-
-
-    $(document).ready(function(){
-
-        var pathName = window.location.pathname;
-        var pathArray = pathName.split('/');
-        if(pathArray && pathArray.length > 2 && pathArray[1] === 'Account' && pathArray[2] === 'Login'){
-            $('.header , .subfooter, .footer').hide();
-            $('body').css('background', 'rgba(0, 0, 0, 0) url("https://localhost:7264/images/fbg.png") repeat scroll 0% 0% / auto padding-box border-box');
-        }
-
-        $.ajax({
-            type: "GET",
-            url: "/Account/GetLoginPopup",
-            success: function (result) {
-                $("#myModal").html(result);
-                loginAction();
-                onEyeToggle();
-            },
-            error: function (result) {
-                console.log("Error");
-            }
-        });
-    });
-
-    function loginAction() {
-        $('[id^="LoginForm"]').submit(function (e) {
-            e && e.preventDefault();
-            if ($(this).find("#username").val() == "") {
-                $('#userError').text("Username should not be empty");
-                return false;
-            }
-            if ($(this).find("#password1").val() == "") {
-                $('#userError').text("Password should not be empty");
-                return false;
-            }
-
-            var formData = $(this).serialize();
-
-            $.ajax({
-                url: '/Account/Login',
-                type: 'POST',
-                data: formData,
-                success: function (response, textStatus, xhr) {
-                    debugger;
-                    $('#userError').hide();
-                    if (response.token) {
-                        localStorage.setItem('token', response.token);
-                        if (response.returnUrl) {
-                            window.location.href = response.returnUrl;
-                        }else{
-                            location.reload();
-                        }
-                    }else {
-                        $('#loginErrorMessage').text("Login unsuccessfull");
-                    }
-                },
-                error: function (xhr, Message) {
-                    $('#loginErrorMessage').text("Login unsuccessfull");
-                }
-            });
-        });
-
-    }
-
-    function onEyeToggle(){
-        $('#eye-toggle').click(function () {
-            debugger;
-            if ($(this).hasClass('fa fa-eye-slash')) {
-                $(this).removeClass('fa fa-eye-slash');
-                $(this).addClass('fa fa-eye');
-
-                var $passwordInput = $(this).parent().prevAll("input[type='password'][id='password1']");
-                var $newPasswordInput = $('<input>').attr({
-                    'type': 'text',
-                    'id': $passwordInput.attr('id'),
-                    'name': $passwordInput.attr('name'),
-                    'value': $passwordInput.val(),
-                    'class': $passwordInput.attr('class')
-                });
-                $passwordInput.replaceWith($newPasswordInput);
-
-            } else {
-                $(this).removeClass('fa fa-eye');
-                $(this).addClass('fa fa-eye-slash');
-
-                var $passwordInput = $(this).parent().prevAll("input[type='text'][id='password1']");
-                var $newPasswordInput = $('<input>').attr({
-                    'type': 'password',
-                    'id': $passwordInput.attr('id'),
-                    'name': $passwordInput.attr('name'),
-                    'value': $passwordInput.val(),
-                    'class': $passwordInput.attr('class')
-                });
-                $passwordInput.replaceWith($newPasswordInput);
-            }
-        });
-    }
-
-    $("#login-btn").click(function () {
-        $("#myModal").modal('show');
-        $("#username").val("");
-        $("#password1").val("");
-        $("#loginErrorMessage").text("");
-    });
-
-    <!--coockie consent-- >
-    $('#acpt-btn').click(function () {
-        $('#cookieConsent').remove();
-    });
-    
-
-</script>    

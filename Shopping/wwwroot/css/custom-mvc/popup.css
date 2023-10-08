@@ -1,0 +1,146 @@
+﻿/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                                _LoginPartial.cshtml                                                            |
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+#login-popup .modal-content {
+    background-color: transparent;
+    border: 0;
+}
+
+#LoginForm .login-separator,
+#LoginForm_Popup .login-separator {
+    display: flex;
+    justify-content: space-around;
+}
+
+    #LoginForm .login-separator hr,
+    #LoginForm_Popup .login-separator hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 40%;
+        display: inline-block;
+    }
+
+    #LoginForm .login-separator span,
+    #LoginForm_Popup .login-separator span {
+        font-size: 16px;
+        color: #555;
+        padding-top: 6px;
+    }
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                                _WelcomePartial.cshtml                                                          |
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+
+#welcome-popup #scrollContainer {
+    position: relative;
+    padding: 70px 0;
+    height: 360px;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+#welcome-popup .infiscroll-inner {
+    animation: feedscroll ease-out 3.5s forwards 0s;
+    position: absolute !important;
+    top: 70px;
+    left: 0;
+    right: 0;
+    opacity: 1;
+}
+
+    #welcome-popup .infiscroll-inner img {
+        animation: enlargeimg 1s forwards 0s;
+        display: block;
+        transition: all .2s;
+        padding: 10px 0;
+        margin: 0 auto;
+        position: relative !important;
+        opacity: 1;
+    }
+
+        #welcome-popup .infiscroll-inner img:nth-child(2) {
+            animation-delay: .5s;
+        }
+
+        #welcome-popup .infiscroll-inner img:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        #welcome-popup .infiscroll-inner img:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        #welcome-popup .infiscroll-inner img:nth-child(5) {
+            animation-delay: 2s;
+        }
+
+        #welcome-popup .infiscroll-inner img:nth-child(6) {
+            animation-delay: 2.5s;
+        }
+
+        #welcome-popup .infiscroll-inner img:nth-child(7) {
+            animation: enlargeimg_last 1s ease 3s forwards;
+        }
+
+@keyframes enlargeimg {
+    0% {
+        padding: 10px 0;
+        transform: scale(1);
+    }
+
+    50% {
+        padding: 30px 0;
+        transform: scale(1.3);
+    }
+
+    100% {
+        padding: 10px 0;
+        transform: scale(1);
+    }
+}
+
+@keyframes feedscroll {
+    0% {
+        top: 70px;
+    }
+
+    100% {
+        top: -300px;
+    }
+}
+
+@keyframes enlargeimg_last {
+    0% {
+        padding: 10px 0;
+        transform: scale(1);
+    }
+
+    100% {
+        padding: 30px 0;
+        transform: scale(1.3);
+    }
+}
+
+#welcome-popup h2 {
+    margin-top: 0;
+    font-family: "Libre Baskerville","Lato";
+    font-weight: 500;
+}
+
+#welcome-popup p {
+    font-family: "Lato";
+    line-height: 33px;
+    max-width: 80%;
+    margin: 0 auto;
+    font-size: 22px;
+    font-weight: 300;
+}
+
+#welcome-popup .welcome-dialog {
+    text-align: center;
+}

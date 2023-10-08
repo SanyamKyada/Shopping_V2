@@ -500,7 +500,7 @@
                     type: "GET",
                     url: "/Account/Login",
                     success: function (result) {
-                        $("#myModal").html(result);
+                        $("#login-popup").html(result);
                         loginAction();
                     },
                     error: function (result) {
@@ -508,7 +508,7 @@
                         console.log("Error");
                     }
                 });
-                $("#myModal").modal('show');
+                $("#login-popup").modal('show');
                 $("#username").val("");
                 $("#password1").val("");
                 $("#loginErrorMessage").text("");
