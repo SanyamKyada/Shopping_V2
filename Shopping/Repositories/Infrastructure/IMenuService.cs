@@ -2,7 +2,7 @@
 
 namespace Shopping.Repositories.Infrastructure
 {
-    public interface IMenuService
+    public interface IMenuService : IGenericRepository<MenuItemsModelNew>
     {
         public List<MenuItemsModelNew> GetAllMenu();
     }
