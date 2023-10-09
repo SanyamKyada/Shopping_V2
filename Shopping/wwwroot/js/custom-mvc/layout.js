@@ -1,12 +1,4 @@
 ﻿$(document).ready(function () {
-
-    var pathName = window.location.pathname;
-    var pathArray = pathName.split('/');
-    if (pathArray && pathArray.length > 2 && pathArray[1] === 'Account' && pathArray[2] === 'Login') {
-        $('.header , .subfooter, .footer').hide();
-        $('body').css('background', 'rgba(0, 0, 0, 0) url("https://localhost:7264/images/fbg.png") repeat scroll 0% 0% / auto padding-box border-box');
-    }
-
     $.ajax({
         type: "GET",
         url: "/Account/GetLoginPopup",

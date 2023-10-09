@@ -1,0 +1,28 @@
+﻿.shiztitle2 {
+    width: 100%;
+    background: url(/images/shizzle2.png) repeat-x 0 36px;
+    height: 80px;
+}
+
+.varient-detail .dashed-outer {
+    padding: 4px;
+    background: white;
+}
+
+.varient-detail .dashed-inner {
+    border: 1.3px dashed#949090;
+    border-radius: 2px;
+    padding: 10px 0px 0 10px;
+}
+
+.varient-detail .form-sku input{
+    background: #e9ecef;
+}
+
+.varient-detail .form-sku select {
+    background: #e9ecef;
+}
+
+.varient-detail .form-sku textarea {
+    background: #e9ecef;
+}
