@@ -20,69 +20,57 @@
     <div class="grid_16">
         <div class="padding25">
             <div class="billing">
-                <div class="shiztitle2">
-                    <h2 class="title h2bg">Product Details</h2>
-                </div>
-                <div class="div-h50">
-                    <form>
-                        <select class="full req" id="">
+                <form class='form-sku' asp-action="AddNewProduct" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    <div class="shiztitle2">
+                        <h2 class="title h2bg">Product Details</h2>
+                    </div>
+                    <div class="div-h50">
+                        <select class="full req" id="" name="CategoryId">
                             <option value="" selected disabled>Sub Category</option>
                             @foreach (var category in _menuService.Get(filter: category => category.ParentItemId > 1, orderBy: category => category.OrderBy(x => x.Name)))
                             {
                                 <option value="@category.Id">@category.Name</option>
                             }
                         </select>
-                        <input type="text" class="full req" name="pname" id="bname" placeholder="Product Name" />
-                    </form>
-                </div>
+                        <input type="text" class="full req" name="ProductName" id="bname" placeholder="Product Name" />
+                    </div>
                 
-                <div class="varient-detail">
-                    <div class="shiztitle2">
-                        <h2 class="title h2bg">Variants Detail</h2>
-                    </div>
-                    <div class="dashed-outer">
-                        <div class="dashed-inner">
-                            <form class="form-sku">
-                                <input type="text" class="full req" name="vname" id="vname" placeholder="Variant name" />
-                                <input type="text" class="full" name="blastname" id="blastname" placeholder="SKU" />
-                                <input type="number" class="half req" name="bzip" id="bzip" placeholder="Original Price" />
-                                <input type="number" class="half req" name="bzip" id="bzip" placeholder="Sale Price" />
-                                <input type="number" class="half req" name="bzip" id="bzip" placeholder="Quantity in Stock" />
-                                <input type="number" class="half req" name="bzip" id="bzip" placeholder="Minimum Inventory Alert" />
-                                <input type="file" class="half req" name="bzip" id="bzip" placeholder="Thumb Image" />
-                                <input type="text" class="half req" name="bzip" id="bzip" placeholder="Color" />
-                                <select class="half" id="">
-                                    <option value="" selected disabled>Dynamic for Style</option>
-                                </select>
-                                <textarea type="text" class="full" name="bzip" id="bzip" placeholder="Description" rows="4" style="height:auto;"></textarea>
-                                <div class="clear"></div>
-                                <input type="submit" class="mailsubmit" style="float: left;margin-top: 0;" placeholder="Register" />
-                            </form>
+                    <div class="varient-detail">
+                        <div class="shiztitle2">
+                            <h2 class="title h2bg" id="btnAddSku">Variants Detail</h2>
                         </div>
+                    
+                        <div id="skuDiv">
+                        </div>
+                        @*<div class="dashed-outer">
+                            <div class="dashed-inner">
+                                <form class="form-sku">
+                                    <input type="text" class="full req" name="vname" id="vname" placeholder="Variant name" />
+                                    <input type="text" class="full" name="blastname" id="blastname" placeholder="SKU" />
+                                    <input type="number" class="half req" name="bzip" id="bzip" placeholder="Original Price" />
+                                    <input type="number" class="half req" name="bzip" id="bzip" placeholder="Sale Price" />
+                                    <input type="number" class="half req" name="bzip" id="bzip" placeholder="Quantity in Stock" />
+                                    <input type="number" class="half req" name="bzip" id="bzip" placeholder="Minimum Inventory Alert" />
+                                    <input type="file" class="half req" name="bzip" id="bzip" placeholder="Thumb Image" />
+                                    <input type="text" class="half req" name="bzip" id="bzip" placeholder="Color" />
+                                    <select class="half" id="">
+                                        <option value="" selected disabled>Dynamic for Style</option>
+                                    </select>
+                                    <textarea type="text" class="full" name="bzip" id="bzip" placeholder="Description" rows="4" style="height:auto;"></textarea>
+                                    <div class="clear"></div>
+                                    <input type="submit" class="mailsubmit" style="float: left;margin-top: 0;" placeholder="Register" />
+                                </form>
+                            </div>
+                        </div>*@
                     </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    @*<div class="grid_8">
-        <div class="padding25">
-
-            <div class="billing">
-                <div class="shiztitle">
-                    <h2 class="title h2bg">Your address</h2>
-                </div>
-                <form>
-                    <input type="text" value="Company" id="bcompany" name="bcompany" class="full">
-                    <input type="text" value="Address" id="baddress" name="baddress" class="full">
-                    <input type="text" value="City" id="bcity" name="bcity" class="half req">
-                    <input type="text" value="Post Code" id="bzip" name="bzip" class="half">
-                    <input type="text" value="Country" id="bcountry" name="bcountry" class="half req">
-                    <input type="text" value="State" id="bstate" name="bstate" class="half">
+                    <input type="submit" class="mailsubmit" style="float: left;margin-top: 0;" id="btnSkuFormSubmit" />
                 </form>
             </div>
 
         </div>
-    </div>*@
-
+    </div>
 </div>
+
+@section scripts{
+    <script src="~/js/custom-mvc/admin.js"></script>
+}

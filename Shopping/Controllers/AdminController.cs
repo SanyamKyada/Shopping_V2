@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Shopping.Models.Domain;
 using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using static Shopping.Models.Domain.DatabaseContexct;
 
@@ -26,11 +27,7 @@ namespace Shopping.Controllers
             };
             return View(categoris);
         }
-        [HttpGet]
-        public IActionResult AddNewProduct()
-        {
-            return View();
-        }
+
         [HttpPost]
         public IActionResult AttributeMaster(AttributeMasterModel model)
         {
@@ -38,5 +35,19 @@ namespace Shopping.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult AddNewProduct()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddNewProduct(Vm_ProductWithVariants model)
+        {
+            return Ok();
+        }
+
+
     }
 }
