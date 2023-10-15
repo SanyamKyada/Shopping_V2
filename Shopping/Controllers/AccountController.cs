@@ -83,6 +83,11 @@ namespace Shopping.Controllers
         {
             return PartialView("_LoginPartial");
         }
+        [HttpGet]
+        public IActionResult GetWelcomePopup()
+        {
+            return PartialView("_WelcomePartial");
+        }
         
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
@@ -172,7 +177,7 @@ namespace Shopping.Controllers
         [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
-            string redirectUrl = Url.Action("GoogleResponse", "UserAuthentication");
+            string redirectUrl = Url.Action("GoogleResponse", "Account");
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             return new ChallengeResult("Google", properties);
         }

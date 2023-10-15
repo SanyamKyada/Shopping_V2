@@ -6,23 +6,41 @@
 
 .varient-detail .dashed-outer {
     padding: 4px;
-    background: white;
+    background: rgb(0 0 0 / 4%);
+    margin: 0 0 45px 0;
 }
 
 .varient-detail .dashed-inner {
-    border: 1.3px dashed#949090;
+   /* border: 1.3px dashed#949090;*/
     border-radius: 2px;
     padding: 10px 0px 0 10px;
 }
 
-.varient-detail .form-sku input{
+.varient-detail .shiztitle2 img {
+    height: 43%;
+    margin-top: 25px;
+    cursor: pointer;
+    background: url(/images/h2bg.png) repeat;
+    /*padding-right: 10px;*/
+}
+
+    .varient-detail .shiztitle2 img:nth-last-child(-n+2) {
+        cursor: not-allowed;
+    }
+
+.varient-detail .shiztitle2 img:last-child{
+    border-radius: 17px;
+    padding: 0;
+}
+
+/*.varient-detail #skuDiv input {
     background: #e9ecef;
 }
 
-.varient-detail .form-sku select {
+.varient-detail #skuDiv select {
     background: #e9ecef;
 }
 
-.varient-detail .form-sku textarea {
+.varient-detail #skuDiv textarea {
     background: #e9ecef;
-}
+}*/

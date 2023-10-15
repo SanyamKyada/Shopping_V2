@@ -88,10 +88,18 @@ function onEyeToggle() {
 }
 
 $("#login-btn").click(function () {
+
+    $('.homepage-topslider a.slideprev, a.slidenext').hide();
+
     $("#login-popup").modal('show');
     $("#username").val("");
     $("#password1").val("");
     $("#loginErrorMessage").text("");
+});
+
+$("#login-popup").live('hidden.bs.modal', function () {
+    debugger;
+    $('.homepage-topslider a.slideprev, a.slidenext').show();
 });
 
 // coockie consent

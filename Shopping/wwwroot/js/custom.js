@@ -151,7 +151,7 @@ $(document).ready(function () {
             var inputElement = $(this);
             var wrapper = $("<div class='wrapper'></div>"); //class=wrapper
             var content = $("<div class='content'></div>");
-            var instructions = $("<p>Press enter or add a comma after each tag</p>");
+            var instructions = $("<p>Press enter or add a comma after each value</p>");
             var ul = $("<ul id='tagList'></ul>");
             var tagInput = inputElement.clone();
             var details = $("<div class='details'></div>");
