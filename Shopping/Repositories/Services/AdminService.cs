@@ -23,7 +23,7 @@ namespace Shopping.Repositories.Services
 
         public T GetById(int id)
         {
-            return entities.Find(id); // We can also use -- Where(x => x.Id == id).FirstOrDefault() -- Instead of Find()
+            return entities.Find(id); 
         }
 
         public void Delete(T t)

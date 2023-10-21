@@ -1,4 +1,8 @@
-﻿.shiztitle2 {
+﻿/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                                     AddNewProduct.cshtml                                                       |
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+.shiztitle2 {
     width: 100%;
     background: url(/images/shizzle2.png) repeat-x 0 36px;
     height: 80px;
@@ -51,4 +55,106 @@
     grid-gap: 20px;
     max-width: 370px;
     margin-left: 20px;
+}
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                         AttributeMaster.cshtml & SpecificationAttribute.cshtml                                 |
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+
+::selection {
+    background: #5372F0;
+}
+
+
+    .wrapper :where(.title, li, li i, .details) {
+        display: flex;
+        align-items: center;
+    }
+
+    .wrapper .content {
+        margin: 10px 0;
+    }
+
+.content p {
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.content ul {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+    .content ul li {
+        color: #333;
+        margin: 4px 3px;
+        list-style: none;
+        border-radius: 5px;
+        background: #F2F2F2;
+        padding: 5px 8px 5px 10px;
+        border: 1px solid #e3e1e1;
+    }
+
+        .content ul li i {
+            height: 20px;
+            width: 20px;
+            color: #808080;
+            margin-left: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            background: #dfdfdf;
+            justify-content: center;
+        }
+
+    .content ul input {
+        flex: 1;
+        padding: 5px;
+        border: none;
+        outline: none;
+        font-size: 16px;
+        border-radius: 5px;
+        text-indent: 10px;
+        margin-bottom: 0;
+        margin-top: 5px;
+    }
+
+.wrapper .details {
+    justify-content: space-between;
+}
+
+.details button {
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 5px 12px;
+    border-radius: 5px;
+    background: #696969;
+    transition: background 0.3s ease;
+}
+
+    .details button:hover {
+        background: #435564;
+    }
+
+.padding25 span {
+    display: contents;
+}
+
+.toast {
+    margin-left: 25px;
+    margin-top: 150px;
+    background-color: #41ec34;
+    color: black;
+    font-weight: 500;
+}
+
+#ddlComponentType {
+    float: none;
+    margin-bottom: 5px;
 }

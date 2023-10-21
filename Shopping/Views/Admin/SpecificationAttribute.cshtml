@@ -1,5 +1,8 @@
 ﻿@model Shopping.Models.DTO.AttrMasterViewModel
 
+@{
+}
+
 @section Styles{
     <link href="~/css/custom-mvc/admin.css" rel="stylesheet" />
 }
@@ -8,8 +11,8 @@
     <div class="grid_16">
         <div class="ribbonbig">
             <div class="lijevo">
-                <div class="bread"><a href="#">Admin</a>&nbsp;&nbsp;&gt;&nbsp;Product Attribute</div>
-                <div class="bigtitle">Product Attribute</div>
+                <div class="bread"><a href="#">Admin</a>&nbsp;&nbsp;&gt;&nbsp;Specification Attribute</div>
+                <div class="bigtitle">Specification Attribute</div>
             </div>
             <div class="desno">
                 <a href="#" class="padd">Buy theme</a>
@@ -20,10 +23,9 @@
         <div class="padding25">
             <div class="billing">
                 <div class="shiztitle">
-                    <h2 class="title h2bg">Add Product Attribute</h2>
+                    <h2 class="title h2bg">Add Specification Attribute</h2>
                 </div>
-
-                <select class="half req" asp-for="attrModel.CategoryId" id="ddlCategory">
+                <select class="half req" name="CategoryId" asp-for="attrModel.CategoryId" id="ddlCategory">
                     <option value="" selected disabled>Sub Category</option>
                     @foreach (var category in Model.menuItems)
                     {
@@ -31,15 +33,20 @@
                     }
                 </select>
 
-                <input type="text" class="half" asp-for="attrModel.Lable" id="attrLable" placeholder="Attribute" />
+                <input type="text" class="half" name="Lable" id="attrLable" placeholder="Lable" />
 
-                <div id="tInputsDiv">
+                <select class="half req" name="ComponentType" onchange="showHideTagsInp()" id="ddlComponentType">
+                    <option value="" selected disabled>Component Type</option>
+                    <option value="Text">Text</option>
+                    <option value="Dropdown">Dropdown</option>
+                </select>
+
+                <div class="hidden" id="tInputsDiv">
                     <input type="text" class="full" id="tInput" placeholder="Values" />
                 </div>
 
                 <span id="attrMasterError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
                 <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
-
             </div>
             <div class="toast" id="result-toast">
                 <div class="toast-body">
@@ -65,6 +72,7 @@
 
                 var categoryId = $('#ddlCategory').val();
                 var attrLable = $('#attrLable').val();
+                var componentType = $('#ddlComponentType').val();
                 var tags = JSON.parse($('input[name="AttrsJSON"]').val());
 
                 if (categoryId == "") {
@@ -75,19 +83,29 @@
                     $('#attrMasterError').text("Lable should not be empty");
                     return false;
                 }
-                if (tags.length == "0") {
-                    $('#attrMasterError').text("Please enter the values for Component Type");
+                if (componentType == "") {
+                    $('#attrMasterError').text("Please select the Component Type");
                     return false;
                 }
+                else if (componentType == "Dropdown") {
+                    if (tags.length == "0") {
+                        $('#attrMasterError').text("Please enter the values for Component Type");
+                        return false;
+                    }
+                }
                 $('#attrMasterError').text("");
+
+                $("#formSpecificaationAttr").submit();
+
                 var data = {
                     CategoryId: categoryId,
                     Lable: attrLable,
+                    ComponentType: componentType,
                     Values: tags.join(',')
                 };
 
                 $.ajax({
-                    url: '/Admin/AttributeMaster',
+                    url: '/Admin/SpecificationAttribute',
                     type: 'POST',
                     data: data,
                     success: function (response) {
@@ -99,6 +117,18 @@
                 });
             });
         });
+
+        function showHideTagsInp() {
+            var selected = $('#ddlComponentType').val();
+            if (selected == 'Dropdown') {
+                $('#tInputsDiv').show();
+                $('#result-toast').css('margin-top', '0px');
+            } else {
+                $('#tInputsDiv').hide();
+                $('#result-toast').css('margin-top', '150px');
+            }
+        }
+
     </script>
 }
 

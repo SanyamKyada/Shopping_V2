@@ -2609,3 +2609,11 @@ body {
 .div-h50{
     height: 50px;
 }
+
+.size-15{
+    font-size: 15px;
+}
+
+.hidden{
+    display: none;
+}

@@ -153,6 +153,7 @@ $(document).ready(function () {
             var content = $("<div class='content'></div>");
             var instructions = $("<p>Press enter or add a comma after each value</p>");
             var ul = $("<ul id='tagList'></ul>");
+            var hiddenInp = $("<input type='hidden' name='AttrsJSON'/>");
             var tagInput = inputElement.clone();
             var details = $("<div class='details'></div>");
             var tagRemaining = $("<p><span id='tagRemaining'></span> tags are remaining</p>");
@@ -165,7 +166,7 @@ $(document).ready(function () {
 
             // Append elements to create the structure
             ul.append(tagInput);
-            content.append(instructions, ul);
+            content.append(instructions, ul, hiddenInp);
             details.append(tagRemaining, removeAllBtn);
             wrapper.append(content, details);
             inputElement.replaceWith(wrapper);
@@ -188,6 +189,10 @@ $(document).ready(function () {
                 }
             }
 
+            function setHiddenInpValue() {
+                hiddenInp.val(JSON.stringify(tags));
+            }
+
             function createTag() {
                 ul.find("li").remove();
                 tags.slice().reverse().forEach(tag => {
@@ -196,6 +201,7 @@ $(document).ready(function () {
                 });
                 bindRemoveClickEvent();
                 countTags();
+                setHiddenInpValue();
             }
 
             function bindRemoveClickEvent() {
@@ -205,6 +211,7 @@ $(document).ready(function () {
                     let index = tags.indexOf(tag);
                     tags.splice(index, 1);
                     countTags();
+                    setHiddenInpValue();
                 });
             }
 

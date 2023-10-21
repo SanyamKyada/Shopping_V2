@@ -58,6 +58,7 @@ builder.Services.AddScoped<IMenuService, MenuService>(); // Registerd out reposi
 builder.Services.AddScoped<ICartService, CartService>(); // Registerd out repository
 builder.Services.AddScoped<ISearchService, SearchService>(); // Registerd out repository
 builder.Services.AddScoped<IProductService, ProductService>(); // Registerd out repository
+builder.Services.AddScoped<IAttributeService, AttributeService>(); // Registerd out repository
 builder.Services.AddTransient(typeof(IAdminService<>), typeof(AdminService<>)); ; // Registerd out repository
 
 //  <----> //

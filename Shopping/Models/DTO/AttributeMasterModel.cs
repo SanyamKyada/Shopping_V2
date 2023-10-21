@@ -6,6 +6,7 @@
         public int CategoryId { get; set; }
         public string Lable { get; set; }
         public string ComponentType { get; set; }
+        public bool IsSpecificationAttribute { get; set; }
         public string ?Values { get; set; }
         // Navigation property
         //public SKUModel SKUModelNav { get; set; }
