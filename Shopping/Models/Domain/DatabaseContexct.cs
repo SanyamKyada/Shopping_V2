@@ -23,6 +23,7 @@ namespace Shopping.Models.Domain
             public DbSet<SKUAttributeModel> SKUAttributes { get; set; }
             public DbSet<SKUModel> SKUs { get; set; }
             public DbSet<FeaturedProductsModel> FeaturedProducts { get; set; }
+            public DbSet<ProductColourModel> ProductColours { get; set; }
             public DbSet<BannerModel> BannerProducts { get; set; }
             public DbSet<ProductAttributeModel> ProductAttributes { get; set; }
             public DbSet<ProductReviewModel> ProductReviews { get; set; }

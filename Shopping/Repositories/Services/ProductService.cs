@@ -8,11 +8,11 @@ using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Repositories.Services
 {
-    public class ProductService : IProductService /*, GenericRepository<SKUModel>*/
+    public class ProductService : GenericRepository<ProductModel>, IProductService
     {
         private readonly DatabaseContext _context;
 
-        public ProductService(DatabaseContext context)
+        public ProductService(DatabaseContext context) : base(context)
         {
             _context = context;
         }
@@ -106,6 +106,11 @@ namespace Shopping.Repositories.Services
 
             _context.ProductReviews.Add(review);
             await _context.SaveChangesAsync();
+        }
+
+        public List<ProductColourModel> GetProductColours()
+        {
+            return _context.ProductColours.ToList();
         }
 
     }

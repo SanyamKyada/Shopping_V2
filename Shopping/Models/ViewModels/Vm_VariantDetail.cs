@@ -9,7 +9,7 @@
         public int QuantityInStock { get; set; }
         public int MinimumInventoryAlert { get; set; }
         public IFormFile ThumbImage { get; set; }
-        public string Color { get; set; }
+        public int ColorId { get; set; }
         public string Style { get; set; }
         public string Description { get; set; }
     }

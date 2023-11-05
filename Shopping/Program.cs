@@ -53,13 +53,15 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<DatabaseContext>()
      .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>(); // Registerd out repository
-builder.Services.AddScoped<IMenuService, MenuService>(); // Registerd out repository
-builder.Services.AddScoped<ICartService, CartService>(); // Registerd out repository
-builder.Services.AddScoped<ISearchService, SearchService>(); // Registerd out repository
-builder.Services.AddScoped<IProductService, ProductService>(); // Registerd out repository
-builder.Services.AddScoped<IAttributeService, AttributeService>(); // Registerd out repository
-builder.Services.AddTransient(typeof(IAdminService<>), typeof(AdminService<>)); ; // Registerd out repository
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>(); // Registerd repository
+builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<ICartService, CartService>(); 
+builder.Services.AddScoped<ISearchService, SearchService>(); 
+builder.Services.AddScoped<IProductService, ProductService>(); 
+builder.Services.AddScoped<IAttributeService, AttributeService>(); 
+builder.Services.AddScoped<IVariantsService, VariantsService>(); 
+builder.Services.AddScoped<IProductImageService, ProductImageService>(); 
+builder.Services.AddTransient(typeof(IAdminService<>), typeof(AdminService<>)); ; // Registerd generic repository
 
 //  <----> //
 //builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
