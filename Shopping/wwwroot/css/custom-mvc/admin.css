@@ -15,6 +15,10 @@
     margin: 0 0 45px 0;
 }
 
+    .varient-detail .varients-outer:last-child {
+        margin-bottom: 0;
+    }
+
 .varient-detail .varients-inner,
 .varient-images .images-inner {
     /* border: 1.3px dashed#949090;*/
@@ -57,90 +61,52 @@
     margin-left: 20px;
 }
 
+.grid-8{
+    width: 460px;
+}
 
+.dropdown__selected {
+    border: none;
+    height: 30px;
+    background: #FFF;
+    border-radius: 5px;
+    border-bottom: 1px solid #C2CBD2;
+    border-right: 1px solid #C2CBD2;
+    color: #b7b7b7;
+    font-size: 12px;
+    text-indent: 10px;
+    margin-bottom: 20px;
+    float: left;
+    margin-right: 10px;
+    width: 211px;
+}
+
+.varient-detail #btn-save-varient {
+    border: none;
+    height: 28px;
+    border-radius: 5px;
+    border-bottom: 1px solid #C2CBD2;
+    border-right: 1px solid #C2CBD2;
+    font-size: 12px;
+    margin-bottom: 20px;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background: #696969;
+    color: white;
+    padding: 2px 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.varient-detail span{
+    display: block !important;
+    margin: 10px 0px;
+}
 /*-------------------------------------------------------------------------------------------------------------------------------|
 |                                         AttributeMaster.cshtml & SpecificationAttribute.cshtml                                 |
 |<------------------------------------------------------------------------------------------------------------------------------*/
-
-
 ::selection {
     background: #5372F0;
 }
-
-
-    .wrapper :where(.title, li, li i, .details) {
-        display: flex;
-        align-items: center;
-    }
-
-    .wrapper .content {
-        margin: 10px 0;
-    }
-
-.content p {
-    font-size: 15px;
-    margin-bottom: 5px;
-}
-
-.content ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 12px 0;
-}
-
-    .content ul li {
-        color: #333;
-        margin: 4px 3px;
-        list-style: none;
-        border-radius: 5px;
-        background: #F2F2F2;
-        padding: 5px 8px 5px 10px;
-        border: 1px solid #e3e1e1;
-    }
-
-        .content ul li i {
-            height: 20px;
-            width: 20px;
-            color: #808080;
-            margin-left: 8px;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 50%;
-            background: #dfdfdf;
-            justify-content: center;
-        }
-
-    .content ul input {
-        flex: 1;
-        padding: 5px;
-        border: none;
-        outline: none;
-        font-size: 16px;
-        border-radius: 5px;
-        text-indent: 10px;
-        margin-bottom: 0;
-        margin-top: 5px;
-    }
-
-.wrapper .details {
-    justify-content: space-between;
-}
-
-.details button {
-    border: none;
-    outline: none;
-    color: #fff;
-    font-size: 12px;
-    cursor: pointer;
-    padding: 5px 12px;
-    border-radius: 5px;
-    background: #696969;
-    transition: background 0.3s ease;
-}
-
-    .details button:hover {
-        background: #435564;
-    }
 
 .padding25 span {
     display: contents;

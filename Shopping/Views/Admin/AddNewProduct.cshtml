@@ -1,7 +1,115 @@
 ﻿@inject Shopping.Repositories.Infrastructure.IMenuService _menuService;
 
+@{
+    var categories = _menuService.GetAll();
+}
+
 @section Styles{
     <link href="~/css/custom-mvc/admin.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #009e6c;
+            --border-color: #eee;
+        }
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown__selected {
+            display: flex;
+            align-items: center;
+            /*width: 100%;
+            height: 40px;
+            padding: 0 20px 0 10px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);*/
+            position: relative;
+            cursor: pointer;
+            transition: box-shadow .3s ease;
+        }
+
+            .dropdown__selected::after {
+                top: calc(50% - 2px);
+                right: 10px;
+                border: solid transparent;
+                content: '';
+                height: 0;
+                width: 0;
+                position: absolute;
+                border-top-color: #000;
+                border-width: 4px;
+                margin-left: -4px;
+            }
+
+            .dropdown__selected:hover {
+                box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            }
+
+        .dropdown__menu {
+            position: absolute;
+            /*top: 100%;*/
+            left: 0;
+            width: 210px;
+            border: 1px solid var(--border-color);
+            border-top: 0;
+            background-color: #fff;
+            z-index: 5;
+            display: none;
+            margin-top:130px;
+        }
+
+        .dropdown__menu_items {
+            max-height: 210px;
+            overflow-y: auto;
+        }
+
+        .dropdown__menu_search {
+            display: block;
+            width: 100%;
+            border: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding: 4px;
+            outline: 0;
+            background-color: #f9f9f9;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 0.1875rem;
+        }
+
+        .dropdown__menu_searchSpan{
+            padding:4px;
+            display:block !important;
+            margin-bottom: 0 !important
+        }
+
+        .dropdown__menu_search:focus{
+            border: 1px solid #aaa;
+            transition: border-color;
+            outline: none;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,.06), 0 0 5px rgba(19,131,179,.7);
+        }
+
+        .dropdown__menu_item {
+            padding: 8px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+            .dropdown__menu_item:last-child {
+                border-bottom: 0;
+            }
+
+            .dropdown__menu_item:hover {
+                background-color: var(--border-color);
+            }
+
+            .dropdown__menu_item.selected,
+            .dropdown__menu_item.selected:hover {
+                background-color: var(--primary-color);
+                color: #fff;
+            }
+    </style>
 }
 
 <div class="container_16 padding50">
@@ -14,29 +122,38 @@
                         <h2 class="title h2bg">Product Details</h2>
                     </div>
                     <div class="div-h50">
-                        <select class="full req" id="" name="CategoryId">
+                        <select class="full req" id="pd_category" name="CategoryId">
                             <option value="" selected disabled>Sub Category</option>
-                            @foreach (var category in _menuService.Get(filter: category => category.ParentItemId > 1, orderBy: category => category.OrderBy(x => x.Name)))
+                            @foreach (var category in categories.Where(c => c.ParentItemId > 1).OrderBy(c => c.Name))
                             {
-                                <option value="@category.Id">@category.Name</option>
+                                <option data-parent-name="@categories.FirstOrDefault(c=>c.Id == @category.ParentItemId).Name"
+                                    data-name="@category.Name"
+                                    value="@category.Id">@category.Name</option>
                             }
                         </select>
+                        <input type="hidden" name="CategoryName" id="CategoryName" value="">
+                        <input type="hidden" name="ParentCategoryName" id="ParentCategoryName" value="">
+
                         <input type="text" class="full req" name="ProductName" id="bname" placeholder="Product Name" />
+                        <span class="text-danger" id="productDetailsFormError"></span>
                     </div>
-                
-                    <div class="varient-detail">
+
+                    <div class="varient-detail mt-3">
                         <div class="shiztitle2">
                             <h2 class="title h2bg">Variants Detail</h2>
                             <img id="btn-new-varient" src="/images/button.png" />
                             <img id="btn-copy-varient" src="/images/copy_icon.png" />
                             <img id="btn-delete-varient" src="/images/delete_icon_red.png">
                         </div>
-                    
+
                         <div id="skuDiv">
                         </div>
+
+                        <span class="text-danger" id="variantsDetailFormError"></span>
+                        <button id="btn-save-varient" type="button">Save</button>
                     </div>
 
-                    <div class="varient-images">
+                    <div class="varient-images mt-3">
                         <div class="shiztitle2">
                             <h2 class="title h2bg">Product Images</h2>
                             <img id="btn-new-images" src="/images/button.png" />
@@ -46,7 +163,17 @@
                         <div id="imagesDiv">
                         </div>
                     </div>
-                    <input type="submit" class="mailsubmit" style="float: left;margin-top: 0;" id="btnSkuFormSubmit" />
+
+                    <div class="product-tags mt-3">
+                        <div class="shiztitle2">
+                            <h2 class="title h2bg">Product Tags</h2>
+                        </div>
+
+                        <div id="tInputsDiv" class="grid-8">
+                            <input type="text" class="full" id="tInput" placeholder="Values" />
+                        </div>
+                    </div>
+                    <input type="button" class="mailsubmit" style="float: left;margin-top: 0;" id="btnSkuFormSubmit" value="submit"/>
                 </form>
             </div>
 

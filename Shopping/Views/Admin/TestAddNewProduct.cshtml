@@ -1,0 +1,419 @@
+﻿@inject Shopping.Repositories.Infrastructure.IMenuService _menuService;
+
+@{
+    var categories = _menuService.GetAll();
+}
+
+<style>
+    .custom-card-container {
+        margin: 50px 0px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-clip: border-box;
+        border: 0 solid rgba(0,0,0,.125);
+        border-radius: 0.25rem;
+        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+        margin-bottom: 1rem;
+        border-top: 3px solid #007bff;
+    }
+
+    .custom-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: aliceblue;
+        position: relative;
+        border: 0 solid rgba(0,0,0,.125);
+        padding: 0.75rem 1.25rem;
+        font-size: 18px;
+    }
+
+    .img-add-new {
+        cursor: pointer;
+        height: 29px;
+        margin-left: 10px;
+    }
+
+    .img-copy, .img-save, .img-delete {
+        cursor: pointer;
+        height: 29px;
+    }
+
+    .btn-openclose-card:focus {
+        box-shadow: none;
+    }
+
+    .varients-outer {
+        padding: 20px 20px 0px 20px;
+    }
+
+    .varients-inner, .images-inner {
+        border-bottom: 1px solid grey;
+    }
+
+        .varients-inner:last-child {
+            border-bottom: none; /* Remove the border from the last element */
+        }
+
+    .images-outer {
+        padding: 20px;
+    }
+
+    .img-upload-show {
+        display: flex;
+        align-items: center;
+    }
+
+    .sideimg-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 20px;
+        max-width: 370px;
+        margin-left: 20px;
+    }
+
+    #tInputsDiv {
+        padding: 20px 20px 10px 20px;
+    }
+
+    #skuDiv .description {
+        font-size: 16px;
+        padding: 20px 20px 0px 20px;
+    }
+</style>
+
+<style>
+    :root {
+        --primary-color: #009e6c;
+        --border-color: #eee;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown__selected {
+        display: flex;
+        align-items: center;
+        /*width: 100%;
+                    height: 40px;
+                    padding: 0 20px 0 10px;
+                    font-size: 14px;
+                    border: 1px solid var(--border-color);*/
+        position: relative;
+        cursor: pointer;
+        transition: box-shadow .3s ease;
+    }
+
+        .dropdown__selected::after {
+            top: calc(50% - 2px);
+            right: 10px;
+            border: solid transparent;
+            content: '';
+            height: 0;
+            width: 0;
+            position: absolute;
+            border-top-color: #000;
+            border-width: 4px;
+            margin-left: -4px;
+        }
+
+        .dropdown__selected:hover {
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+
+    .dropdown__menu {
+        position: absolute;
+        /*top: 100%;*/
+        left: 0;
+        width: 210px;
+        border: 1px solid var(--border-color);
+        border-top: 0;
+        background-color: #fff;
+        z-index: 5;
+        display: none;
+        margin-top: 130px;
+    }
+
+    .dropdown__menu_items {
+        max-height: 210px;
+        overflow-y: auto;
+    }
+
+    .dropdown__menu_search {
+        display: block;
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--border-color);
+        padding: 4px;
+        outline: 0;
+        background-color: #f9f9f9;
+        font-size: 12px;
+        border: 1px solid #ddd;
+        border-radius: 0.1875rem;
+    }
+
+    .dropdown__menu_searchSpan {
+        padding: 4px;
+        display: block !important;
+        margin-bottom: 0 !important
+    }
+
+    .dropdown__menu_search:focus {
+        border: 1px solid #aaa;
+        transition: border-color;
+        outline: none;
+        box-shadow: inset 0 1px 3px rgba(0,0,0,.06), 0 0 5px rgba(19,131,179,.7);
+    }
+
+    .dropdown__menu_item {
+        padding: 8px;
+        border-bottom: 1px solid var(--border-color);
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+        .dropdown__menu_item:last-child {
+            border-bottom: 0;
+        }
+
+        .dropdown__menu_item:hover {
+            background-color: var(--border-color);
+        }
+
+        .dropdown__menu_item.selected,
+        .dropdown__menu_item.selected:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+    .dropdown__selected {
+        border: none;
+        height: 30px;
+        background: #FFF;
+        border-radius: 5px;
+        border-bottom: 1px solid #C2CBD2;
+        border-right: 1px solid #C2CBD2;
+        color: #b7b7b7;
+        font-size: 12px;
+        text-indent: 10px;
+        margin-bottom: 20px;
+        float: left;
+        margin-right: 10px;
+        width: 211px;
+    }
+</style>
+
+<div class="container_16 padding50">
+
+    <div class="grid_16">
+        <form class='form-sku' asp-action="AddNewProduct" asp-controller="Admin" method="post" enctype="multipart/form-data">
+
+            <div class="custom-card-container">
+                <div class="custom-card-header">
+                    <div class="card-title">
+                        Product Detail
+                    </div>
+                    <div class="card-tools float-right">
+                        <button type="button" class="btn btn-tool btn-openclose-card" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="custom-card-body" style="padding: 20px 0px 0px 20px;">
+                    <select class="full req" id="pd_category" name="CategoryId">
+                        <option value="" selected disabled>Category</option>
+                        @foreach (var category in categories.Where(c => c.ParentItemId > 1).OrderBy(c => c.Name))
+                        {
+                            <option data-parent-name="@categories.FirstOrDefault(c=>c.Id == @category.ParentItemId).Name"
+                                    data-name="@category.Name"
+                                    value="@category.Id">@category.Name</option>
+                        }
+                    </select>
+                    <input type="hidden" name="CategoryName" id="CategoryName" value="">
+                    <input type="hidden" name="ParentCategoryName" id="ParentCategoryName" value="">
+
+                    <input type="text" class="full req" name="ProductName" id="bname" placeholder="Product Name" />
+                </div>
+            </div>
+            <span class="text-danger" id="productDetailsFormError"></span>
+
+            <div class="custom-card-container varient-detail">
+                <div class="custom-card-header">
+                    <div class="card-title">
+                        Variants Detail
+                        <img id="btn-new-varient" class="img-add-new" src="/images/button.png">
+                        <img id="btn-copy-varient" class="img-copy" src="/images/copy_icon.png">
+                        <img id="btn-save-varient" class="img-save" src="/images/save-icon.png">
+                        <img id="btn-delete-varient" class="img-delete" src="/images/delete_icon_red.png">
+                    </div>
+                    <div class="card-tools float-right">
+                        <button type="button" class="btn btn-tool btn-openclose-card" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="custom-card-body" id="skuDiv">
+                    <p class="description">You can add one or more variants of the product. Variants are different versions of your product that may have variations in attributes like color, size, or other features. For example, if you're selling t-shirts, you may have different color and size options for the same design.</p>
+                </div>
+            </div>
+            <span class="text-danger" id="variantsDetailFormError"></span>
+
+            <div class="custom-card-container varient-images">
+                <div class="custom-card-header">
+                    <div class="card-title">
+                        Product Images
+                        <img id="btn-new-images" class="img-add-new" src="/images/button.png">
+                        <img id="btn-delete-images" class="img-delete" src="/images/delete_icon_red.png">
+                    </div>
+                    <div class="card-tools float-right">
+                        <button type="button" class="btn btn-tool btn-openclose-card" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="custom-card-body" id="imagesDiv">
+                </div>
+            </div>
+
+            <div class="custom-card-container">
+                <div class="custom-card-header">
+                    <div class="card-title">
+                        Product Tags
+                    </div>
+                    <div class="card-tools float-right">
+                        <button type="button" class="btn btn-tool btn-openclose-card" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="tInputsDiv" class="grid-8 custom-card-body">
+                    <input type="text" class="full" id="tInput" placeholder="Values" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    @*<div class="grid_16">
+    <div class="padding25">
+    <div class="billing">
+    <form class='form-sku' asp-action="AddNewProduct" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <div class="shiztitle2">
+    <h2 class="title h2bg">Product Details</h2>
+    </div>
+    <div class="div-h50">
+    <select class="full req" id="pd_category" name="CategoryId">
+    <option value="" selected disabled>Sub Category</option>
+    @foreach (var category in categories.Where(c => c.ParentItemId > 1).OrderBy(c => c.Name))
+    {
+    <option data-parent-name="@categories.FirstOrDefault(c=>c.Id == @category.ParentItemId).Name"
+    data-name="@category.Name"
+    value="@category.Id">@category.Name</option>
+    }
+    </select>
+    <input type="hidden" name="CategoryName" id="CategoryName" value="">
+    <input type="hidden" name="ParentCategoryName" id="ParentCategoryName" value="">
+
+    <input type="text" class="full req" name="ProductName" id="bname" placeholder="Product Name" />
+    <span class="text-danger" id="productDetailsFormError"></span>
+    </div>
+
+    <div class="varient-detail mt-3">
+    <div class="shiztitle2">
+    <h2 class="title h2bg">Variants Detail</h2>
+    <img id="btn-new-varient" src="/images/button.png" />
+    <img id="btn-copy-varient" src="/images/copy_icon.png" />
+    <img id="btn-delete-varient" src="/images/delete_icon_red.png">
+    </div>
+
+    <div id="skuDiv">
+    </div>
+
+    <span class="text-danger" id="variantsDetailFormError"></span>
+    <button id="btn-save-varient" type="button">Save</button>
+    </div>
+
+    <div class="varient-images mt-3">
+    <div class="shiztitle2">
+    <h2 class="title h2bg">Product Images</h2>
+    <img id="btn-new-images" src="/images/button.png" />
+    <img id="btn-delete-images" src="/images/delete_icon_red.png">
+    </div>
+
+    <div id="imagesDiv">
+    </div>
+    </div>
+
+    <div class="product-tags mt-3">
+    <div class="shiztitle2">
+    <h2 class="title h2bg">Product Tags</h2>
+    </div>
+
+    <div id="tInputsDiv" class="grid-8">
+    <input type="text" class="full" id="tInput" placeholder="Values" />
+    </div>
+    </div>
+    <input type="button" class="mailsubmit" style="float: left;margin-top: 0;" id="btnSkuFormSubmit" value="submit" />
+    </form>
+    </div>
+
+    </div>
+    </div>*@
+</div>
+
+@section scripts{
+    <script src="~/js/custom-mvc/admin.js"></script>
+
+    <script>
+
+        $('.btn-openclose-card').click(function () {
+            $('#skuDiv').css('overflow', '');
+            const filterBody = $(this).closest('div.custom-card-header').next();
+            if (filterBody && filterBody.hasClass('custom-card-body')) {
+                if (filterBody.hasClass('hidden')) {
+                    filterBody.slideDown(200, function () {
+                        filterBody.removeClass("hidden");
+                    });
+                    $(this).find('i').removeClass('fa fa-plus');
+                    $(this).find('i').addClass('fa fa-minus');
+                }
+                else {
+                    filterBody.slideUp(200, function () {
+                        filterBody.addClass("hidden");
+                    });
+                    $(this).find('i').removeClass('fa fa-minus');
+                    $(this).find('i').addClass('fa fa-plus');
+                }
+                //$('#skuDiv').css('overflow','unset');
+            }
+            $('#skuDiv').css('overflow', 'unset');
+        })
+
+        $('#skuDiv').live('DOMNodeInserted', function (event) {
+            var $target = $(event.target);
+            if ($target.hasClass('varients-outer')) {
+                // Add border-bottom to all .varients-inner elements
+                $('#skuDiv .varients-inner').css('border-bottom', '1px solid grey');
+
+                // Remove the border-bottom from the last .varients-inner element
+                $('#skuDiv .varients-inner:last').css('border-bottom', 'none');
+            }
+        });
+
+        $('#imagesDiv').live('DOMNodeInserted', function (event) {
+            var $target = $(event.target);
+            if ($target.hasClass('images-outer')) {
+                // Add border-bottom to all .varients-inner elements
+                $('#imagesDiv .images-inner').css('border-bottom', '1px solid grey');
+
+                // Remove the border-bottom from the last .varients-inner element
+                $('#imagesDiv .images-inner:last').css('border-bottom', 'none');
+            }
+        });
+
+
+    </script>
+}

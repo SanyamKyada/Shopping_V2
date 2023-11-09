@@ -54,8 +54,8 @@ namespace Shopping.Controllers
                 Values = formData.Values
             };
 
-            _attrService.Insert(model);
-            _attrService.Save();
+            //_attrService.Insert(model);
+            //_attrService.Save();
 
             return Ok();
         }
@@ -206,6 +206,12 @@ namespace Shopping.Controllers
             var attrs = _attrService.GetAll();
             var colours = _productService.GetProductColours();
             return Json(new { attrsArray = attrs, productColoursArray = colours});
+        }
+
+        [HttpGet]
+        public IActionResult TestAddNewProduct()
+        {
+            return View();
         }
     }
 }

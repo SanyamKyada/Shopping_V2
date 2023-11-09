@@ -133,6 +133,24 @@ $(document).ready(function () {
     }).filter(':first').click();
 });
 
+function setImageHeigthWidth(elem) { // will recive element(container) in which image will be loaded
+    debugger
+    var imageWidth = $(elem).find('img').width();
+    var imageHeigth = $(elem).find('img').height();
+    var maxWidth = $(elem).width(); 
+    var maxHeight = $(elem).height();
+
+    var scaleWidth = maxWidth / imageWidth;
+    var scaleHeight = maxHeight / imageHeigth;
+
+    var scale = Math.min(scaleWidth, scaleHeight);
+
+    var scaledWidth = imageWidth * scale;
+    var scaledHeight = imageHeigth * scale;
+
+    $(elem).find('img').css('width', scaledWidth);
+    $(elem).find('img').css('height', scaledHeight);
+}
 
 /*-------------------------------------------------------------------------------------------------------------------------------|
 |                                                Custom Tags-input (jQuery prototype)                                            |
@@ -157,7 +175,7 @@ $(document).ready(function () {
             var tagInput = inputElement.clone();
             var details = $("<div class='details'></div>");
             var tagRemaining = $("<p><span id='tagRemaining'></span> tags are remaining</p>");
-            var removeAllBtn = $("<button id='removeAllTags'>Remove All</button>");
+            var removeAllBtn = $("<button type='button' id='removeAllTags'>Remove All</button>");
 
             if (settings.includeTitle) {
                 var title = $("<div class='title'><h2>Tags</h2></div>");
@@ -217,6 +235,7 @@ $(document).ready(function () {
 
             function addTag(e) {
                 if (e.keyCode === 13/* || e.keyCode === 188*/) {
+                    e.preventDefault();
                     let tag = e.target.value.trim();
                     if (tag.length > 0 && !tags.includes(tag)) {
                         if (tags.length < maxTags) {
@@ -239,3 +258,110 @@ $(document).ready(function () {
         });
     };
 })(jQuery);
+
+//(function ($) {
+//    $.fn.CreateSearchDropdown = function () {
+//        return this.each(function () {
+//            var dropdown = $(this);
+//            var options = dropdown.find('option');
+//            var optionsArr = options.toArray();
+
+//            var customDropdown = $('<div class="dropdown"></div>');
+//            dropdown.after(customDropdown);
+
+//            var selected = $('<div class="dropdown__selected"></div>');
+//            selected.text(optionsArr[0].textContent);
+//            customDropdown.append(selected);
+
+//            var menu = $('<div class="dropdown__menu"></div>');
+//            customDropdown.append(menu);
+
+//            selected.click(function () {
+//                if (menu.is(':visible')) {
+//                    menu.hide();
+//                } else {
+//                    menu.show();
+//                    menu.find('input').focus();
+//                }
+//            });
+
+//            var search = $('<input class="dropdown__menu_search" type="text" placeholder="Search...">');
+//            menu.append(search);
+
+//            var menuItemsWrapper = $('<div class="dropdown__menu_items"></div>');
+//            menu.append(menuItemsWrapper);
+
+//            optionsArr.forEach(function (option) {
+//                var item = $('<div class="dropdown__menu_item" data-value="' + option.value + '"></div>');
+//                item.text(option.textContent);
+//                menuItemsWrapper.append(item);
+
+//                item.click(function () {
+//                    setSelected(selected, dropdown, menu, $(this));
+//                });
+//            });
+
+//            menuItemsWrapper.find('div').first().addClass('selected');
+
+//            search.keyup(function () {
+//                filterItems(optionsArr, menu, search);
+//            });
+
+//            $(document).click(function (e) {
+//                if ($(e.target).closest('.dropdown').length === 0 && e.target !== customDropdown && menu.is(':visible')) {
+//                    menu.hide();
+//                }
+//            });
+
+//            dropdown.hide();
+//        });
+
+//        function setSelected(selected, dropdown, menu, item) {
+//            var value = item.data('value');
+//            var label = item.text();
+
+//            selected.text(label);
+//            dropdown.val(value);
+
+//            menu.hide();
+//            menu.find('input').val('');
+//            menu.find('div').each(function () {
+//                if ($(this).hasClass('selected')) {
+//                    $(this).removeClass('selected');
+//                }
+//                if ($(this).is(':hidden')) {
+//                    $(this).show();
+//                }
+//            });
+//            item.addClass('selected');
+//        }
+
+//        function filterItems(itemsArr, menu, search) {
+//            var customOptions = menu.find('.dropdown__menu_items div');
+//            var value = search.val().toLowerCase();
+//            var filteredItems = itemsArr.filter(function (option) {
+//                return option.value.toLowerCase().includes(value);
+//            });
+//            var indexesArr = filteredItems.map(function (option) {
+//                return itemsArr.indexOf(option);
+//            });
+
+//            itemsArr.forEach(function (option) {
+//                if (!indexesArr.includes(itemsArr.indexOf(option))) {
+//                    customOptions.eq(itemsArr.indexOf(option)).hide();
+//                } else {
+//                    if (customOptions.eq(itemsArr.indexOf(option)).is(':hidden')) {
+//                        customOptions.eq(itemsArr.indexOf(option)).show();
+//                    }
+//                }
+//            });
+//        }
+//    };
+//})(jQuery);
+
+if ($variantTobeCloned.length > 0) {
+    var variantFormData = getSerializedObject($variantTobeCloned);
+    addDivTag(variantFormData.VariantName, variantFormData.SKU, variantFormData.OriginalPrice, variantFormData.SalePrice
+        , variantFormData.QuantityInStock, variantFormData.MinimumInventoryAlert, variantFormData.ColorId, variantFormData.Style
+        , null, variantFormData.Description);
+}

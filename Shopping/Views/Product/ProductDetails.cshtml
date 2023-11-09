@@ -75,14 +75,14 @@
             text-align: center;
         }
 
-    .mainimg img.ratio3by2{
+    /*.mainimg img.ratio3by2{
         width:90%;
     }
 
     .mainimg img.ratio1by1{
         height:95%;
         margin-left:46px;
-    }
+    }*/
 
     .relprod img.ratio1by1{
         margin-top:8px;
@@ -442,6 +442,11 @@
 
                 });
             }
+
+            var productImages = $('.mainimg,.psimages');
+            $.each(productImages, function (i, elem) {
+                setImageHeigthWidth(elem);
+            });
         });
     </script>
 
