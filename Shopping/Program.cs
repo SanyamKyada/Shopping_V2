@@ -61,6 +61,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IAttributeService, AttributeService>(); 
 builder.Services.AddScoped<IVariantsService, VariantsService>(); 
 builder.Services.AddScoped<IProductImageService, ProductImageService>(); 
+builder.Services.AddScoped<ISKUAttributeService, SKUAttributeService>(); 
 builder.Services.AddTransient(typeof(IAdminService<>), typeof(AdminService<>)); ; // Registerd generic repository
 
 //  <----> //

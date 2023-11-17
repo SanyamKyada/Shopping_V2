@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient.Server;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
+using System.Text.Json;
 using Shopping.Models.Domain;
 using Shopping.Models.DTO;
 using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using Shopping.Repositories.Services;
-using System.Text.Json.Serialization;
 using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Controllers
@@ -20,6 +20,7 @@ namespace Shopping.Controllers
         private readonly IVariantsService _variantService;
         private readonly IProductImageService _imageService;
         private readonly IAttributeService _attrService;
+        private readonly ISKUAttributeService _skuAttrService;
         private readonly IWebHostEnvironment _enviorment;
 
         public AdminController(IMenuService menuService, IAttributeService attrService,IProductService productService, IVariantsService variantsService, IProductImageService imageService, IWebHostEnvironment enviorment)
@@ -54,8 +55,8 @@ namespace Shopping.Controllers
                 Values = formData.Values
             };
 
-            //_attrService.Insert(model);
-            //_attrService.Save();
+            _attrService.Insert(model);
+            _attrService.Save();
 
             return Ok();
         }
@@ -96,6 +97,12 @@ namespace Shopping.Controllers
         [HttpPost]
         public IActionResult AddNewProduct(Vm_ProductWithVariants model)
         {
+            string rootPath = $"/images/products/{model.ParentCategoryName}/{model.CategoryName}";
+            for (int i = 0; i < model.Variants.Count; i++)
+            {
+                var dataList = JsonSerializer.Deserialize<List<Vm_Attribute>>(model.Variants[i].AttrsJSON);
+            }
+
             var product = new ProductModel()
             {
                 Name = model.ProductName,
@@ -122,7 +129,7 @@ namespace Shopping.Controllers
                     SellingPrice = model.Variants[i].SalePrice,
                     Quantity = model.Variants[i].QuantityInStock,
                     MinQuantity = model.Variants[i].MinimumInventoryAlert,
-                    ThumbImage = "",
+                    ThumbImage = $"{rootPath}/{Path.GetFileName(model.Images.FirstOrDefault(img => img.ColourId == model.Variants[i].ColorId).ThumbImage.FileName)}",
                     Colour = productColors.FirstOrDefault(c => c.Id == model.Variants[i].ColorId).Name,
                     Style = model.Variants[i].Style,
                     Description = model.Variants[i].Description,
@@ -130,7 +137,8 @@ namespace Shopping.Controllers
                     CreatedDate = DateTime.Now,
                     CommonSkuId = 0
                 };
-                sku.IsMain = encounteredColorIds.Contains(model.Variants[i].ColorId);
+                if (!encounteredColorIds.Contains(model.Variants[i].ColorId))
+                    encounteredColorIds.Add(model.Variants[i].ColorId);
 
                 if (commonSkuIds.ContainsKey(model.Variants[i].ColorId))
                 {
@@ -138,20 +146,33 @@ namespace Shopping.Controllers
                 }
                 else
                 {
-                    // If not, assign a new CommonSkuId and store it in the dictionary
+                    /// If not, assign a new CommonSkuId and store it in the dictionary
                     sku.CommonSkuId = currentMaxCommonSKUId + 1;
                     commonSkuIds[model.Variants[i].ColorId] = sku.CommonSkuId;
                     currentMaxCommonSKUId++;
                 }
 
-                sku.ThumbImage = $"/images/products/{model.ParentCategoryName}/{model.CategoryName}/{Path.GetFileName(model.Images.FirstOrDefault(img => img.ColourId == model.Variants[i].ColorId).ThumbImage.FileName)}";
+                //sku.ThumbImage = $"{rootPath}/{Path.GetFileName(model.Images.FirstOrDefault(img => img.ColourId == model.Variants[i].ColorId).ThumbImage.FileName)}";
 
                 _variantService.Insert(sku);
+                _variantService.Save();
+
+                var attrList = JsonSerializer.Deserialize<List<Vm_Attribute>>(model.Variants[i].AttrsJSON);
+                foreach (var attr in attrList)
+                {
+                    var skuAttr = new SKUAttributeModel()
+                    {
+                        SKUId = sku.Id,
+                        AttributeMasterId = attr.idmaster,
+                        Value = attr.attrval
+                    };
+                    _skuAttrService.Insert(skuAttr);
+                }
             }
-            _variantService.Save();
+            _skuAttrService.Save();
 
             string wwwPath = _enviorment.WebRootPath; //"D:\\Sanyam\\Playground\\Shopping_V2\\Shopping\\wwwroot"
-            string path = Path.Combine(_enviorment.WebRootPath, $"images/products/{model.ParentCategoryName}/{model.CategoryName}");
+            string path = Path.Combine(_enviorment.WebRootPath, rootPath);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -168,7 +189,7 @@ namespace Shopping.Controllers
                 ProductImage thumbImage = new()
                 {
                     ProductId = product.Id,
-                    ImageUrl = $"/images/products/{model.ParentCategoryName}/{model.CategoryName}/{fileName}",
+                    ImageUrl = $"{rootPath}/{fileName}",
                     IsMain = true,
                     SKUId = 0,
                     CmnSkuId = commonSkuIds[variantImages.ColourId]
@@ -187,7 +208,7 @@ namespace Shopping.Controllers
                     ProductImage image = new()
                     {
                         ProductId = product.Id,
-                        ImageUrl = $"/images/products/{model.ParentCategoryName}/{model.CategoryName}/{sideImageFileName}",
+                        ImageUrl = $"{rootPath}/{sideImageFileName}",
                         IsMain = false,
                         SKUId = 0,
                         CmnSkuId = commonSkuIds[variantImages.ColourId]
@@ -197,7 +218,7 @@ namespace Shopping.Controllers
             }
             _imageService.Save();
 
-            return Ok();
+            return View();
         }
 
         [HttpGet]
@@ -206,12 +227,6 @@ namespace Shopping.Controllers
             var attrs = _attrService.GetAll();
             var colours = _productService.GetProductColours();
             return Json(new { attrsArray = attrs, productColoursArray = colours});
-        }
-
-        [HttpGet]
-        public IActionResult TestAddNewProduct()
-        {
-            return View();
         }
     }
 }

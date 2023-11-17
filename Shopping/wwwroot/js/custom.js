@@ -358,10 +358,3 @@ function setImageHeigthWidth(elem) { // will recive element(container) in which 
 //        }
 //    };
 //})(jQuery);
-
-if ($variantTobeCloned.length > 0) {
-    var variantFormData = getSerializedObject($variantTobeCloned);
-    addDivTag(variantFormData.VariantName, variantFormData.SKU, variantFormData.OriginalPrice, variantFormData.SalePrice
-        , variantFormData.QuantityInStock, variantFormData.MinimumInventoryAlert, variantFormData.ColorId, variantFormData.Style
-        , null, variantFormData.Description);
-}

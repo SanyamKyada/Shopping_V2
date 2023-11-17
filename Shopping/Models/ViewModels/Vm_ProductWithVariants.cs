@@ -19,4 +19,11 @@ namespace Shopping.Models.ViewModels
         public IFormFile ThumbImage { get; set; }
         public List<IFormFile> SideImages { get; set; }
     }
+
+    public class Vm_Attribute
+    {
+        public int idmaster { get; set; }
+        public string attrval { get; set; }
+    }
+
 }

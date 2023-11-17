@@ -12,5 +12,6 @@
         public int ColorId { get; set; }
         public string Style { get; set; }
         public string Description { get; set; }
+        public string AttrsJSON { get; set; }
     }
 }

@@ -48,6 +48,50 @@ $(document).ready(function () {
     });
 });
 
+$('.btn-openclose-card').click(function () {
+    $('#skuDiv').css('overflow', '');
+    const filterBody = $(this).closest('div.custom-card-header').next();
+    if (filterBody && filterBody.hasClass('custom-card-body')) {
+        if (filterBody.hasClass('hidden')) {
+            filterBody.slideDown(200, function () {
+                filterBody.removeClass("hidden");
+            });
+            $(this).find('i').removeClass('fa fa-plus');
+            $(this).find('i').addClass('fa fa-minus');
+        }
+        else {
+            filterBody.slideUp(200, function () {
+                filterBody.addClass("hidden");
+            });
+            $(this).find('i').removeClass('fa fa-minus');
+            $(this).find('i').addClass('fa fa-plus');
+        }
+    }
+    $('#skuDiv').css('overflow', 'unset');
+})
+
+$('#skuDiv').live('DOMNodeInserted', function (event) {
+    var $target = $(event.target);
+    if ($target.hasClass('varients-outer')) {
+        // Add border-bottom to all .varients-inner elements
+        $('#skuDiv .varients-inner').css('border-bottom', '1px solid grey');
+
+        // Remove the border-bottom from the last .varients-inner element
+        $('#skuDiv .varients-inner:last').css('border-bottom', 'none');
+    }
+});
+
+$('#imagesDiv').live('DOMNodeInserted', function (event) {
+    var $target = $(event.target);
+    if ($target.hasClass('images-outer')) {
+        // Add border-bottom to all .varients-inner elements
+        $('#imagesDiv .images-inner').css('border-bottom', '1px solid grey');
+
+        // Remove the border-bottom from the last .varients-inner element
+        $('#imagesDiv .images-inner:last').css('border-bottom', 'none');
+    }
+});
+
 $btnNewVarient.click(function () {
     AddSku();
 });
@@ -69,7 +113,7 @@ function AddSku() {
 }
 
 function addDivTag(value1, value2, value3, value4, value5, value6, value7, value8, value9, value10) {
-    var divhtml = "<div class='varients-outer' data-index='" + skuDivIndex + "'><input type=checkbox id='check_" + skuDivIndex + "'/><div class='varients-inner'>";
+    var divhtml = "<div class='varients-outer' data-index='" + skuDivIndex + "'><input type=checkbox id='check_" + skuDivIndex + "' class='ignore'/></br><span class='text-danger' id='variantsDetailFormSubError'></span><div class='varients-inner'>";
 
     divhtml += "<input type='text' class='full req' name='Variants[" + skuDivIndex + "].VariantName' id='vname' placeholder='Variant name' value='" + value1 + "'/>"
     divhtml += "<input type='text' class='full' name='Variants[" + skuDivIndex + "].SKU' id='blastname' placeholder='SKU'  value='" + value2 + "'/>"
@@ -127,7 +171,7 @@ function getStyleHtml(selected, index) {
 }
 
 function getSpecicationAttributesHtml(selected, categoryId, index) {
-    let result = '<div class="spec-div">';
+    let result = '<div class="spec-div"><input type="hidden" class="ignore" id="AttrsJSON" name="Variants[' + index + '].AttrsJSON">';
     let attrs = $.grep(specificationAttributes, function (item) {
         return item.categoryId == $categoryIdSelect.val();
     });
@@ -136,7 +180,7 @@ function getSpecicationAttributesHtml(selected, categoryId, index) {
         if (attr.componentType === 'Dropdown') {
             const ddlValues = attr.values.split(',');
 
-            result += "<select class='half req spec-attribute' id='' name='SpecificationAttributes[" + index + "]." + attr.lable + "'>";
+            result += "<select class='half req spec-attribute' id='' name='SpecificationAttributes[" + index + "]." + attr.lable + "' data-idmaster='" + attr.id + "'>";
 
             result += "<option value='' selected disabled>" + attr.lable + "</option>";
             for (var i = 0; i < ddlValues.length; i++) {
@@ -146,7 +190,7 @@ function getSpecicationAttributesHtml(selected, categoryId, index) {
             result += "</select>";
         }
         else {
-            result += "<input type='text' class='half req spec-attribute' name='SpecificationAttributes[" + index + "]." + attr.lable + "' placeholder='" + attr.lable + "'/>"
+            result += "<input type='text' class='half req spec-attribute' name='SpecificationAttributes[" + index + "]." + attr.lable + "' placeholder='" + attr.lable + "' data-idmaster='" + attr.id + "'/>"
         }
     });
 
@@ -159,7 +203,7 @@ $btnNewImages.click(function () {
 
 function AddImages() {
 
-    if (!$('#skuDiv').hasClass('variants-saved')) {
+    if ($('#skuDiv > .varients-outer').length == 0 || !$('#skuDiv').hasClass('variants-saved')) {
         $('#variantsDetailFormError').text('You need to save the variants detail before you can add images for this product.');
         return;
     }
@@ -462,30 +506,59 @@ $categoryIdSelect.live('change', function () {
 $btnSaveVarient.click(function () {
 
     let saveSuccess = true;
-    var formElems = $('#skuDiv').find('.varients-outer').find('input:not([type="checkbox"], .dropdown__menu_search), select, textarea');
-    $.each(formElems, function (i, elem) {
-        if ($(elem).val() == '') {
-            saveSuccess = false;
-            return false;
-        }
+    const forms = $('#skuDiv').find('.varients-outer');
+    $.each(forms, function (i, form) {
+        const errorSpan = $(form).children('#variantsDetailFormSubError');
+        errorSpan.text('');
+
+        const formElems = $(form).find('input:not(.ignore), select, textarea');
+        $.each(formElems, function (i, elem) {
+            if ($(elem).val() == '') {
+                saveSuccess = false;
+                errorSpan.text('Please fill all the details');
+                return false;
+            }
+        });
     });
 
     if (saveSuccess) {
         $('#skuDiv').find('.varients-outer').find('input,select,textarea').attr('disabled', true);
         $('#skuDiv').addClass('variants-saved');
-        $('#variantsDetailFormError').text('');
+        //$('#variantsDetailFormError').text('');
 
         var colorSelectElems = $('#skuDiv .varients-outer').find('[id^="colourSelect_"]');
         $.each(colorSelectElems, function (i, select) {
             colorsUserSelected.push($(select).val());
         });
-    }
-    else {
-        $('#variantsDetailFormError').text('Please fill all the details');
+        colorsUserSelected = Array.from(new Set( // Will return unique values
+            colorSelectElems.map(function (i, elem) {
+                return $(elem).val();
+            })
+            .get()
+        ))
     }
 });
 
 $("#btnSkuFormSubmit").click(function () {
+    $('#skuDiv').find('.varients-outer').find('input,select,textarea').attr('disabled', false);
+
+    // Set Spec-attrs's JSON Value
+    const varientForms = $('#skuDiv').find('.varients-inner');
+    $.each(varientForms, function (i, elem) {
+        const inp = $(elem).find('input#AttrsJSON');
+
+        let result = [];
+        const attrInps = inp.closest('.spec-div').find('.spec-attribute');
+        $.each(attrInps, function (i, bElem) {
+            let obj = {}
+            obj.idmaster = $(bElem).data('idmaster');
+            obj.attrval = $(bElem).val().trim();
+            result.push(obj)
+        })
+
+        inp.val(JSON.stringify(result));
+    })
+
     $(".form-sku").submit();
 });
 
@@ -544,7 +617,7 @@ function createSearchSelect(index) {
 
         // Create serach input element
         // Add class, type and placeholder to this element and append it to menu element
-        var search = $('<input class="dropdown__menu_search" name="" type="text" placeholder="Search...">');
+        var search = $('<input class="dropdown__menu_search ignore" name="" type="text" placeholder="Search...">');
         var searchSpan = $('<span class="dropdown__menu_searchSpan"></span>');
         searchSpan.append(search);
         menu.append(searchSpan);

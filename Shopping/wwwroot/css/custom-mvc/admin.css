@@ -2,51 +2,63 @@
 |                                                     AddNewProduct.cshtml                                                       |
 |<------------------------------------------------------------------------------------------------------------------------------*/
 
-.shiztitle2 {
-    width: 100%;
-    background: url(/images/shizzle2.png) repeat-x 0 36px;
-    height: 80px;
+
+.custom-card-container {
+    margin: 50px 0px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+    border-top: 3px solid #007bff;
 }
 
-.varient-detail .varients-outer,
-.varient-images .images-outer {
-    padding: 4px;
-    background: rgb(0 0 0 / 4%);
-    margin: 0 0 45px 0;
+.custom-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: aliceblue;
+    position: relative;
+    border: 0 solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    font-size: 18px;
 }
 
-    .varient-detail .varients-outer:last-child {
-        margin-bottom: 0;
-    }
-
-.varient-detail .varients-inner,
-.varient-images .images-inner {
-    /* border: 1.3px dashed#949090;*/
-    border-radius: 2px;
-    padding: 10px 0px 0px 10px;
-}
-
-.varient-detail .shiztitle2 img,
-.varient-images .shiztitle2 img {
-    height: 43%;
-    margin-top: 25px;
+.img-add-new {
     cursor: pointer;
-    background: url(/images/h2bg.png) repeat;
-    /*padding-right: 10px;*/
+    height: 29px;
+    margin-left: 10px;
 }
 
-    .varient-detail .shiztitle2 img:nth-last-child(-n+2) {
-        cursor: not-allowed;
-    }
-    .varient-images .shiztitle2 img:last-child {
-        cursor: not-allowed;
+.img-copy, .img-save, .img-delete {
+    cursor: pointer;
+    height: 29px;
+}
+
+.btn-openclose-card:focus {
+    box-shadow: none;
+}
+
+.varients-outer {
+    padding: 20px 20px 0px 20px;
+}
+
+.varients-inner, .images-inner {
+    border-bottom: 1px solid grey;
+}
+
+    .varients-inner:last-child {
+        border-bottom: none; /* Remove the border from the last element */
     }
 
-    .varient-detail .shiztitle2 img:last-child,
-    .varient-images .shiztitle2 img:last-child {
-        border-radius: 17px;
-        padding: 0;
-    }
+.images-outer {
+    padding: 20px;
+}
 
 .img-upload-show {
     display: flex;
@@ -61,46 +73,32 @@
     margin-left: 20px;
 }
 
-.grid-8{
-    width: 460px;
+#tInputsDiv {
+    padding: 20px 20px 10px 20px;
 }
 
-.dropdown__selected {
-    border: none;
-    height: 30px;
-    background: #FFF;
-    border-radius: 5px;
-    border-bottom: 1px solid #C2CBD2;
-    border-right: 1px solid #C2CBD2;
-    color: #b7b7b7;
-    font-size: 12px;
-    text-indent: 10px;
-    margin-bottom: 20px;
-    float: left;
-    margin-right: 10px;
-    width: 211px;
+#skuDiv .description {
+    font-size: 16px;
+    padding: 20px 20px 0px 20px;
 }
 
-.varient-detail #btn-save-varient {
-    border: none;
-    height: 28px;
-    border-radius: 5px;
-    border-bottom: 1px solid #C2CBD2;
-    border-right: 1px solid #C2CBD2;
-    font-size: 12px;
-    margin-bottom: 20px;
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
-    background: #696969;
-    color: white;
-    padding: 2px 18px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.dropdown__menu_items::-webkit-scrollbar {
+    width: 7px;
 }
 
-.varient-detail span{
-    display: block !important;
-    margin: 10px 0px;
+.dropdown__menu_items::-webkit-scrollbar-track {
+    background-color: lightgray;
 }
+
+.dropdown__menu_items::-webkit-scrollbar-thumb {
+    background: grey;
+    border-radius: 10px;
+}
+
+    .dropdown__menu_items::-webkit-scrollbar-thumb:hover {
+        background: #b30000;
+    }
+
 /*-------------------------------------------------------------------------------------------------------------------------------|
 |                                         AttributeMaster.cshtml & SpecificationAttribute.cshtml                                 |
 |<------------------------------------------------------------------------------------------------------------------------------*/
@@ -113,8 +111,7 @@
 }
 
 .toast {
-    margin-left: 25px;
-    margin-top: 150px;
+    margin-top: 10px !important;
     background-color: #41ec34;
     color: black;
     font-weight: 500;
