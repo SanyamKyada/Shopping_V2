@@ -137,7 +137,7 @@ function setImageHeigthWidth(elem) { // will recive element(container) in which 
     debugger
     var imageWidth = $(elem).find('img').width();
     var imageHeigth = $(elem).find('img').height();
-    var maxWidth = $(elem).width(); 
+    var maxWidth = $(elem).width();
     var maxHeight = $(elem).height();
 
     var scaleWidth = maxWidth / imageWidth;
@@ -358,3 +358,48 @@ function setImageHeigthWidth(elem) { // will recive element(container) in which 
 //        }
 //    };
 //})(jQuery);
+
+/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                                Custom toast                                                                    |
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+const toast = document.querySelector(".custom-toast");
+(closeIcon = document.querySelector(".close")), (progress = document.querySelector(".progress"));
+
+let timer1, timer2;
+
+const toastMessage = (message) => {
+    if (message) {
+        var customToastMsg = document.querySelector(".custom-toast .text-2");
+        if (message && customToastMsg) {
+            customToastMsg.textContent = message;
+        }
+    }
+
+    toast.style.display = 'block';
+
+    setTimeout(() => {
+        toast.classList.add("active");
+        progress.classList.add("active");
+    }, 100);
+
+    timerl = setTimeout(() => {
+        toast.classList.remove("active");
+    }, 5000);
+
+    timer2 = setTimeout(() => {
+        progress.classList.remove("active");
+        toast.style.display = 'none';
+    }, 5300);
+}
+
+closeIcon.addEventListener("click", () => {
+    toast.classList.remove("active");
+
+    setTimeout(() => {
+        progress.classList.remove("active");
+    }, 300);
+
+    clearTimeout(timer1);
+    clearTimeout(timer2);
+});

@@ -41,7 +41,7 @@
                 <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
 
             </div>
-            <div class="toast" id="result-toast">
+            <div class="toast" id="result-toast"> 
                 <div class="toast-body">
                     Data added successfully
                 </div>
@@ -91,10 +91,9 @@
                     type: 'POST',
                     data: data,
                     success: function (response) {
-                        $('#result-toast').toast('show');
+                        toastMessage("Attribute saved successfully");
                     },
                     error: function (xhr, Message) {
-                        debugger;
                     }
                 });
             });

@@ -1,0 +1,94 @@
+﻿@{
+    string controller = ViewContext.RouteData.Values["controller"].ToString();
+    string action = ViewContext.RouteData.Values["action"].ToString();
+    bool isHomePage = controller.Equals("Supplier") && action.Equals("Index");
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/custom-supplier/dashboard.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700' rel='stylesheet' type='text/css'>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    @* <link rel="stylesheet" href="~/css/reset.css" /> *@
+    @* <link rel="stylesheet" href="~/css/text.css" /> *@
+    @* <link rel="stylesheet" href="~/css/960.css" /> *@
+    <link rel="stylesheet" href="~/style.css" />
+    <link href="~/css/custom-mvc/popup.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header class="page-header">
+        @await Html.PartialAsync("_SupplierHeaderPartial.cshtml")
+    </header>
+    @if (isHomePage)
+    {
+        <main role="main" class="pb-3">
+            @RenderBody()
+            <div class="toast custom-toast">
+                <div class="toast-content">
+                    <i class="fa fa-solid fa-check check"></i>
+                    <div class="message">
+                        <p class="text text-1">Success</p>
+                        <p class="text text-2">Your changes has been saved</p>
+                    </div>
+                </div>
+                <i class="fa fa-close close"></i>
+                <div class="progress"></div>
+            </div>
+        </main>
+    }
+    else
+    {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+                <div class="toast custom-toast">
+                    <div class="toast-content">
+                        <i class="fa fa-solid fa-check check"></i>
+                        <div class="message">
+                            <p class="text text-1">Success</p>
+                            <p class="text text-2">Your changes has been saved</p>
+                        </div>
+                    </div>
+                    <i class="fa fa-close close"></i>
+                    <div class="progress"></div>
+                </div>
+            </main>
+        </div>
+    }
+    
+
+    @* <footer class="page-footer">
+    <span>made by </span>
+    <a href="https://georgemartsoukos.com/" target="_blank">
+    <img width="24" height="24" src="https://assets.codepen.io/162656/george-martsoukos-small-logo.svg" alt="George Martsoukos logo">
+    </a>
+    </footer> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/jquery.carousel.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="~/js/jquery.gmap-1.1.0-min.js"></script>
+    <script src="~/js/jquery.rating.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/jquery.anythingslider.js" type="text/javascript" charset="utf-8"></script>
+    <script src="~/js/custom.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="~/js/custom-supplier/dashboard.js"></script>
+    <script src="~/js/custom-mvc/layout.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -14,30 +14,30 @@
 
         foreach (var review in parentReviews)
         {
-            <div style="padding-left: @(level * 20)px">
-                <span class="user">@review.User</span> (@review.reviewDate.Date.ToShortDateString())
-                <div class="reviewtext">
-                    @review.Text
-                    <div id="review-open-@i"><a><i class="fa fa-reply"> reply</i></a></div>
-                    <form id="formReview-@i" class="review" asp-action="ReviewSubmit" asp-controller="Product" method="post">
-                        <div class="review" id="review-form-@i" style="display:none">
-                            @*<input type="text" placeholder="Your Name" id="reviewname" name="reviewname" />*@
-                            <input type="hidden" id="reviewname" name="reviewname" value="@(Model.currentUserName)" />
-                            <textarea class="reviewarea" id="reviewarea" name="reviewarea" style="width:@(595 - (level*20))px;" placeholder="Your reply"></textarea>
-                            <input type="hidden" name="parentId" value="@(review.Id)">
-                            <input type="hidden" name="productId" value="@(Model._SKU.ProductId)">
-                            <input type="hidden" name="skuTitle" value="@(Model._SKU.Title)">
-                            <input type="hidden" name="skuName" value="@(Model._SKU.SKUName)">
-                            <input type="hidden" name="skuId" value="@(Model._SKU.Id)">
-                            <input type="hidden" name="Selector" id="selectorId-@i">
-                            <input type="button" class="mailsubmit" value="Submit" id="reviewsubmit-@i" name="reviewsubmit" />
-                            <input hidden id="userName" value="@User.Identity.Name" />
-                            <button type="button" id="review-close-@i" class="btn-close" aria-label="Close" style="margin-left:15px; margin-top:15px"></button>
-                        </div>
-                    </form>
-                </div>
+                <div style="padding-left: @(level * 20)px">
+                    <span class="user">@review.User</span> (@review.reviewDate.Date.ToShortDateString())
+                    <div class="reviewtext">
+                        @review.Text
+                        <div id="review-open-@i"><a><i class="fa fa-reply"> reply</i></a></div>
+                        <form id="formReview-@i" class="review" asp-action="ReviewSubmit" asp-controller="Product" method="post">
+                            <div class="review" id="review-form-@i" style="display:none">
+                                @*<input type="text" placeholder="Your Name" id="reviewname" name="reviewname" />*@
+                                <input type="hidden" id="reviewname" name="reviewname" value="@(Model.currentUserName)" />
+                                <textarea class="reviewarea" id="reviewarea" name="reviewarea" style="width:@(595 - (level*20))px;" placeholder="Your reply"></textarea>
+                                <input type="hidden" name="parentId" value="@(review.Id)">
+                                <input type="hidden" name="productId" value="@(Model._SKU.ProductId)">
+                                <input type="hidden" name="skuTitle" value="@(Model._SKU.Title)">
+                                <input type="hidden" name="skuName" value="@(Model._SKU.SKUName)">
+                                <input type="hidden" name="skuId" value="@(Model._SKU.Id)">
+                                <input type="hidden" name="Selector" id="selectorId-@i">
+                                <input type="button" class="mailsubmit" value="Submit" id="reviewsubmit-@i" name="reviewsubmit" />
+                                <input hidden id="userName" value="@User.Identity.Name" />
+                                <button type="button" id="review-close-@i" class="btn-close" aria-label="Close" style="margin-left:15px; margin-top:15px"></button>
+                            </div>
+                        </form>
+                    </div>
 
-            </div>
+                </div>
 
             i++;
             await DisplayReviews(review.Id, level + 1);
@@ -348,7 +348,6 @@
 @section scripts{
     <script type="text/javascript">
         $('#addToCartBtn').click(function (e) {
-            debugger;
             e && e.preventDefault();
             var CartData = $(this).closest('form').serialize();
             $.ajax({
@@ -357,20 +356,19 @@
                 //dataType: "json",
                 data: CartData,
                 success: function (response) {
-                    debugger;
                     $.ajax({
                         type: "GET",
                         url: "/Cart/getCartPopup",
                         data: {UserId:response.userId},
                         success: function (result2) {
-                            debugger;
+                            
                             console.log('reached at inner ajax');
                             $('#cartModal').html('');
-                            debugger;
+                            
                             $("#cartModal").html(result2);
-                            debugger;
+                            bindCloseEvent();
+                            
                             $("#cartModal").modal('show');
-
                         },
                         error: function (result2) {
                             console.log("Error");
@@ -382,6 +380,13 @@
                 }
             });
         });
+
+        const bindCloseEvent = () => {
+            $('#closeCartModal').click(function () {
+                $("#cartModal").modal('hide');
+            });
+        }
+        
     </script>
 
     <script>
@@ -394,7 +399,6 @@
                 success: function (result) {
                     $("#sku-container").html(result);
                     window.scrollTo(100, 300)
-                    debugger;
                     $(this).removeClass('navigation');
                     $(this).addClass('activeSKU');
                 },
@@ -406,7 +410,6 @@
 
         // Colour Dropdown
         function selectColors(e) {
-            debugger;
             var title = "";
             var skuName = "";
             for (let i = 0; i < e.currentTarget.options.length; i++) {
@@ -434,7 +437,6 @@
             for (let i = 0; i < 100; i++) {
                 $("#sku-image-" + i).click(function (e) {
                     e.preventDefault();
-                    debugger;
                     var currentThumb = $(this).attr("src");
 
                     $(this).attr("src", $(this).closest(".productimages").find(".mainimg img").attr("src"));
@@ -481,8 +483,6 @@
         });
 
         $('[id^="reviewsubmit-"]').click(function (e) {
-            debugger;
-
             if ($(this).closest('form').find('.star-rating-control').length > 0) {
                 if ($('input[name="star1"]:checked').length === 0) {
                     $('#reviewErrorMessage').text("You must give a rating");
@@ -500,7 +500,6 @@
                 $("#formReview-" + id).trigger('submit');
             }
             else {
-                debugger;
                 $.ajax({
                     type: "GET",
                     url: "/Account/Login",
@@ -521,8 +520,35 @@
 
         });
 
+        const sortCartItems = (e) => {
+            var selectedValue = e.target.value;
+            var $cardContainer = $('.prd-card-container');
+            var $cards = $cardContainer.children('.card');
+
+            $cards.sort(function (a, b) {
+                var valueA = $(a).data(selectedValue);
+                var valueB = $(b).data(selectedValue);
+
+                if (selectedValue === 'price') {
+                    valueA = parseFloat(valueA);
+                    valueB = parseFloat(valueB);
+                } else if (selectedValue === 'name') {
+                    valueA = valueA.toLowerCase();
+                    valueB = valueB.toLowerCase();
+                }
+
+                if (valueA < valueB) {
+                    return -1;
+                }
+                if (valueA > valueB) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            $cardContainer.empty().append($cards);
+        }
                 //$("#reviewsubmit").click(function (e) {
-                //    debugger;
                 //    e.preventDefault();
                 //    var uName = $("#userName").val();
                 //    var id = $(this).attr('id').split('-')[1];

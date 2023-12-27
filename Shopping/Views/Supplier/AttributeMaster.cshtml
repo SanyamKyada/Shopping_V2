@@ -1,0 +1,100 @@
+﻿@model Shopping.Models.DTO.AttrMasterViewModel
+
+@{
+    Layout = "~/Views/Supplier/Shared/_SupplierLayout.cshtml";
+    ViewData["Title"] = "Shopping | Attributes";
+}
+
+@section Styles {
+    <link href="~/css/custom-mvc/admin.css" rel="stylesheet" />
+}
+
+<div class="padding50 page-content">
+    <div class="ribbonbig">
+        <div class="lijevo">
+            <div class="bread"><a href="#">Admin</a>&nbsp;&nbsp;&gt;&nbsp;Product Attribute</div>
+            <div class="bigtitle">Product Attribute</div>
+        </div>
+        <div class="desno">
+            <a href="#" class="padd">Buy theme</a>
+        </div>
+    </div>
+    <div class="padding25 billing d-flex flex-column">
+        <div class="shiztitle">
+            <h2 class="title h2bg mb-5">Add Product Attribute</h2>
+        </div>
+
+        <div>
+            <select class="full req" asp-for="attrModel.CategoryId" id="ddlCategory">
+                <option value="" selected disabled>Sub Category</option>
+                @foreach (var category in Model.menuItems)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+
+            <input type="text" class="full" asp-for="attrModel.Lable" id="attrLable" placeholder="Attribute" />
+        </div>
+
+
+        <div id="tInputsDiv">
+            <input type="text" class="full" id="tInput" placeholder="Values" />
+        </div>
+
+        <span id="attrMasterError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
+        <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
+
+    </div>
+
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#tInput').AddTags({
+                maxTags: 10,
+                initialTags: [],
+                includeTitle: false
+            });
+
+            $('#MasterAttrSaveBtn').click(function (e) {
+                e.preventDefault();
+
+                var categoryId = $('#ddlCategory').val();
+                var attrLable = $('#attrLable').val();
+                var tags = JSON.parse($('input[name="AttrsJSON"]').val());
+
+                if (categoryId == "") {
+                    $('#attrMasterError').text("Please select the Category");
+                    return false;
+                }
+                if (attrLable == "") {
+                    $('#attrMasterError').text("Lable should not be empty");
+                    return false;
+                }
+                if (tags.length == "0") {
+                    $('#attrMasterError').text("Please enter the values for Component Type");
+                    return false;
+                }
+                $('#attrMasterError').text("");
+                var data = {
+                    CategoryId: categoryId,
+                    Lable: attrLable,
+                    Values: tags.join(',')
+                };
+
+                $.ajax({
+                    url: '/Supplier/AttributeMaster',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        toastMessage("Attribute saved successfully");
+                    },
+                    error: function (xhr, Message) {
+                    }
+                });
+            });
+        });
+    </script>
+}
+

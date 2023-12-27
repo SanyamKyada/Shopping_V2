@@ -63,6 +63,11 @@ namespace Shopping.Controllers
                 return View(model);
             }
 
+            if (string.IsNullOrEmpty(model.Role))
+            {
+                model.Role = "User";
+            }
+
             var result = await _authService.RegisterAsync(model);
 
             /*return Ok(result.Message);*/

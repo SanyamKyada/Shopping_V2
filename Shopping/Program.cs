@@ -46,7 +46,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlServer(builder.Configuration.
-     GetConnectionString("ShoppingConnectionStringNew")));
+     GetConnectionString("ShoppingConnectionStringNew"))
+    .UseSqlServer(opt => opt.EnableRetryOnFailure()));
 
 // For Identity // <----> //
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

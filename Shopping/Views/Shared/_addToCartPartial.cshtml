@@ -6,9 +6,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <style>
+    <style>
         <link rel="stylesheet" href="~/style.css" / >
-   </style>
+    </style>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
 
                                     <div class="col-lg-7">
                                         <h5 class="mb-3">
-                                            <a href="#!" class="text-body">
+                                            <a href="#!" class="text-body" id="closeCartModal">
                                                 <i class="fas fa-long-arrow-alt-left me-2"></i>Continue shopping
                                             </a>
                                         </h5>
@@ -38,45 +38,46 @@
                                             <div>
                                                 <p class="mb-0">
                                                     <div id="wrapper">
-                                                        <select id="sortBy">
+                                                        <select id="cartItemsSortBy" onchange="sortCartItems(event)">
                                                             <option selected>Sort by</option>
-                                                            <option value="1">Price</option>
-                                                            <option value="2">Name</option>
+                                                            <option value="price">Price</option>
+                                                            <option value="name">Name</option>
                                                         </select>
                                                     </div>
                                                 </p>
                                             </div>
                                         </div>
-
-                                        @foreach (var item in Model)
-                                        {
-                                            <div class="card mb-3">
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between">
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <div>
-                                                                <img src="@item.ImageUrl"
-                                                                 class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                        <div class="prd-card-container">
+                                            @foreach (var item in Model)
+                                            {
+                                                var totalPrice = item.Price * item.Quantity;
+                                                <div class="card mb-3" data-price="@totalPrice" data-name="@item.Name">
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <div>
+                                                                    <img src="@item.ImageUrl"
+                                                                         class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                </div>
+                                                                <div class="ms-3">
+                                                                    <h5>@item.Name</h5>
+                                                                    <p class="small mb-0">@item.Price</p>
+                                                                </div>
                                                             </div>
-                                                            <div class="ms-3">
-                                                                <h5>@item.Name</h5>
-                                                                <p class="small mb-0">@item.Price</p>
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <div style="width: 50px;">
+                                                                    <h5 class="fw-normal mb-0">@item.Quantity</h5>
+                                                                </div>
+                                                                <div style="width: 80px;">
+                                                                    <h5 class="mb-0">@totalPrice</h5>
+                                                                </div>
+                                                                <a href="#!" style="color: #cecece;"><i class="bi bi-trash"></i></a>
                                                             </div>
-                                                        </div>
-                                                        <div class="d-flex flex-row align-items-center">
-                                                            <div style="width: 50px;">
-                                                                <h5 class="fw-normal mb-0">@item.Quantity</h5>
-                                                            </div>
-                                                            <div style="width: 80px;">
-                                                                <h5 class="mb-0">@(item.Price * item.Quantity)</h5>
-                                                            </div>
-                                                            <a href="#!" style="color: #cecece;"><i class="bi bi-trash"></i></a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        }
-
+                                            }
+                                        </div>
                                     </div>
                                     <div class="col-lg-5">
 
@@ -169,8 +170,7 @@
         </div>
     </div>
 
-    </body>
-    </html>
+</body>
+</html>
 
 
-                                                

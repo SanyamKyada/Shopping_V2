@@ -1,0 +1,277 @@
+﻿@using System.Security.Claims;
+
+@{
+    Layout = "~/Views/Supplier/Shared/_SupplierLayout.cshtml";
+    ViewData["Title"] = "Shopping | Supplier";
+
+    var supplierName = User.FindFirst(ClaimTypes.Name).Value;
+}
+
+<style>
+    .stats-article{
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+    }
+    
+    .stats-header {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+        padding: 0.75rem 1.25rem;
+        position: relative;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+    }
+
+    .stats-title {
+        float: left;
+        font-size: 1.1rem;
+        font-weight: 400;
+        margin: 0;
+    }
+
+    .small-box {
+        border-radius: 0.25rem;
+        box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+        display: block;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .bg-info {
+        color: #fff !important;
+        background-color: #17a2b8 !important;
+    }
+
+    .bg-yellow{
+        color: #fff !important;
+        background-color: #ffc107 !important;
+    }
+
+    .bg-green{
+        color: #fff !important;
+        background-color: #28a745 !important;
+    }
+
+    .bg-red{
+        color: #fff !important;
+        background-color: #dc3545 !important;
+    }
+
+    .small-box > .inner{
+        padding: 10px;
+    }
+
+    .small-box h3{
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin: 0 0 10px;
+        padding: 0;
+        white-space: nowrap;
+    }
+
+    .small-box p {
+        font-size: 1rem;
+    }
+
+    .small-box .icon {
+        color: rgba(0,0,0,.15);
+        z-index: 0;
+    }
+
+        .small-box .icon > i {
+            font-size: 90px;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            transition: -webkit-transform .3s linear;
+            transition: transform .3s linear;
+            transition: transform .3s linear,-webkit-transform .3s linear;
+        }
+
+    .small-box > .small-box-footer {
+        background-color: rgba(0,0,0,.1);
+        color: rgba(255,255,255,.8);
+        display: block;
+        padding: 3px 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        z-index: 10;
+    }
+</style>
+
+<section class="page-content">
+    <section class="search-and-user">
+        <form>
+            <input type="search" placeholder="Search Pages...">
+            <button type="submit" aria-label="submit form">
+                <svg aria-hidden="true">
+                    <use xlink:href="#search"></use>
+                </svg>
+            </button>
+        </form>
+        <div class="admin-profile">
+            <span class="greeting">Hello @supplierName</span>
+            <div class="notifications">
+                <span class="badge">1</span>
+                <svg>
+                    <use xlink:href="#users"></use>
+                </svg>
+            </div>
+        </div>
+    </section>
+    <section class="grid supplier-home">
+        <article class="stats-article h-auto">
+            <div class="stats-header with-border clearfix">
+                <div class="stats-title">
+                    <i class="fa fa-bar-chart"></i>
+                    Common statistics
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3>5</h3>
+                                <p>Orders</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a class="small-box-footer" href="/Admin/Order/List">
+                                More info
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>0</h3>
+                                <p>Pending return requests</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-refresh"></i>
+                            </div>
+                            <a class="small-box-footer" href="/Admin/ReturnRequest/List">
+                                More info
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3>7</h3>
+                                <p>Registered customers</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-person-add"></i>
+                            </div>
+                            <a class="small-box-footer" href="/Admin/Customer/List">
+                                More info
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-6">
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3>1</h3>
+                                <p>Low stock products</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
+                            </div>
+                            <a class="small-box-footer" href="/Admin/Report/LowStock">
+                                More info
+                                <i class="fa fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="stats-article h-auto">
+            <div class="stats-header with-border clearfix">
+                <div class="stats-title">
+                    <i class="fa fa-shopping-cart"></i>
+                    Orders
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="scatterChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+        </article>
+        <article class="stats-article h-auto">
+            <div class="stats-header with-border clearfix">
+                <div class="stats-title">
+                    <i class="fa fa-user"></i>
+                    New customers
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="lineChart" style="width:100%;max-width:700px"></canvas>
+            </div>
+        </article>
+        <article></article>
+        <article></article>
+        <article></article>
+        <article></article>
+        <article></article>
+    </section>
+    <footer class="page-footer">
+        <span class="mx-1">made by</span>
+        <span style="font-weight:bold">SanyamKyada</span>
+    </footer>
+</section>
+
+@section Scripts {
+    <script>
+        var xyValues = [
+            { x: 50, y: 7 },
+            { x: 60, y: 8 },
+            { x: 70, y: 8 },
+            { x: 80, y: 9 },
+            { x: 90, y: 9 },
+            { x: 100, y: 9 },
+            { x: 110, y: 10 },
+            { x: 120, y: 11 }
+            //{ x: 130, y: 14 },
+            //{ x: 140, y: 14 },
+            //{ x: 150, y: 15 }
+        ];
+
+        const chartData = {
+            datasets: [{
+                pointRadius: 4,
+                pointBackgroundColor: "rgb(0,0,255)",
+                data: xyValues
+            }]
+        };
+
+        const chartOptions = {
+            legend: { display: false },
+            scales: {
+                xAxes: [{ ticks: { min: 40, max: 160 } }],
+                yAxes: [{ ticks: { min: 6, max: 12 } }],
+            }
+        };
+
+        (() => {
+            new Chart("scatterChart", {
+                type: "scatter",
+                data: chartData,
+                options: chartOptions
+            });
+
+            new Chart("lineChart", {
+                type: "line",
+                data: chartData,
+                options: chartOptions
+            });
+        })();
+    </script>
+}

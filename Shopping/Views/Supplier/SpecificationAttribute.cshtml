@@ -1,64 +1,54 @@
 ﻿@model Shopping.Models.DTO.AttrMasterViewModel
 
 @{
+    Layout = "~/Views/Supplier/Shared/_SupplierLayout.cshtml";
+    ViewData["Title"] = "Shopping | Spec-Attributes";
 }
 
-@section Styles{
+@section Styles {
     <link href="~/css/custom-mvc/admin.css" rel="stylesheet" />
 }
 
-<div class="container_16 padding50">
-    <div class="grid_16">
-        <div class="ribbonbig">
-            <div class="lijevo">
-                <div class="bread"><a href="#">Admin</a>&nbsp;&nbsp;&gt;&nbsp;Specification Attribute</div>
-                <div class="bigtitle">Specification Attribute</div>
-            </div>
-            <div class="desno">
-                <a href="#" class="padd">Buy theme</a>
-            </div>
+<div class="padding50 page-content">
+    <div class="ribbonbig">
+        <div class="lijevo">
+            <div class="bread"><a href="#">Admin</a>&nbsp;&nbsp;&gt;&nbsp;Specification Attribute</div>
+            <div class="bigtitle">Specification Attribute</div>
+        </div>
+        <div class="desno">
+            <a href="#" class="padd">Buy theme</a>
         </div>
     </div>
-    <div class="grid_8">
-        <div class="padding25">
-            <div class="billing">
-                <div class="shiztitle">
-                    <h2 class="title h2bg">Add Specification Attribute</h2>
-                </div>
-                <select class="half req" name="CategoryId" asp-for="attrModel.CategoryId" id="ddlCategory">
-                    <option value="" selected disabled>Sub Category</option>
-                    @foreach (var category in Model.menuItems)
-                    {
-                        <option value="@category.Id">@category.Name</option>
-                    }
-                </select>
-
-                <input type="text" class="half" name="Lable" id="attrLable" placeholder="Lable" />
-
-                <select class="half req" name="ComponentType" onchange="showHideTagsInp()" id="ddlComponentType">
-                    <option value="" selected disabled>Component Type</option>
-                    <option value="Text">Text</option>
-                    <option value="Dropdown">Dropdown</option>
-                </select>
-
-                <div class="hidden" id="tInputsDiv">
-                    <input type="text" class="full" id="tInput" placeholder="Values" />
-                </div>
-
-                <span id="attrMasterError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
-                <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
-            </div>
-            @* <div class="toast" id="result-toast">
-                <div class="toast-body">
-                    Data added successfully
-                </div>
-            </div> *@
+    <div class="billing padding25">
+        <div class="shiztitle">
+            <h2 class="title h2bg mb-5">Add Specification Attribute</h2>
         </div>
-    </div>
+        <select class="full req" name="CategoryId" asp-for="attrModel.CategoryId" id="ddlCategory">
+            <option value="" selected disabled>Sub Category</option>
+            @foreach (var category in Model.menuItems)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
 
+        <input type="text" class="full" name="Lable" id="attrLable" placeholder="Lable" />
+
+        <select class="full req" name="ComponentType" onchange="showHideTagsInp()" id="ddlComponentType">
+            <option value="" selected disabled>Component Type</option>
+            <option value="Text">Text</option>
+            <option value="Dropdown">Dropdown</option>
+        </select>
+
+        <div class="hidden" id="tInputsDiv">
+            <input type="text" class="full" id="tInput" placeholder="Values" />
+        </div>
+
+        <span id="attrMasterError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
+        <input type="button" id="MasterAttrSaveBtn" class="mailsubmit" value="Save" asp-route="model" />
+    </div>
 </div>
 
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function () {
             $('#tInput').AddTags({
@@ -105,11 +95,10 @@
                 };
 
                 $.ajax({
-                    url: '/Admin/SpecificationAttribute',
+                    url: '/Supplier/SpecificationAttribute',
                     type: 'POST',
                     data: data,
                     success: function (response) {
-                        // $('#result-toast').toast('show');
                         toastMessage("Attribute saved successfully");
                     },
                     error: function (xhr, Message) {
@@ -123,10 +112,8 @@
             var selected = $('#ddlComponentType').val();
             if (selected == 'Dropdown') {
                 $('#tInputsDiv').show();
-                // $('#result-toast').css('margin-top', '0px');
             } else {
                 $('#tInputsDiv').hide();
-                // $('#result-toast').css('margin-top', '150px');
             }
         }
 

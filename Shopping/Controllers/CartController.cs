@@ -21,36 +21,16 @@ namespace Shopping.Controllers
             return View(new Vm_CartItems());
         }
         [HttpGet]
-        public IActionResult getCartPopup(Guid UserId, string sortBy)
+        public IActionResult getCartPopup(Guid UserId)
         {
-            if (string.IsNullOrEmpty(sortBy))
-            {
-                var model = _cartRepository.GetAllByUserId(UserId);
-                return PartialView("_addToCartPartial", model);
-            }
-            else
-            {
-                var cartItems = _cartRepository.GetAllByUserId(UserId);
-
-                //switch (sortBy)
-                //{
-                //    case "price":
-                //        cartItems = cartItems.OrderBy(p => p.Price).ToList();
-                //        break;
-                //    case "name":
-                //        cartItems = cartItems.OrderBy(p => p.Name).ToList();
-                //        break;
-                //    default:
-                //        break;
-                //}
-                return PartialView("_addToCartPartial", cartItems);
-            }
+            var model = _cartRepository.GetAllByUserId(UserId);
+            return PartialView("_addToCartPartial", model);
         }
         [HttpPost]
         public IActionResult AddToCart(CartModel model)
         {
             _cartRepository.AddToCart(model.SKUId, model.Quantity, model.UserId);
-            return Json(new {UserId = model.UserId });
+            return Json(new { UserId = model.UserId });
             //return RedirectToAction("getCartPopup");     
         }
         public IActionResult RemoveCartItem(int id)
@@ -60,30 +40,5 @@ namespace Shopping.Controllers
             return RedirectToAction("ViewCart", "Cart");
 
         }
-        //[HttpGet]
-        //public IActionResult getSortedCartPopup(List<CartModel> cartItems)
-        //{
-        //    return PartialView("_addToCartPartial", cartItems);
-        //}
-        //[HttpPost]
-        //public IActionResult SortCart(string sortBy)
-        //{
-        //    var cartItems = _cartRepository.GetAllItems();
-
-        //    switch (sortBy)
-        //    {
-        //        case "price":
-        //            cartItems = cartItems.OrderBy(p => p.Price).ToList();
-        //            break;
-        //        case "name":
-        //            cartItems = cartItems.OrderBy(p => p.Name).ToList();
-        //            break;
-        //        default:
-        //            break;
-        //    }
-
-        //    //return PartialView("_addToCartPartial", cartItems);
-        //    return Json(new { });
-        //}
     }
 }

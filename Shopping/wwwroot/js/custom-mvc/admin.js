@@ -26,7 +26,7 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: '/Admin/GetDetails',
+        url: '/Supplier/GetDetails',
         type: 'GET',
         success: function (response) {
             if (response.attrsArray) {
@@ -205,7 +205,7 @@ function AddImages() {
 
     if ($('#skuDiv > .varients-outer').length == 0 || !$('#skuDiv').hasClass('variants-saved')) {
         $('#variantsDetailFormError').text('You need to save the variants detail before you can add images for this product.');
-        return;
+        //return;
     }
     AddImagesDivTag("");
 }
@@ -547,19 +547,33 @@ $("#btnSkuFormSubmit").click(function () {
     $.each(varientForms, function (i, elem) {
         const inp = $(elem).find('input#AttrsJSON');
 
-        let result = [];
         const attrInps = inp.closest('.spec-div').find('.spec-attribute');
-        $.each(attrInps, function (i, bElem) {
-            let obj = {}
-            obj.idmaster = $(bElem).data('idmaster');
-            obj.attrval = $(bElem).val().trim();
-            result.push(obj)
-        })
+
+        const result = attrInps.map((i, bElem) => {
+            return {
+                idmaster: $(bElem).data('idmaster'),
+                attrval: $(bElem).val().trim()
+            };
+        }).get();
 
         inp.val(JSON.stringify(result));
     })
 
     $(".form-sku").submit();
+    // below code not getting images in controller
+    //const formData = $(".form-sku").serialize();
+    //$.ajax({
+    //    url: '/Supplier/AddNewProduct',
+    //    type: 'POST',
+    //    data: formData,
+    //    success: function (response, textStatus, xhr) {
+    //        //$('#userError').hide();
+    //        toastMessage(response.message ?? "Changes saved successfully.");
+    //    },
+    //    error: function (xhr, Message) {
+    //        console.log("error in saving product's data.");
+    //    }
+    //});
 });
 
 

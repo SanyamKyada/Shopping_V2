@@ -1,6 +1,4 @@
 ﻿@using Shopping.Models.DTO;
-@{
-}
 
 @*@await Html.PartialAsync("_LoginPartial", new LoginModel())*@
 @{
@@ -9,6 +7,8 @@
         string username = User.Identity.Name;
         // Do something with the username
     }
+    string controller = ViewContext.RouteData.Values["controller"].ToString();
+    string action = ViewContext.RouteData.Values["action"].ToString();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +24,9 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--slick-carousel-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
 
     <meta charset="UTF-8">
 
@@ -48,7 +51,7 @@
 <body>
     <header>
 
-        @if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+        @if (!(controller.Equals("Account") && action.Equals("Login")))
         {
             <div class="header">
                 <div class="container_16">
@@ -81,21 +84,22 @@
                     </div>
 
                     <!--- Partial view of Menu --->
-                @Html.Partial("_MenuPartial")     <!--------------------------------------------------------------------->
-                    @* <div class="grid_16 menu">
+                    @Html.Partial("_MenuPartial")
 
-                </div>*@
-
-                    <div class="grid_16 main">
-                        <div class="smallmenu">
-                            <ul>
-                                <li><a href="#" class="myacc">My Account</a></li>
-                                <li><a href="./cart.html" class="myshop">Shopping Cart</a></li>
-                                <li><a href="./checkout.html" class="mycheck">Checkout</a></li>
-                            </ul>
+                    @if (!(controller.Equals("Account") && action.Equals("Register")))
+                    {
+                        <div class="grid_16 main">
+                            <div class="smallmenu">
+                                <ul>
+                                    <li><a href="#" class="myacc">My Account</a></li>
+                                    <li><a href="./cart.html" class="myshop">Shopping Cart</a></li>
+                                    <li><a href="./checkout.html" class="mycheck">Checkout</a></li>
+                                </ul>
+                            </div>
+                            <div class="lines"></div>
                         </div>
-                        <div class="lines"></div>
-                    </div>
+                    }
+
 
                 </div>
             </div>
@@ -105,11 +109,22 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            <div class="toast custom-toast">
+                <div class="toast-content">
+                    <i class="fa fa-solid fa-check check"></i>
+                    <div class="message">
+                        <p class="text text-1">Success</p>
+                        <p class="text text-2">Your changes has been saved</p>
+                    </div>
+                </div>
+                <i class="fa fa-close close"></i>
+                <div class="progress"></div>
+            </div>
         </main>
     </div>
 
     <!-- footer section -->
-    @if (!ViewContext.RouteData.Values["controller"].Equals("Account") && !ViewContext.RouteData.Values["action"].Equals("Login"))
+    @if (!(controller.Equals("Account") && action.Equals("Login")))
     {
         <!-- sub-footer section start-->
         <div class="subfooter">
@@ -169,7 +184,7 @@
                         <li><a href="./order.html">Completed Orders</a></li>
                         <li><a href="~/Contact/IndexContact">Contact us</a></li>
                     </ul>
-                    <span class="copyline">&copy;All rights reserved by <a href="#">yoursite.com</a></span>
+                    <span class="copyline">&copy;All rights reserved by <a href="#">sanyamkyada</a></span>
                     <div class="cards"><img src="~/images/cards.png" alt="credit cards" /></div>
                 </div>
                 <div class="grid_3">
@@ -185,7 +200,7 @@
             <!--Cookie consent-->
             <div id="cookieConsent" class="alert alert-warning alert-dismissible fade show" role="alert">
                 We use cookies to improve your browsing experience on our site. Click "Accept" to consent to the use of cookies.
-                <button id="acpt-btn" type="button" class="btn btn-sm btn-primary ml-2" onclick="setCookie('cookieConsent', 'true', 365);$('#cookieConsent').remove();">Accept</button>
+                <button id="acceptCookieButton" type="button" class="btn btn-sm btn-primary ml-2" onclick="setCookie('cookieConsent', 'true', 365);$('#cookieConsent').remove();">Accept</button>
             </div>
         </div>
     }
@@ -204,6 +219,8 @@
     <script src="~/js/jquery.anythingslider.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/js/custom.js" type="text/javascript" charset="utf-8"></script>
     <script src="~/js/custom-mvc/layout.js"></script>
+    <!--slick-carousel-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     @RenderSection("scripts", required: false)
 
 </body>

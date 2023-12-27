@@ -12,22 +12,22 @@ body {
     margin-left: auto;
 }
 
-.activeSKU a {
-    display: block;
-    width: 36px;
-    height: 36px;
-    background: #C2CBD2;
-    border-bottom: 1px solid #C2CBD2;
-    border-right: 1px solid #C2CBD2;
-    border-radius: 5px;
-    float: left;
-    margin-right: 6px;
-    text-decoration: none;
-    color: #FFF;
-    font-size: 12px;
-    line-height: 35px;
-    text-align: center;
-}
+    .activeSKU a {
+        display: block;
+        width: 36px;
+        height: 36px;
+        background: #C2CBD2;
+        border-bottom: 1px solid #C2CBD2;
+        border-right: 1px solid #C2CBD2;
+        border-radius: 5px;
+        float: left;
+        margin-right: 6px;
+        text-decoration: none;
+        color: #FFF;
+        font-size: 12px;
+        line-height: 35px;
+        text-align: center;
+    }
 
 
 
@@ -82,7 +82,7 @@ body {
     list-style: none;
     float: left;
     margin-top: 20px;
-    width: 770px;
+    width: 890px;
 }
 
     .menu1 li {
@@ -2556,7 +2556,7 @@ li a:hover {
         }
 
 
-        /*<--New cart popup-->*/
+/*<--New cart popup-->*/
 @media (min-width: 1025px) {
     .h-custom {
         height: 100vh !important;
@@ -2575,9 +2575,11 @@ li a:hover {
 .visible {
     animation: movein 0.5s ease forwards, moveout 0.5s 3s ease forwards;
 }
+
 body {
     font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
 #notif {
     width: 200px;
     height: 50px;
@@ -2618,22 +2620,34 @@ body {
     }
 }
 
-.div-h50{
+.div-h50 {
     height: 50px;
 }
 
-.size-15{
+.size-15 {
     font-size: 15px;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
+.clear{
+    clear: both;
+}
+
+#cookieConsent {
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+}
 /*-------------------------------------------------------------------------------------------------------------------------------|
 |                                                                CustomTags Input                                                |
 |<------------------------------------------------------------------------------------------------------------------------------*/
-
 .wrapper :where(.title, li, li i, .details) {
     display: flex;
     align-items: center;
@@ -2708,3 +2722,101 @@ body {
     .details button:hover {
         background: #435564;
     }
+
+/*-------------------------------------------------------------------------------------------------------------------------------|
+|                                                                Custom toast
+|<------------------------------------------------------------------------------------------------------------------------------*/
+
+.custom-toast {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 20px 35px 20px 25px;
+    box-shadow: 6px 20px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transform: translateX(calc(100% + 30px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+}
+
+    .custom-toast.active {
+        transform: translateX(0%);
+    }
+
+    .custom-toast .toast-content {
+        display: flex;
+        align-items: center;
+    }
+
+.toast-content .check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    height: 35px;
+    color: #fff;
+    background-color: #2770ff;
+    font-size: 20px;
+    border-radius: 50%;
+}
+
+.toast-content .message {
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+
+.message .text {
+    font-size: 16px;
+    color: #666666;
+    font-weight: 400;
+    display: block;
+    margin: 0;
+}
+
+    .message .text.text-1 {
+        font-weight: 600;
+        color: #333;
+    }
+
+.custom-toast .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    padding: 5px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+    .custom-toast .close:hover {
+        opacity: 1;
+    }
+
+.custom-toast .progress {
+    position: absolute;
+    bottom: 0;
+    Left: 0;
+    height: 3px;
+    width: 100%;
+}
+
+    .custom-toast .progress:before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 100%;
+        width: 100%;
+        background-color: #2770ff;
+    }
+
+.progress.active:before {
+    animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+    100% {
+        right: 100%;
+    }
+}

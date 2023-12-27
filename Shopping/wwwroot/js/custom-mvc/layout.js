@@ -1,4 +1,15 @@
 ﻿$(document).ready(function () {
+
+    $('#acceptCookieButton').live('click', function () {
+        document.cookie = 'consent=accepted; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
+
+        $('#cookieConsent').hide();
+    });
+
+    if (document.cookie.split(';').some((item) => item.trim().startsWith('consent='))) {
+        $('#cookieConsent').hide();
+    }
+
     $.ajax({
         type: "GET",
         url: "/Account/GetLoginPopup",
@@ -11,6 +22,21 @@
             console.log("Error");
         }
     });
+
+    $.ajax({
+        type: "GET",
+        url: "/Account/GetWelcomePopup",
+        success: function (result) {
+            $("#welcome-popup").html(result);
+        },
+        error: function (result) {
+            console.log("Error");
+        }
+    });
+
+    setTimeout(() => {
+        $("#welcome-popup").modal('show');
+    }, 2000);
 });
 
 function loginAction() {
