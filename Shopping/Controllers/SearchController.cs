@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Shopping.Models.DTO;
 using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
-using System.Linq;
-using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Controllers
 {

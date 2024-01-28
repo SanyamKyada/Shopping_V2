@@ -1,14 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient.Server;
-//using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
-using Shopping.Models.Domain;
 using Shopping.Models.DTO;
 using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
-using Shopping.Repositories.Services;
-using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Controllers
 {

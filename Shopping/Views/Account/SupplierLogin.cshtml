@@ -1,0 +1,217 @@
+﻿@using Shopping.Enums
+@using Shopping.Models.ViewModels
+@model Vm_LoginRegister
+
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://static.mutualart.com/bundles/css?v=3TEyfaa4aFSkqvOFXroAqJmBFQsT0-r-Z8ZVWBkW2h01" type="text/css"
+          rel="stylesheet">
+
+    <style>
+        .story-container {
+            margin-top: 24px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-flow: wrap;
+        }
+
+        .story {
+            margin-bottom: 32px;
+            width: 50%;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: start;
+            justify-content: start;
+        }
+
+            .story h4 {
+                margin: 0px 0px 0.25rem;
+                font-size: 16px;
+                font-weight: 700;
+                line-height: 20px;
+                color: rgb(39, 40, 41);
+                text-transform: none;
+            }
+
+            .story p {
+                margin: 0px;
+                line-height: 20px;
+                font-weight: 400;
+                color: rgb(90, 94, 102);
+                font-size: 14px;
+                text-transform: none;
+            }
+    </style>
+</head>
+
+<body class="new-nav not-past-paid-user sub-1- gray_background" style="padding-top:60px">
+    <div class="page-content SignUp">
+        <div class="valign-boxes" id="">
+            <div class="container-fluid ">
+                <div class="row columns-container margin-top-50">
+                    <div class="col-md-6">
+
+                        <script>
+                            $(function () {
+                                $("#email").focus()
+                            });
+                        </script>
+
+
+                        <div class="signup-box">
+                            <div class="modal-body">
+                                <form class="sign-up-form" id="signupForm">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h1 class="signup_header p-0">
+                                                Login to your supplier panel
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <a class="btn btn-2 google-plus-btn social-btn-text" href="@Url.Action("GoogleLogin", "Account", new { role = UserRole.Supplier, returnUrl = Model.ReturnUrl })" onclick="magoo.checkStatus()" style="background-color: #fff; color: black; border-color: #eee; box-shadow: 0 0 4px 0 #eee; border-radius: 3px;">
+                                            <img src="/images/google_logo.png" style=" height: 60%; margin-bottom: 5px; margin-right: 5px; ">
+                                            Sign up with Google
+                                        </a>
+                                    </div>
+                                    <div class="hr-lines">or</div>
+                                    <div class="form-group"> <input tabindex="1" type="email" name="email" id="email" class="default high" placeholder="Email" required=""> </div>
+                                    <div class="form-group"> <input tabindex="2" type="password" minlength="7" name="userPassword" class="default high" autocomplete="new-password" id="txtSignupPassword" placeholder="Password" required=""> </div>
+                                    <div class="row">
+                                        <div class="col-xs-6">
+                                            <div class="form-group"> <input tabindex="3" type="text" name="userFirstName" class="default high" placeholder="First Name" required="" maxlength="50"> </div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <div class="form-group"> <input tabindex="4" type="text" name="userLastName" class="default high" placeholder="Last Name" required="" maxlength="50"> </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="g-recaptcha col-xs-12 no-padding-left margin-bottom-15" data-size="invisible" data-sitekey="6LfV714UAAAAACeEAaHCnhTf-mUwBW2MjsOvBkkk" data-callback="sendRegistration"></div>
+
+                                    <div class="form-messages"></div>
+
+                                    <div class="form-group"> <div type="submit" class="btn btn-1" onclick="validateRegistration()" tabindex="8" style="background-color:rgb(130, 106, 251)">Sign Up</div> </div>
+                                    <p class="buttons-description">By clicking, you accept the <a target="_blank" href="/Static/TermOfUse">Terms of Service</a> and confirm that you have read the <a target="_blank" href="/Static/PrivacyPolicy">Privacy Policy</a>.</p>
+
+
+                                    <p class="par-with-cta" id="login">Already registered? <a class="cta" href="/login/?">Log In</a></p>
+
+                                    <input type="hidden" id="planId" name="planId" value="">
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="signup-box ">
+                            <div class="modal-body">
+
+                                <form class="sign-up-form" style="max-width:460px;">
+
+                                    <div class="row box_content ">
+                                        <div class="story-container css-b5hgj4">
+                                            <div class="story css-ku87rk">
+                                                <img src="https://images.meeshosupplyassets.com/supplier_community.svg" alt="" style="scale: 1.4;">
+                                                <div class="MuiBox-root css-5dlv72" style="margin-left: 16px;">
+                                                    <h4 class="MuiTypography-root MuiTypography-h4 css-88w1aw">11 lakh+</h4>
+                                                    <p class="MuiTypography-root MuiTypography-body1 css-1ijfk6m" style="width: 100%;">
+                                                        Suppliers are selling
+                                                        commission-free
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="story css-ku87rk">
+                                                <img src="https://images.meeshosupplyassets.com/pincode.svg" alt="" style="scale: 1.4;">
+                                                <div class="MuiBox-root css-5dlv72" style="margin-left: 16px;">
+                                                    <h4 class="MuiTypography-root MuiTypography-h4 css-88w1aw">19000+</h4>
+                                                    <p class="MuiTypography-root MuiTypography-body1 css-1ijfk6m">Pincodes supported for delivery</p>
+                                                </div>
+                                            </div>
+                                            <div class="story css-ku87rk">
+                                                <img src="https://images.meeshosupplyassets.com/reach_india.svg" alt="" style="scale: 1.4;">
+                                                <div class="MuiBox-root css-5dlv72" style="margin-left: 16px;">
+                                                    <h4 class="MuiTypography-root MuiTypography-h4 css-88w1aw">Crore of</h4>
+                                                    <p class="MuiTypography-root MuiTypography-body1 css-1ijfk6m">Customers buy across India</p>
+                                                </div>
+                                            </div>
+                                            <div class="story css-ku87rk">
+                                                <img src="https://images.meeshosupplyassets.com/categories.svg" alt="" style="scale: 1.4;">
+                                                <div class="MuiBox-root css-5dlv72" style="margin-left: 16px;">
+                                                    <h4 class="MuiTypography-root MuiTypography-h4 css-88w1aw">700 +</h4>
+                                                    <p class="MuiTypography-root MuiTypography-body1 css-1ijfk6m">Categories to sell</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="MuiBox-root css-1v8or2l" style="border-bottom: 1px solid rgba(39, 40, 41, 0.12);width: 100%;"></div>
+                                        <div class="MuiBox-root css-1bbww3u" style="margin-top: 38px;">
+                                            <h3 class="MuiTypography-root MuiTypography-h3 css-70ot85" style="margin: 0px 0px 1.5rem;font-size: 18px;line-height: 24px;font-weight: 700;/* font-family: &quot;Mier Bold&quot;; */color: rgb(39, 40, 41);text-transform: none;">
+                                                All you need to sell on Shopping is:
+                                            </h3>
+                                            <div data-testid="tooltip" class=" css-1baulvz">
+                                                <div class="MuiBox-root css-yeouz0" style="display: flex;-webkit-box-align: center;align-items: center;">
+                                                    <div class="MuiBox-root css-milwrh"
+                                                         style="display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;/* width: 1.125rem; *//* height: 1.125rem; */background-color: rgb(204, 195, 255);border-radius: 50%;padding: 0.0625rem;">
+                                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                             class="css-0">
+                                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                  d="M19.707 6.793a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4.5-4.5a1 1 0 111.414-1.414L11 14.086l7.293-7.293a1 1 0 011.414 0z"
+                                                                  fill="#5A5E66"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <p class="MuiTypography-root MuiTypography-body1 css-1ro2p8g">GSTIN or Enrolment ID / UIN</p>
+                                                    <div class="MuiBox-root css-1ypq4k6">
+                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                                             xmlns="http://www.w3.org/2000/svg" class="css-0">
+                                                            <path d="M13.5 8.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM12 11.75a.75.75 0 01.75.75V17a.75.75 0 01-1.5 0v-4.5a.75.75 0 01.75-.75z"
+                                                                  fill="#5A5E66"></path>
+                                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-1.5 0a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"
+                                                                  fill="#5A5E66"></path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="MuiBox-root css-1t81pc5" style="display: flex;-webkit-box-align: center;align-items: center;">
+                                                <div class="MuiBox-root css-milwrh"
+                                                     style="display: flex;-webkit-box-align: center;align-items: center;-webkit-box-pack: center;justify-content: center;/* width: 1.125rem; *//* height: 1.125rem; */background-color: rgb(204, 195, 255);border-radius: 50%;padding: 0.0625rem;">
+                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                         class="css-0">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                                              d="M19.707 6.793a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4.5-4.5a1 1 0 111.414-1.414L11 14.086l7.293-7.293a1 1 0 011.414 0z"
+                                                              fill="#5A5E66"></path>
+                                                    </svg>
+                                                </div>
+                                                <p class="MuiTypography-root MuiTypography-body1 css-1ro2p8g">Bank Account</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="css-autocomplete"></div>
+
+</body>
+
+</html>

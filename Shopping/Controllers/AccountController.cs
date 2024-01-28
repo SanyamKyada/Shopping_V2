@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Shopping.Enums;
 using Shopping.Models.Domain;
 using Shopping.Models.DTO;
+using Shopping.Models.ViewModels;
 using Shopping.Repositories.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
@@ -37,7 +38,7 @@ namespace Shopping.Controllers
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            return View();
+            return View("Login", new Vm_LoginRegister() { IsRegister = true});
         }
         public async Task<IActionResult> Register(RegistrationModel model)
         {
@@ -71,21 +72,15 @@ namespace Shopping.Controllers
             /*return Ok(result.Message);*/
             if (result.StatusCode == 1)
             {
-                return RedirectToAction("Index", "Home");
+                return Json(new { from = "register", HttpStatusCode = 200});
             }
             else
             {
-                TempData["msg"] = "Registration Failed..";
-                return RedirectToAction(nameof(Login));
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return Json(new { Message = result.Message ?? "Registration failed", HttpStatusCode = HttpStatusCode.Unauthorized });
             }
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        public IActionResult GetLoginPopup()
-        {
-            return PartialView("_LoginPartial");
-        }
         [HttpGet]
         public IActionResult GetWelcomePopup()
         {
@@ -95,16 +90,27 @@ namespace Shopping.Controllers
         [HttpGet]
         public IActionResult Login(string ReturnUrl)
         {
-            return View(new LoginModel() {ReturnUrl = ReturnUrl });
+            var model = new Vm_LoginRegister() { ReturnUrl = ReturnUrl };
+            if (ReturnUrl != null && ReturnUrl.Contains("Supplier"))
+            {
+                return View("SupplierLogin", model);
+            }
+            return View(model);
         }
+
+        [HttpGet]
+        public IActionResult SupplierLogin(Vm_LoginRegister model)
+        {
+            return View(model);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if (model.Username is null && model.Password is null)
+            if (model.Email is null || model.Password is null)
             {
                 return View(model);
             }
-            HttpContext.Session.SetString("user", model.Username);
 
             try
             {
@@ -112,7 +118,7 @@ namespace Shopping.Controllers
                 if (result.StatusCode == 1)
                 {
                     // Get the user
-                    var user = await _userManager.FindByNameAsync(model.Username);
+                    var user = await _userManager.FindByNameAsync(model.Email);
 
                     //Get the role
                     var roles = await _userManager.GetRolesAsync(user);
@@ -121,7 +127,7 @@ namespace Shopping.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id),
-                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Name, user.Name),
                         new Claim("securityStamp", user.SecurityStamp)
                     };
                     if (roles.Contains("Admin"))
@@ -156,7 +162,7 @@ namespace Shopping.Controllers
                 else
                 {
                     Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                    return Json(new { Message = "Could not logged in..", HttpStatusCode = HttpStatusCode.Unauthorized });
+                    return Json(new { Message = result.Message ?? "Could not logged in", HttpStatusCode = HttpStatusCode.Unauthorized });
                 }
 
             }
@@ -178,16 +184,16 @@ namespace Shopping.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult GoogleLogin(UserRole role)
+        public IActionResult GoogleLogin(UserRole role, string returnUrl)
         {
-            string redirectUrl = Url.Action("GoogleResponse", "Account", new { role = role});
+            string redirectUrl = Url.Action("GoogleResponse", "Account", new { role = role, returnUrl = returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
             
             return new ChallengeResult("Google", properties);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> GoogleResponse(UserRole role)
+        public async Task<IActionResult> GoogleResponse(UserRole role, string returnUrl)
         {
             ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -195,9 +201,7 @@ namespace Shopping.Controllers
 
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false); // is present => false
             string[] userInfo = { info.Principal.FindFirst(ClaimTypes.Name).Value, info.Principal.FindFirst(ClaimTypes.Email).Value }; //principal => gets or sets security claims
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
-            else
+            if (!result.Succeeded)
             {
                 ApplicationUser user = new ApplicationUser
                 {
@@ -207,27 +211,33 @@ namespace Shopping.Controllers
                 };
 
                 IdentityResult identResult = await _userManager.CreateAsync(user);
+                if (!identResult.Succeeded)
+                {
+                    return AccessDenied();
+                }
+
+                if (!await _roleManager.RoleExistsAsync(role.ToString()))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(role.ToString()));
+                }
+
+                if (await _roleManager.RoleExistsAsync(role.ToString()))
+                {
+                    await _userManager.AddToRoleAsync(user, role.ToString());
+                }
+
+                identResult = await _userManager.AddLoginAsync(user, info);
                 if (identResult.Succeeded)
                 {
-                    if (!await _roleManager.RoleExistsAsync(role.ToString()))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(role.ToString()));
-                    }
-
-                    if (await _roleManager.RoleExistsAsync(role.ToString()))
-                    {
-                        await _userManager.AddToRoleAsync(user, role.ToString());
-                    }
-
-                    identResult = await _userManager.AddLoginAsync(user, info);
-                    if (identResult.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, false);
-                        return RedirectToAction("Index", "Home");
-                    }
+                    await _signInManager.SignInAsync(user, false);
+                    //return RedirectToAction("Index", "Home");
                 }
-                return AccessDenied();
             }
+            if (returnUrl != null && returnUrl.Contains("Supplier"))
+            {
+                return RedirectToAction("Index", "Supplier");
+            }
+            return RedirectToAction("Index", "Home");
 
         }
     }

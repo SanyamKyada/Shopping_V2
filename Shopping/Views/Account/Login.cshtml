@@ -1,98 +1,107 @@
-﻿@using Shopping.Enums;
-@model Shopping.Models.DTO.LoginModel
-@{
+﻿@using Shopping.Enums
+@using Shopping.Models.ViewModels;
+@model Vm_LoginRegister;
 
+@section Styles {
+    <link href="~/css/custom-mvc/login.css" rel="stylesheet" />
 }
 
-<style>
-    .bg-image-vertical {
-        position: relative;
-        overflow: hidden;
-        background-repeat: no-repeat;
-        background-position: right center;
-        background-size: auto 100%;
-    }
-
-    .paragraph-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-
-</style>
-
-<link href="~/css/custom-mvc/login.css" rel="stylesheet" />
-
-<section class="vh-100">
-    <div class="container-fluid" id="login-container">
-        <div class="row">
-            <div class="col-sm-6 text-black">
-
-                <div class="px-5 ms-xl-4" style="margin-top:20px;margin-bottom:-20px;">
-                    <i class="fas fa-crow fa-2x me-3 pt-5 mt-xl-4" style="color: #709085;"></i>
-                    <span class="h1 fw-bold mb-0">
-                        <img class="manImg" src="~/images/minilogo.png" hight="100px" width="150px" style="margin-left:85px;"></img>
-                    </span>
-                </div>
-
-                <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-
-                    <form id="LoginForm" style="width: 23rem;">
-                        <input type="hidden" asp-for="ReturnUrl">
-                        <input type="hidden" name="loginScenario" value="@Shopping.Enums.LoginScenario.PageLogin">
-
-                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
-
-                        <div class="form-outline mb-4">
-                            <input type="text" id="username" asp-for="Username" class="form-control form-control-lg">
-                            <label class="form-label" for="Username">User Name</label>
-                        </div>
-
-                        <div class="form-outline mb-4">
-                            <input type="password" name="password" value="" id="password1" asp-for="Password" class="form-control form-control-lg">
-                            <label class="form-label" for="password">Password</label>
-                            <div class="form-outline"><i class="fa fa-eye-slash" style="font-size: 20px;" id="eye-toggle"></i></div>
-                        </div>
-
-                        <span id="userError" class="fw-normal mb-3 pb-3 text-danger" style="letter-spacing: 0.5px;"></span>
-
-                        <div class="pt-1 mb-4">
-                            <div class="form-outline mb-4">
-                                <input id="loginBtn2" class="btn btn-dark btn-lg btn-block" type="submit" style="width:370px;" />
+<div class="container_16">
+    <div style="margin-top:50px; margin-bottom:100px; display:flex;">
+        <div style="width:50%;">
+            <div class="signup-box" style="background-color:#fff;color:#4a4d55;font-size:14px;">
+                <div class="modal-body">
+                    <div>
+                        <div class="modal-header relative" style="border:none;position:relative;padding:15px;">
+                            <div class="display-block header-back-button" style="margin:auto;">
+                                <h3 id="joinFree" class="hide-intelligence signup-popup-title font-family-librebaskerville" style="text-align: center; font-size: 20px;font-weight: normal; line-height: 1.4; color: #131721; margin: 0.5em 0; padding: 10px 0;margin-bottom: 0; margin-top: 5px; padding-right: 0;">@(Model.IsRegister ? "Join Shopping (FREE!)" : "Log in to your account")</h3>
                             </div>
                         </div>
+                        <div class="modal-body">
+                            <form class="sign-up-form" id="signupForm" style="display: block;">
+                                <div class="form-group">
+                                    <a class="btn btn-2 google-plus-btn social-btn-text" href="@Url.Action("GoogleLogin", "Account", new { role = UserRole.Supplier, returnUrl = Model.ReturnUrl })">
+                                        <img src="/images/google_logo.png">
+                                        @(Model.IsRegister ? "Sign up with Google" : "Sign in with Google")
+                                    </a>
+                                </div>
+                                <div class="hr-lines">or</div>
+                                <div class="form-group">
+                                    <div class="font-size-14">Email</div>
+                                    <div class="input-button">
+                                        <input type="email" name="Email" class="default high input-btn-field" id="submitInputEmail1" placeholder="e.g. johndawny@company.com" tabindex="1" required="" autofocus="">
+                                    </div>
+                                    <label id="submitInputEmail1-error" class="error" for="submitInputEmail1" hidden="">This field is required.</label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="font-size-14">Password</div>
+                                    <div class="input-button">
+                                        <input type="password" minlength="7" name="Password" class="default high input-btn-field" id="txtSignupPassword" autocomplete="new-password" placeholder="Password at least 7 characters" tabindex="2" required="">
+                                        <button id="showHidePassword" type="button" class="input-btn-icon"><i id="eye-icon" class="fa fa-eye-slash"></i></button>
+                                    </div>
+                                    <label id="txtSignupPassword-error" class="error" for="txtSignupPassword" hidden="">This field is required.</label>
+                                </div>
+                                @if (Model.IsRegister)
+                                {
+                                    <div class="form-group">
+                                        <div class="font-size-14">Full Name</div>
+                                        <div>
+                                            <input type="text" name="Name" class="default high input-field" placeholder="e.g. John Dawny" required="" maxlength="50" tabindex="3">
+                                        </div>
+                                    </div>
+                                    <label id="txtSignupName-error" class="error" for="txtSignupPassword" hidden="">This field is required.</label>
+                                }
+                                @* <div class="form-group">
+                                <div class="font-size-14">Last Name</div>
+                                <input type="text" name="userLastName" class="default high input-field" placeholder="e.g. Dawny" required="" maxlength="50" tabindex="4">
+                                </div> *@
 
-                        <span id="loginErrorMessage" class="text-danger"></span>
-
-                        <div class="paragraph-container">
-                            <p class="small pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
-                            <p>Don't have an account? <a href="#!" class="link-info">Register here</a></p>
-                        </div>
-
-                        <!--Google-->
-                        <div class="login-separator">
-                            <hr style="">
-                            <span>or</span>
-                            <hr>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a class="btn btn-lg btn-google-grey-bg btn-block text-uppercase btn-outline" href="/Account/GoogleLogin"><img src="/images/google_logo.png" height="11%" width="11%"> Signin Using Google</a>
-
+                                <div style="padding-top:0;" class="form-messages"></div>
+                                <div class="form-group"> <div type="submit" id="btnSubmitReg" class="btn btn-1 btn-dusty-rose" tabindex="5">@(Model.IsRegister ? "Sign up" : "Sign in")</div> </div>
+                                @* <div class="g-recaptcha col-xs-12 no-padding-left" data-size="invisible" data-sitekey="6LfV714UAAAAACeEAaHCnhTf-mUwBW2MjsOvBkkk" data-callback="sendRegistration"><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-ntwb19vgwmjx" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LfV714UAAAAACeEAaHCnhTf-mUwBW2MjsOvBkkk&amp;co=aHR0cHM6Ly93d3cubXV0dWFsYXJ0LmNvbTo0NDM.&amp;hl=gu&amp;v=QUpyTKFkX5CIV6EF8TFSWEif&amp;size=invisible&amp;cb=6y4hybt92pft"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div> *@
+                                <input type="hidden" id="role" name="Role" value="User">
+                                @if (Model.ReturnUrl != null)
+                                {
+                                    <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl">
+                                }
+                            </form>
+                            <div id="signupText" @(Model.IsRegister ? "" : "hidden")>
+                                <p class="buttons-description">By clicking, you accept the <a target="_blank" href="/Static/TermOfUse">Terms of Service</a> and confirm that you have read the <a target="_blank" href="/Static/PrivacyPolicy">Privacy Policy</a>.</p>
+                                <p class="par-with-cta">ALREADY REGISTERED? <a class="cta" href="/Account/Login">LOG IN</a></p>
+                            </div>
+                            <div id="loginText" @(Model.IsRegister ? "hidden" : "")>
+                                <p class="forgot-pw popup" id="forgotPassword"><a href="" data-toggle="modal" data-dismiss="modal" data-target="#forgotPassword">Forgot your password?</a></p>
+                                <p class="par-with-cta">DON'T HAVE AN ACCOUNT? <a class="cta" href="/Account/Register">SIGN UP</a></p>
                             </div>
                         </div>
-                        <br>
-
-                    </form>
-
+                        <input id="isRegisterEvent" type="hidden" value="@(Model.IsRegister ? "true" : "false")">
+                    </div>
                 </div>
-
             </div>
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-                <img src="~/images/login_modal.jpg" alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem; " />
+        </div>
+        <div style="width:50%;">
+            <div class="signup-box background-lightest-gray" style="height:100%">
+                <div class="modal-body">
+                    <div id="description" style="margin: 0px 10px;">
+                        <h3 style="margin-top:20px" class="text-align-center font-family-librebaskerville">
+                            Discover the Difference at Shopping<br>
+                        </h3>
+                        <h4 class="margin-top-25">Join over 1 Million members to continue using the most comprehensive shopping service online. It’s quick and easy.</h4>
+                        <ul class="icon-list text-russian-black margin-top-25">
+                            <li><i class="m-icon-search-img"><img src="~/images/icons/search.png" /></i><strong>Browse over 71,900 product profiles</strong> to discover their features, reviews, and updates.</li>
+                            <li><i class="m-icon-envelope-bell"><img src="~/images/icons/product-return.png" /></i> our <strong>lightning-fast shipping</strong> and dedicated support team, we're committed to making your shopping experience seamless and enjoyable.</li>
+                            <li><i class="m-icon-image"><img src="~/images/icons/women.png" /></i> Join the <strong>thousands of satisfied customers</strong> who choose us for all their shopping needs.</li>
+                        </ul>
+                        <p class="margin-top-25">
+                            Explore our extensive selection and see why we're the best choice for all your shopping needs.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+@section scripts {
+    <script src="~/js/custom-mvc/register.js"></script>
+}

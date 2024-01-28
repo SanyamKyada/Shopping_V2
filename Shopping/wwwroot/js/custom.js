@@ -134,7 +134,6 @@ $(document).ready(function () {
 });
 
 function setImageHeigthWidth(elem) { // will recive element(container) in which image will be loaded
-    debugger
     var imageWidth = $(elem).find('img').width();
     var imageHeigth = $(elem).find('img').height();
     var maxWidth = $(elem).width();

@@ -1,0 +1,237 @@
+﻿.modal-body {
+    padding: 20px;
+    position: relative;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+div.signup-box form {
+    max-width: 405px;
+    margin: auto;
+}
+
+div.signup-box .form-group {
+    margin-bottom: 18px;
+}
+
+.font-size-14 {
+    font-size: 14px;
+}
+
+.input-button {
+    display: flex;
+    border-bottom: 1px solid !important;
+    border-color: #bfbfbf !important;
+}
+
+    .input-button #submitInputEmail1, .input-button #txtSignupPassword {
+        color: #aaa;
+        padding-left: 0;
+        padding-right: 0;
+        border: none;
+        height: 40px;
+        width: 100%;
+        font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+        background-color: #fff;
+        border-radius: 0 !important;
+        border-color: #bfbfbf;
+        font-size: 14px;
+    }
+
+        .input-button #submitInputEmail1:focus, .input-button #txtSignupPassword:focus, .input-field:focus {
+            border-bottom: 1px solid #007bff;
+            box-shadow: none;
+            outline: 0;
+            background-color: #ebebeb;
+        }
+
+    .input-button input.error, input.input-field.error {
+        border-bottom: 1px solid red !important;
+    }
+
+        .input-button input.error::placeholder, input.input-field.error::placeholder, .form-messages {
+            color: red !important;
+        }
+
+.input-field {
+    padding-left: 0;
+    padding-right: 0;
+    border: none;
+    height: 40px;
+    border-bottom: 1px solid;
+    border-color: #bfbfbf;
+    width: 100%;
+    font-size: 14px;
+    color: #3b3a3a;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+
+.input-button .input-btn-icon {
+    border: none;
+    background-color: #fff;
+    outline: none;
+}
+
+div.signup-box .btn-1 {
+    font-family: "lato","Moderat","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px !important;
+    letter-spacing: 1.2px;
+    font-weight: normal;
+    text-transform: uppercase;
+    height: 55px;
+    font-size: 16px;
+    line-height: 43px;
+    width: 100%;
+    color: #fff !important;
+    background-color: #6dc9d8;
+    border-color: #6dc9d8;
+    transition: all .2s;
+    border-radius: 0;
+}
+
+.btn.btn-1:hover {
+    text-decoration: underline;
+}
+
+#signupText {
+    max-width: 405px;
+    margin: auto;
+}
+
+div.signup-box .buttons-description {
+    font-size: 12px;
+    text-align: center;
+}
+
+div.signup-box .par-with-cta {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: "lato","Moderat","Helvetica Neue",Helvetica,Arial,sans-serif;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+a {
+    color: #3a3a3a;
+    text-decoration: none;
+    color: #0a58ca;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+.background-lightest-gray {
+    background-color: #f8f8f8;
+}
+
+.font-family-librebaskerville {
+    font-family: Libre Baskerville;
+    font-variant-ligatures: no-common-ligatures;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+#description h4 {
+    font-size: 18px;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: "Lato",Baskerville,Georgia,serif;
+    font-weight: normal;
+    line-height: 1.4;
+    color: #131721;
+    margin: 0.5em 0;
+    padding: 10px 0;
+}
+
+#description ul, #description p {
+    font-size: 16px;
+}
+
+ul.icon-list {
+    padding: 0;
+    margin: 20px 0;
+    list-style: none;
+}
+
+.text-russian-black {
+    color: #131721;
+}
+
+ul.icon-list li {
+    padding-left: 40px;
+    position: relative;
+    margin-bottom: 13px;
+    line-height: 22px;
+}
+
+    ul.icon-list li i {
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        font-size: 28px;
+        color: #cf6766;
+    }
+
+#description li {
+    margin-left: 0;
+}
+
+.hr-lines {
+    position: relative;
+    margin: 20px auto;
+    text-align: center;
+}
+
+    .hr-lines::before, .hr-lines::after {
+        content: " ";
+        display: block;
+        height: 1px;
+        width: 180px;
+        position: absolute;
+        top: 50%;
+        background: #a9a9a9;
+    }
+
+    .hr-lines::before {
+        left: 0;
+    }
+
+    .hr-lines::after {
+        right: 0;
+    }
+
+.social-btn-text {
+    background-color: #fff;
+    color: black;
+    border-color: #eee;
+    box-shadow: 0 0 4px 0 #eee;
+    border-radius: 3px;
+    width: 100%;
+}
+
+    .social-btn-text img {
+        height: 60%;
+        width: 10%;
+        margin-bottom: 5px;
+        margin-right: 5px;
+    }
+
+#btnSubmitReg {
+    margin-top: 10px;
+}

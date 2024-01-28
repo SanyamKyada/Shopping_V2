@@ -34,7 +34,7 @@ namespace Shopping.Controllers
         {
             if (!User.IsInRole("Supplier"))
             {
-                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Supplier/Index" });
+                return RedirectToAction("SupplierLogin", "Account", new { ReturnUrl = "/Supplier/Index" });
             }
 
             return View();

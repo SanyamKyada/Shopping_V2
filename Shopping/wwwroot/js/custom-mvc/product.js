@@ -34,7 +34,7 @@ $('#addToCartBtn').click(function (e) {
 
     var uName = $("#userName").val();
     if (!uName) {
-        showLoginPopup();
+        window.location.pathname = '/Account/Login';
         return;
     }
 
@@ -144,7 +144,7 @@ $('[id^="reviewsubmit-"]').click(function (e) {
     var uName = $("#userName").val();
 
     if (!uName) {
-        showLoginPopup();
+        window.location.pathname = '/Account/Login';
         return;
     }
 
@@ -183,33 +183,4 @@ const sortCartItems = (e) => {
     });
 
     $cardContainer.empty().append($cards);
-}
-
-//$("#reviewsubmit").click(function (e) {
-//    e.preventDefault();
-//    var uName = $("#userName").val();
-//    var id = $(this).attr('id').split('-')[1];
-//    var selector = window.location.href.split('/')[7];
-//    $("#selectorId").val(selector);
-//    $("#formReview").trigger('submit');
-//});
-
-function showLoginPopup() {
-    $.ajax({
-        type: "GET",
-        url: "/Account/GetLoginPopup",
-        success: function (result) {
-            $("#login-popup").html(result);
-            loginAction();
-            onEyeToggle();
-            $("#login-popup").modal('show');
-            $("#username").val("");
-            $("#password1").val("");
-            $("#loginErrorMessage").text("");
-        },
-        error: function (result) {
-            alert("err");
-            console.log("Error");
-        }
-    });
 }

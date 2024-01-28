@@ -1,7 +1,6 @@
 ﻿@using Shopping.Models.DTO;
 @using System.Security.Claims;
 
-@*@await Html.PartialAsync("_LoginPartial", new LoginModel())*@
 @{
     bool isAuthenticated = User.Identity.IsAuthenticated;
     string controller = ViewContext.RouteData.Values["controller"].ToString();
@@ -48,7 +47,7 @@
 <body>
     <header>
 
-        @if (!(controller.Equals("Account") && action.Equals("Login")))
+        @if (!(controller.Equals("Account") && action.Equals("SupplierLogin")))
         {
             <div class="header">
                 <div class="container_16">
@@ -66,12 +65,7 @@
                         <!--- Partial view of Login-Register --->
                         @if (string.IsNullOrEmpty(User.Identity.Name))
                         {
-                            <a href="javascript:;" id="login-btn" class="loginregister">&nbsp;</a>
-                            <div class="modal fade" id="login-popup" role="dialog">
-                                <div class="modal-dialog">
-                                </div>
-                            </div>
-
+                            <a href="@Url.Action("Login", "Account")" id="login-btn" class="loginregister">&nbsp;</a>
                         }
                     </div>
                     <input type="hidden" id="userNm" value=@User.Identity.Name />
@@ -83,7 +77,7 @@
                     <!--- Partial view of Menu --->
                     @Html.Partial("_MenuPartial")
 
-                    @if (!(controller.Equals("Account") && action.Equals("Register")))
+                    @if (!(controller.Equals("Account") && (action.Equals("Login") || action.Equals("Register"))))
                     {
                         <div class="grid_16 main">
                             <div class="smallmenu">
@@ -123,7 +117,7 @@
     </div>
 
     <!-- footer section -->
-    @if (!(controller.Equals("Account") && action.Equals("Login")))
+    @if (!(controller.Equals("Account") && action.Equals("SupplierLogin")))
     {
         <!-- sub-footer section start-->
         <div class="subfooter">

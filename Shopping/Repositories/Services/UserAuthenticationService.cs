@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Shopping.Models.Domain;
 using Shopping.Models.DTO;
 using Shopping.Repositories.Infrastructure;
@@ -25,11 +24,11 @@ namespace Shopping.Repositories.Services
         public async Task<Status> LoginAsync(LoginModel model)
         {
             var status = new Status();
-            var user = await _userManager.FindByNameAsync(model.Username);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 status.StatusCode = 0;
-                status.Message = "Invalid userName";
+                status.Message = "Invalid UserName";
                 return status;
             }
 
@@ -76,7 +75,7 @@ namespace Shopping.Repositories.Services
         public async Task<Status> RegisterAsync(RegistrationModel model)
         {
             var status = new Status();
-            var userExists = await _userManager.FindByNameAsync(model.Username);
+            var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
             {
                 status.StatusCode = 0;
@@ -87,7 +86,7 @@ namespace Shopping.Repositories.Services
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username,
+                UserName = model.Email,
                 Name = model.Name,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true

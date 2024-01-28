@@ -1,41 +1,4 @@
 ﻿/*-------------------------------------------------------------------------------------------------------------------------------|
-|                                        _LoginPartial.cshtml  &  Login.cshtml                                                   |
-|<------------------------------------------------------------------------------------------------------------------------------*/
-
-#login-popup .modal-content {
-    background-color: transparent;
-    border: 0;
-}
-
-#LoginForm .login-separator,
-#LoginForm_Popup .login-separator {
-    display: flex;
-    justify-content: space-around;
-}
-
-    #LoginForm .login-separator hr,
-    #LoginForm_Popup .login-separator hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        width: 40%;
-        display: inline-block;
-    }
-
-    #LoginForm .login-separator span,
-    #LoginForm_Popup .login-separator span {
-        font-size: 16px;
-        color: #555;
-        padding-top: 6px;
-    }
-
-#login-container .manImg {
-    opacity: 0.2;
-}
-
-
-/*-------------------------------------------------------------------------------------------------------------------------------|
 |                                                _WelcomePartial.cshtml                                                          |
 |<------------------------------------------------------------------------------------------------------------------------------*/
 
