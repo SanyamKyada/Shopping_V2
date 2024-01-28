@@ -24,6 +24,7 @@ namespace Shopping.Repositories.Services
             var products = await _context.Products
                 .Include(p => p.SKUs)
                 .Where(p => p.CategoryId == categoryId)
+                .OrderByDescending(x => x.Id)
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

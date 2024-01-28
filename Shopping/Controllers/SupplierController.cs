@@ -7,6 +7,7 @@ using System.Text.Json;
 
 namespace Shopping.Controllers
 {
+    //[Authorize(Roles = "Supplier")]
     public class SupplierController : Controller
     {
         private readonly IMenuService _menuService;
@@ -17,10 +18,11 @@ namespace Shopping.Controllers
         private readonly ISKUAttributeService _skuAttrService;
         private readonly IWebHostEnvironment _enviorment;
 
-        public SupplierController(IMenuService menuService, IAttributeService attrService, IProductService productService, IVariantsService variantsService, IProductImageService imageService, IWebHostEnvironment enviorment)
+        public SupplierController(IMenuService menuService, IAttributeService attrService, IProductService productService, ISKUAttributeService skuAttrService, IVariantsService variantsService, IProductImageService imageService, IWebHostEnvironment enviorment)
         {
             _menuService = menuService;
             _attrService = attrService;
+            _skuAttrService = skuAttrService;
             _productService = productService;
             _variantService = variantsService;
             _imageService = imageService;
@@ -30,6 +32,11 @@ namespace Shopping.Controllers
         [Authorize]
         public IActionResult Index()
         {
+            if (!User.IsInRole("Supplier"))
+            {
+                return RedirectToAction("Login", "Account", new { ReturnUrl = "/Supplier/Index" });
+            }
+
             return View();
         }
 
@@ -52,7 +59,7 @@ namespace Shopping.Controllers
             {
                 Name = model.ProductName,
                 CategoryId = model.CategoryId,
-                AspectRatioCssClass = ""
+                AspectRatioCssClass = "ratio3by2"
             };
             _productService.Insert(product);
             _productService.Save();
@@ -78,7 +85,7 @@ namespace Shopping.Controllers
                     Colour = productColors.FirstOrDefault(c => c.Id == model.Variants[i].ColorId).Name,
                     Style = model.Variants[i].Style,
                     Description = model.Variants[i].Description,
-                    IsMain = encounteredColorIds.Contains(model.Variants[i].ColorId),
+                    IsMain = !encounteredColorIds.Contains(model.Variants[i].ColorId), // Logic not working. Need to test & debug
                     CreatedDate = DateTime.Now,
                     CommonSkuId = 0
                 };
@@ -116,8 +123,8 @@ namespace Shopping.Controllers
             }
             _skuAttrService.Save();
 
-            string wwwPath = _enviorment.WebRootPath; //"D:\\Sanyam\\Playground\\Shopping_V2\\Shopping\\wwwroot"
-            string path = Path.Combine(_enviorment.WebRootPath, rootPath);
+            string wwwPath = _enviorment.WebRootPath;
+            string path = string.Concat(_enviorment.WebRootPath, rootPath);
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);

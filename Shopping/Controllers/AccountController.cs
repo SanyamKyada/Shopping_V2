@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Session;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Shopping.Enums;
 using Shopping.Models.Domain;
 using Shopping.Models.DTO;
 using Shopping.Repositories.Infrastructure;
@@ -180,15 +178,16 @@ namespace Shopping.Controllers
         }
 
         [AllowAnonymous]
-        public IActionResult GoogleLogin()
+        public IActionResult GoogleLogin(UserRole role)
         {
-            string redirectUrl = Url.Action("GoogleResponse", "Account");
+            string redirectUrl = Url.Action("GoogleResponse", "Account", new { role = role});
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            
             return new ChallengeResult("Google", properties);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IActionResult> GoogleResponse(UserRole role)
         {
             ExternalLoginInfo info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
@@ -210,11 +209,21 @@ namespace Shopping.Controllers
                 IdentityResult identResult = await _userManager.CreateAsync(user);
                 if (identResult.Succeeded)
                 {
+                    if (!await _roleManager.RoleExistsAsync(role.ToString()))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(role.ToString()));
+                    }
+
+                    if (await _roleManager.RoleExistsAsync(role.ToString()))
+                    {
+                        await _userManager.AddToRoleAsync(user, role.ToString());
+                    }
+
                     identResult = await _userManager.AddLoginAsync(user, info);
                     if (identResult.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, false);
-                        return View(userInfo);
+                        return RedirectToAction("Index", "Home");
                     }
                 }
                 return AccessDenied();

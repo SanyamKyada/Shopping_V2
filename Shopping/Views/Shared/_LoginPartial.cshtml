@@ -1,4 +1,5 @@
-﻿@model Shopping.Models.DTO.LoginModel
+﻿@using Shopping.Enums
+@model Shopping.Models.DTO.LoginModel
 @{
 
 }
@@ -67,7 +68,7 @@
 
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="/Account/GoogleLogin"><img src="/images/google_logo.png" height="11%" width="11%"> Signin Using Google</a>
+                                                <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="@Url.Action("GoogleLogin", "Account", new{role = UserRole.Consumer})"><img src="/images/google_logo.png" height="11%" width="11%"> Signin Using Google</a>
 
                                             </div>
                                         </div>

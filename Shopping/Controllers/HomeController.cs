@@ -1,16 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Shopping.Models;
-using Shopping.Models.DTO;
 using Shopping.Models.ViewModels;
-using Shopping.Repositories.Infrastructure;
-using System.Diagnostics;
 using static Shopping.Models.Domain.DatabaseContexct;
 
 namespace Shopping.Controllers
 {
-
     public class HomeController : Controller
     {
         // private readonly IMenuRepo _menuRepo;

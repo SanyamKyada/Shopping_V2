@@ -522,7 +522,7 @@ $btnSaveVarient.click(function () {
     });
 
     if (saveSuccess) {
-        $('#skuDiv').find('.varients-outer').find('input,select,textarea').attr('disabled', true);
+        /*$('#skuDiv').find('.varients-outer').find('input,select,textarea').attr('disabled', true);*/
         $('#skuDiv').addClass('variants-saved');
         //$('#variantsDetailFormError').text('');
 
@@ -559,21 +559,24 @@ $("#btnSkuFormSubmit").click(function () {
         inp.val(JSON.stringify(result));
     })
 
-    $(".form-sku").submit();
+    //$(".form-sku").submit();
     // below code not getting images in controller
-    //const formData = $(".form-sku").serialize();
-    //$.ajax({
-    //    url: '/Supplier/AddNewProduct',
-    //    type: 'POST',
-    //    data: formData,
-    //    success: function (response, textStatus, xhr) {
-    //        //$('#userError').hide();
-    //        toastMessage(response.message ?? "Changes saved successfully.");
-    //    },
-    //    error: function (xhr, Message) {
-    //        console.log("error in saving product's data.");
-    //    }
-    //});
+    const formData = new FormData($(".form-sku")[0]);
+    $.ajax({
+        url: '/Supplier/AddNewProduct',
+        type: 'POST',
+        data: new FormData($('.form-sku')[0]),
+        processData: false,
+        contentType: false,
+        data: formData,
+        success: function (response, textStatus, xhr) {
+            //$('#userError').hide();
+            toastMessage(response.message ?? "Changes saved successfully.");
+        },
+        error: function (xhr, Message) {
+            console.log("error in saving product's data.");
+        }
+    });
 });
 
 

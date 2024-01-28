@@ -1,12 +1,9 @@
 ﻿@using Shopping.Models.DTO;
+@using System.Security.Claims;
 
 @*@await Html.PartialAsync("_LoginPartial", new LoginModel())*@
 @{
-    if (User.Identity.IsAuthenticated)
-    {
-        string username = User.Identity.Name;
-        // Do something with the username
-    }
+    bool isAuthenticated = User.Identity.IsAuthenticated;
     string controller = ViewContext.RouteData.Values["controller"].ToString();
     string action = ViewContext.RouteData.Values["action"].ToString();
 }
@@ -92,8 +89,10 @@
                             <div class="smallmenu">
                                 <ul>
                                     <li><a href="#" class="myacc">My Account</a></li>
-                                    <li><a href="./cart.html" class="myshop">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html" class="mycheck">Checkout</a></li>
+                                    <li>
+                                        <a href="@Url.Action("ViewCart", "Cart", new {UserId = isAuthenticated ? User.FindFirst(ClaimTypes.NameIdentifier).Value : null})" class="myshop">Shopping Cart</a>
+                                    </li>
+                                    <li><a href="#" class="mycheck">Checkout</a></li>
                                 </ul>
                             </div>
                             <div class="lines"></div>
@@ -200,7 +199,7 @@
             <!--Cookie consent-->
             <div id="cookieConsent" class="alert alert-warning alert-dismissible fade show" role="alert">
                 We use cookies to improve your browsing experience on our site. Click "Accept" to consent to the use of cookies.
-                <button id="acceptCookieButton" type="button" class="btn btn-sm btn-primary ml-2" onclick="setCookie('cookieConsent', 'true', 365);$('#cookieConsent').remove();">Accept</button>
+                <button id="acceptCookieButton" type="button" class="btn btn-sm btn-primary ml-2">Accept</button>
             </div>
         </div>
     }

@@ -1,6 +1,17 @@
 ﻿@using System.Security.Claims;
 @model Shopping.Models.ViewModels.Vm_ProductDetail
 
+@{
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+    string userName; string userId = ""; string securityStamp = "";
+    if (isAuthenticated)
+    {
+        userName = User.FindFirst(ClaimTypes.Name).Value;
+        userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        securityStamp = User.FindFirst("AspNet.Identity.SecurityStamp").Value;
+    }
+}
+
 @functions {
     int i = 0;
     public async Task DisplayReviews(int parentId = 0, int level = 0)
@@ -14,42 +25,36 @@
 
         foreach (var review in parentReviews)
         {
-                <div style="padding-left: @(level * 20)px">
-                    <span class="user">@review.User</span> (@review.reviewDate.Date.ToShortDateString())
-                    <div class="reviewtext">
-                        @review.Text
-                        <div id="review-open-@i"><a><i class="fa fa-reply"> reply</i></a></div>
-                        <form id="formReview-@i" class="review" asp-action="ReviewSubmit" asp-controller="Product" method="post">
-                            <div class="review" id="review-form-@i" style="display:none">
-                                @*<input type="text" placeholder="Your Name" id="reviewname" name="reviewname" />*@
-                                <input type="hidden" id="reviewname" name="reviewname" value="@(Model.currentUserName)" />
-                                <textarea class="reviewarea" id="reviewarea" name="reviewarea" style="width:@(595 - (level*20))px;" placeholder="Your reply"></textarea>
-                                <input type="hidden" name="parentId" value="@(review.Id)">
-                                <input type="hidden" name="productId" value="@(Model._SKU.ProductId)">
-                                <input type="hidden" name="skuTitle" value="@(Model._SKU.Title)">
-                                <input type="hidden" name="skuName" value="@(Model._SKU.SKUName)">
-                                <input type="hidden" name="skuId" value="@(Model._SKU.Id)">
-                                <input type="hidden" name="Selector" id="selectorId-@i">
-                                <input type="button" class="mailsubmit" value="Submit" id="reviewsubmit-@i" name="reviewsubmit" />
-                                <input hidden id="userName" value="@User.Identity.Name" />
-                                <button type="button" id="review-close-@i" class="btn-close" aria-label="Close" style="margin-left:15px; margin-top:15px"></button>
-                            </div>
-                        </form>
-                    </div>
+                    <div style="padding-left: @(level * 20)px">
+                        <span class="user">@review.User</span> (@review.reviewDate.Date.ToShortDateString())
+                        <div class="reviewtext">
+                            @review.Text
+                            <div id="review-open-@i"><a><i class="fa fa-reply"> reply</i></a></div>
+                            <form id="formReview-@i" class="review" asp-action="ReviewSubmit" asp-controller="Product" method="post">
+                                <div class="review" id="review-form-@i" style="display:none">
+                                    @*<input type="text" placeholder="Your Name" id="reviewname" name="reviewname" />*@
+                                    <input type="hidden" id="reviewname" name="reviewname" value="@(Model.currentUserName)" />
+                                    <textarea class="reviewarea" id="reviewarea" name="reviewarea" style="width:@(595 - (level*20))px;" placeholder="Your reply"></textarea>
+                                    <input type="hidden" name="parentId" value="@(review.Id)">
+                                    <input type="hidden" name="productId" value="@(Model._SKU.ProductId)">
+                                    <input type="hidden" name="skuTitle" value="@(Model._SKU.Title)">
+                                    <input type="hidden" name="skuName" value="@(Model._SKU.SKUName)">
+                                    <input type="hidden" name="skuId" value="@(Model._SKU.Id)">
+                                    <input type="hidden" name="Selector" id="selectorId-@i">
+                                    <input type="button" class="mailsubmit" value="Submit" id="reviewsubmit-@i" name="reviewsubmit" />
+                                    <input hidden id="userName" value="@User.Identity.Name" />
+                                    <button type="button" id="review-close-@i" class="btn-close" aria-label="Close" style="margin-left:15px; margin-top:15px"></button>
+                                </div>
+                            </form>
+                        </div>
 
-                </div>
+                    </div>
 
             i++;
             await DisplayReviews(review.Id, level + 1);
             //i++;
         }
     }
-}
-
-@{
-    var userName = User.FindFirst(ClaimTypes.Name).Value;
-    var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-    var securityStamp = User.FindFirst("AspNet.Identity.SecurityStamp").Value;
 }
 
 <style>
@@ -89,6 +94,10 @@
     }
     .relprod li.ratio1by1{
         margin-bottom:48px;
+    }
+
+    .reviewtext a{
+        cursor: pointer;
     }
 
 </style>
@@ -266,38 +275,9 @@
 
                     </div>
                 </div>
-
-                <div>
-                    <!----- Related Products ----->
-                    <div class="shiztitle">
-                        <h2 class="title h2bg">Related Products</h2>
-                    </div>
-                    <ul class="featprod grayprod relprod">
-                        @if (Model != null)
-                        {
-                            foreach (var sku in Model.relatedSKUList)
-                            {
-                                <a href="@Url.Action("ProductDetails", "Product", new{title = sku.Title.Replace(" ", "-"), skuName = sku.SKUName, id = sku.Id, selector = 0})">
-                                <li class="@Model._Product.AspectRatioCssClass">
-                                    <img class="fimg2 ratio1by1" alt="@sku.Title" src="@sku.ThumbImage" hight="90%" width="90%">
-                                    <span class="smalltitle">@sku.Title</span>
-                                    @*<span class="smalldesc">@sku.Description</span>*@
-                                    <span class="onsale"><span class="oldprice">@sku.OldPrice</span>@sku.SellingPrice</span>
-                                </li>
-                                </a>
-                            }
-
-                        }
-                    </ul>
-                </div>
             </div>
         </div>
-
-
-
     }
-
-
 
     <div class="grid_4 righthome">
         <h2 class="title">Categories</h2><div class="shizzley shizzley3"></div>
@@ -342,220 +322,33 @@
             </div>
         </div>
     </div>
+
+    <div>
+        <!----- Related Products ----->
+        <div class="shiztitle">
+            <h2 class="title h2bg">Related Products</h2>
+        </div>
+        <ul class="featprod relprod">
+            @if (Model != null)
+            {
+                foreach (var sku in Model.relatedSKUList)
+                {
+                    <a href="@Url.Action("ProductDetails", "Product", new{title = sku.Title.Replace(" ", "-"), skuName = sku.SKUName, id = sku.Id, selector = 0})">
+                    <li class="@Model._Product.AspectRatioCssClass">
+                        <img class="fimg2 ratio1by1" alt="@sku.Title" src="@sku.ThumbImage" hight="90%" width="90%">
+                        <span class="smalltitle">@sku.Title</span>
+                            @*<span class="smalldesc">@sku.Description</span>*@
+                        <span class="onsale"><span class="oldprice">@sku.OldPrice</span>@sku.SellingPrice</span>
+                    </li>
+                    </a>
+                }
+
+            }
+        </ul>
+    </div>
 </div>
 
 
 @section scripts{
-    <script type="text/javascript">
-        $('#addToCartBtn').click(function (e) {
-            e && e.preventDefault();
-            var CartData = $(this).closest('form').serialize();
-            $.ajax({
-                url: '/Cart/AddToCart',
-                type: 'POST',
-                //dataType: "json",
-                data: CartData,
-                success: function (response) {
-                    $.ajax({
-                        type: "GET",
-                        url: "/Cart/getCartPopup",
-                        data: {UserId:response.userId},
-                        success: function (result2) {
-                            
-                            console.log('reached at inner ajax');
-                            $('#cartModal').html('');
-                            
-                            $("#cartModal").html(result2);
-                            bindCloseEvent();
-                            
-                            $("#cartModal").modal('show');
-                        },
-                        error: function (result2) {
-                            console.log("Error");
-                        }
-                    });
-                },
-                error: function (xhr, status, error) {
-                    console.log('Error:', error);
-                }
-            });
-        });
-
-        const bindCloseEvent = () => {
-            $('#closeCartModal').click(function () {
-                $("#cartModal").modal('hide');
-            });
-        }
-        
-    </script>
-
-    <script>
-        function updateSKU(id, element) {
-
-            $.ajax({
-                url: '/Product/GetSKU',
-                type: 'POST',
-                data: { id: id },
-                success: function (result) {
-                    $("#sku-container").html(result);
-                    window.scrollTo(100, 300)
-                    $(this).removeClass('navigation');
-                    $(this).addClass('activeSKU');
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        // Colour Dropdown
-        function selectColors(e) {
-            var title = "";
-            var skuName = "";
-            for (let i = 0; i < e.currentTarget.options.length; i++) {
-
-                if (e.currentTarget.options[i].dataset.title != undefined)
-                    title = e.currentTarget.options[i].dataset.title.replace(' ', '-');
-                if (e.currentTarget.options[i].dataset.name != undefined)
-                    skuName = e.currentTarget.options[i].dataset.name.replace(' ', '-');
-            }
-            if (title != "" && skuName != " ") {
-                var ProdId = $("#test1").val();
-                var selector = window.location.href.split('/')[7];
-                window.location.href = '/ProductDetails/' + title + '/' + skuName + '/' + ProdId + '/' + selector;
-                window.scrollTo(100, 300);
-            }
-        }
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $('[id^="sku-image-"]').click(function () {
-                var id = $(this).attr('id').split('-')[2];
-                $('#review-form-' + id).show();
-            });
-            for (let i = 0; i < 100; i++) {
-                $("#sku-image-" + i).click(function (e) {
-                    e.preventDefault();
-                    var currentThumb = $(this).attr("src");
-
-                    $(this).attr("src", $(this).closest(".productimages").find(".mainimg img").attr("src"));
-                    $(this).closest(".productimages").find(".mainimg img").attr("src", currentThumb);
-
-                });
-            }
-
-            var productImages = $('.mainimg,.psimages');
-            $.each(productImages, function (i, elem) {
-                setImageHeigthWidth(elem);
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            var id = window.location.href.split('/')[7];
-            if (id != undefined || id != null) {
-                $('.inactiveposts-' + id).css("background", "#f7c34c");
-            }
-            else {
-                $(".inactiveposts-0").css("background", "#f7c34c");
-            }
-        });
-
-        //$(function () {
-        //    $('[id^="inactivepostsId-"]').click(function () {
-        //        var id = $(this).attr('id').split('-')[1];
-        //        $('.inactiveposts-' + id).css("background", "#f7c34c");
-        //    });
-        //});
-
-        $(function () {
-            $('[id^="review-open-"]').click(function () {
-                var id = $(this).attr('id').split('-')[2];
-                $('#review-form-' + id).show();
-            });
-
-            $('[id^="review-close-"]').click(function () {
-                var id = $(this).attr('id').split('-')[2];
-                $('#review-form-' + id).hide();
-            });
-        });
-
-        $('[id^="reviewsubmit-"]').click(function (e) {
-            if ($(this).closest('form').find('.star-rating-control').length > 0) {
-                if ($('input[name="star1"]:checked').length === 0) {
-                    $('#reviewErrorMessage').text("You must give a rating");
-                    return false;
-                }
-            }
-
-            var uName = $("#userName").val();
-
-            if (uName) {
-                e.preventDefault();
-                var id = $(this).attr('id').split('-')[1];
-                var selector = window.location.href.split('/')[7];
-                $("#selectorId-" + id).val(selector);
-                $("#formReview-" + id).trigger('submit');
-            }
-            else {
-                $.ajax({
-                    type: "GET",
-                    url: "/Account/Login",
-                    success: function (result) {
-                        $("#login-popup").html(result);
-                        loginAction();
-                    },
-                    error: function (result) {
-                        alert("err");
-                        console.log("Error");
-                    }
-                });
-                $("#login-popup").modal('show');
-                $("#username").val("");
-                $("#password1").val("");
-                $("#loginErrorMessage").text("");
-            }
-
-        });
-
-        const sortCartItems = (e) => {
-            var selectedValue = e.target.value;
-            var $cardContainer = $('.prd-card-container');
-            var $cards = $cardContainer.children('.card');
-
-            $cards.sort(function (a, b) {
-                var valueA = $(a).data(selectedValue);
-                var valueB = $(b).data(selectedValue);
-
-                if (selectedValue === 'price') {
-                    valueA = parseFloat(valueA);
-                    valueB = parseFloat(valueB);
-                } else if (selectedValue === 'name') {
-                    valueA = valueA.toLowerCase();
-                    valueB = valueB.toLowerCase();
-                }
-
-                if (valueA < valueB) {
-                    return -1;
-                }
-                if (valueA > valueB) {
-                    return 1;
-                }
-                return 0;
-            });
-
-            $cardContainer.empty().append($cards);
-        }
-                //$("#reviewsubmit").click(function (e) {
-                //    e.preventDefault();
-                //    var uName = $("#userName").val();
-                //    var id = $(this).attr('id').split('-')[1];
-                //    var selector = window.location.href.split('/')[7];
-                //    $("#selectorId").val(selector);
-                //    $("#formReview").trigger('submit');
-                //});
-
-    </script>
+    <script src="~/js/custom-mvc/product.js"></script>
 }
