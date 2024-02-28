@@ -5,6 +5,10 @@
     ViewData["Title"] = "Shopping | Supplier";
 
     var supplierName = User.FindFirst(ClaimTypes.Name).Value;
+    if (supplierName.Contains('@'))
+    {
+        supplierName = supplierName.Split('@')[0];
+    }
 }
 
 <style>

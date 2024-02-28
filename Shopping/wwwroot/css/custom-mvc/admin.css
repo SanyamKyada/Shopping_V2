@@ -82,6 +82,119 @@
     padding: 20px 20px 0px 20px;
 }
 
+:root {
+    --primary-color: #009e6c;
+    --border-color: #eee;
+}
+
+.varients-inner .dropdown {
+    position: relative;
+    clear: both;
+}
+
+.dropdown__selected {
+    display: flex;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: box-shadow .3s ease;
+}
+
+    .dropdown__selected::after {
+        top: calc(50% - 2px);
+        right: 10px;
+        border: solid transparent;
+        content: '';
+        height: 0;
+        width: 0;
+        position: absolute;
+        border-top-color: #000;
+        border-width: 4px;
+        margin-left: -4px;
+    }
+
+    .dropdown__selected:hover {
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
+.dropdown__menu {
+    position: absolute;
+    width: 210px;
+    border: 1px solid var(--border-color);
+    border-top: 0;
+    background-color: #fff;
+    z-index: 5;
+    display: none;
+}
+
+.dropdown__menu_items {
+    max-height: 210px;
+    overflow-y: auto;
+}
+
+.dropdown__menu_search {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--border-color);
+    padding: 4px;
+    outline: 0;
+    background-color: #f9f9f9;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    border-radius: 0.1875rem;
+}
+
+.dropdown__menu_searchSpan {
+    padding: 4px;
+    display: block !important;
+    margin-bottom: 0 !important
+}
+
+.dropdown__menu_search:focus {
+    border: 1px solid #aaa;
+    transition: border-color;
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.06), 0 0 5px rgba(19,131,179,.7);
+}
+
+.dropdown__menu_item {
+    padding: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+    .dropdown__menu_item:last-child {
+        border-bottom: 0;
+    }
+
+    .dropdown__menu_item:hover {
+        background-color: var(--border-color);
+    }
+
+    .dropdown__menu_item.selected,
+    .dropdown__menu_item.selected:hover {
+        background-color: #5393ff;
+        color: #fff;
+    }
+
+.dropdown__selected {
+    border: none;
+    height: 30px;
+    background: #FFF;
+    border-radius: 5px;
+    border-bottom: 1px solid #C2CBD2;
+    border-right: 1px solid #C2CBD2;
+    color: #b7b7b7;
+    font-size: 12px;
+    text-indent: 10px;
+    margin-bottom: 20px;
+    float: left;
+    margin-right: 10px;
+    width: 211px;
+}
+
 .dropdown__menu_items::-webkit-scrollbar {
     width: 7px;
 }

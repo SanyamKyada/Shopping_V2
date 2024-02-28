@@ -1,8 +1,9 @@
 ﻿$(document).ready(function () {
     var productImages = $('.mainimg,.psimages');
-    $.each(productImages, function (i, elem) {
-        setImageHeigthWidth(elem);
-    });
+
+    //$.each(productImages, function (i, elem) {
+    //    setImageHeigthWidth(elem);
+    //});
 
     $('[id^="sku-image-"]').click(function () {
         var id = $(this).attr('id').split('-')[2];
@@ -109,7 +110,6 @@ function selectColors(e) {
         var ProdId = $("#test1").val();
         var selector = window.location.href.split('/')[7];
         window.location.href = '/ProductDetails/' + title + '/' + skuName + '/' + ProdId + '/' + selector;
-        window.scrollTo(100, 300);
     }
 }
 

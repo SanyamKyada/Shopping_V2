@@ -133,23 +133,37 @@ $(document).ready(function () {
     }).filter(':first').click();
 });
 
-function setImageHeigthWidth(elem) { // will recive element(container) in which image will be loaded
-    var imageWidth = $(elem).find('img').width();
-    var imageHeigth = $(elem).find('img').height();
-    var maxWidth = $(elem).width();
-    var maxHeight = $(elem).height();
+//function setImageHeigthWidth(elem) { // will recive element(container) in which image will be loaded
+//    var image = $(elem).find('img');
 
-    var scaleWidth = maxWidth / imageWidth;
-    var scaleHeight = maxHeight / imageHeigth;
+//    // Check if the image is loaded
+//    if (image.prop('complete')) {
+//        setDimensions(image, elem);
+//    } else {
+//        // If image is not yet loaded, wait for it to load
+//        image.on('load', function () {
+//            setDimensions($(this), elem);
+//        });
+//    }
+//}
 
-    var scale = Math.min(scaleWidth, scaleHeight);
+//function setDimensions(image, elem) {
+//    var imageWidth = image.width();
+//    var imageHeight = image.height();
+//    var maxWidth = $(elem).width();
+//    var maxHeight = $(elem).height();
 
-    var scaledWidth = imageWidth * scale;
-    var scaledHeight = imageHeigth * scale;
+//    var scaleWidth = maxWidth / imageWidth;
+//    var scaleHeight = maxHeight / imageHeight;
 
-    $(elem).find('img').css('width', scaledWidth);
-    $(elem).find('img').css('height', scaledHeight);
-}
+//    var scale = Math.min(scaleWidth, scaleHeight);
+
+//    var scaledWidth = imageWidth * scale;
+//    var scaledHeight = imageHeight * scale;
+
+//    image.css('width', scaledWidth);
+//    image.css('height', scaledHeight);
+//}
 
 /*-------------------------------------------------------------------------------------------------------------------------------|
 |                                                Custom Tags-input (jQuery prototype)                                            |

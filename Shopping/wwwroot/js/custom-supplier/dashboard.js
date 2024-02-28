@@ -77,7 +77,7 @@ const replaceLogo = (isDarkMode) => {
     var imgElement = logoElem.querySelector('img');
     var newImg = document.createElement('img');
     newImg.src = '/images/logo/shopping-logo' + (isDarkMode ? '-light' : '') + '.png';
-    newImg.style.width = '175px';
+    //newImg.style.width = '175px';
     if (imgElement) {
         imgElement.parentNode.replaceChild(newImg, imgElement);
     }
